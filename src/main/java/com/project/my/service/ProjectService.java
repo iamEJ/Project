@@ -7,24 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.my.model.Project;
-
 import com.project.my.repository.ProjectRepository;
 
 @Service
-public class ProjectService {
+public class ProjectService implements ProjectServiceInterface {
 	@Autowired
 	private ProjectRepository projectRepo;
 
 	
+	@Override
 	public Optional<Project> getProjetc(Long id) {
 	
 		return projectRepo.findById(id);
 	}
 	
+	@Override
 	public List<Project> getProjects() {
         return (List<Project>)projectRepo.findAll();
     }
 	
+	@Override
 	public void createProject(Project projectData) {
 		Project project = new Project(projectData.getProjectTitle(),
 									  projectData.getDescription(),
@@ -34,6 +36,7 @@ public class ProjectService {
 	}
 	
 	
+	@Override
 	public void updateProject(Long id, Project newProject) {
 		if(projectRepo.findById(id).isPresent()) {
 			Project project = projectRepo.findById(id).get();
@@ -46,6 +49,7 @@ public class ProjectService {
 	
 	}
 	
+	@Override
 	public void deleteProjectById(Long id) {
 		projectRepo.deleteById(id);
 	}

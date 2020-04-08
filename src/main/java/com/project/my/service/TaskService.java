@@ -10,32 +10,34 @@ import org.springframework.stereotype.Service;
 
 import com.project.my.model.Project;
 import com.project.my.model.Task;
+
 import com.project.my.repository.ProjectRepository;
 import com.project.my.repository.TaskRepository;
 
 @Service
-public class TaskService {
+public class TaskService implements TaskServiceInterface {
 	
 	@Autowired
 	private TaskRepository taskRepo;
 	
-
-
 	
 	public TaskService(TaskRepository taskRepo) {
 
 		this.taskRepo = taskRepo;
 	}
 	
+	@Override
 	public Optional<Task> getTask(Long id) {
 		
 		return taskRepo.findById(id);
 	}
 	
+	@Override
 	public List<Task> getTasks() {
         return (List<Task>)taskRepo.findAll();
     }
 	
+	@Override
 	public void createTask(Task task) {
 		Task newTask = new Task(task.getTaskName(),task.getDescription(), task.getPriority(),
 				task.getStatus(),task.getProject());
@@ -43,6 +45,7 @@ public class TaskService {
 		 taskRepo.save(newTask);
 	}
 	
+	@Override
 	public void updateTask(Long id, Task task) {
 		if(taskRepo.findById(id).isPresent()) {
 			Task newtask = taskRepo.findById(id).get();
@@ -58,6 +61,7 @@ public class TaskService {
 		}
 	}
 	
+	@Override
 	public void deleteTaskById(Long id) {
 		taskRepo.deleteById(id);
 	}

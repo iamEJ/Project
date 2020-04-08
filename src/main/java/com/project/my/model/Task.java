@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"taskName"})})
 public class Task {
@@ -46,6 +48,7 @@ public class Task {
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "project_id", nullable = false)
+	@JsonIgnore
 	private Project project;
 
 	public Task() {
