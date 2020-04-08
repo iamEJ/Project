@@ -25,35 +25,31 @@ import com.project.my.service.ProjectService;
 @RestController
 @RequestMapping(path = "api/projects")
 public class ProjectController {
-	
+	@Autowired
 	private ProjectService projectService;
 
-	@Autowired
-	public ProjectController(ProjectService prpjectService) {
-		this.projectService = prpjectService;
-	}
 	
 	@GetMapping
 	public List<Project> getProjects(){
 		return projectService.getProjects();
 	}
 	
-	 @GetMapping("/{id}")
+	 @GetMapping("/{projectId}")
 	 	public Optional<Project> getProject(@PathVariable Long id) {
 		return projectService.getProjetc(id);
 	}
 	
 	@PostMapping
-	public Project createProject(@RequestBody Project projectData) {
-		return projectService.createProject(projectData);
+	public void createProject(@RequestBody Project projectData) {
+		projectService.createProject(projectData);
 	}
 	
-	@PutMapping("/{id}")
-	public Project updateProject(@RequestBody Project newProject, @PathVariable Long id) {
-		return projectService.updateProject(id, newProject);
+	@PutMapping("/{projectId}")
+	public void updateProject(@RequestBody Project newProject, @PathVariable Long id) {
+		projectService.updateProject(id, newProject);
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{projectId}")
 	public void deleteProject(@PathVariable Long id) {
 		projectService.deleteProjectById(id);
 	}

@@ -5,10 +5,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import com.project.my.model.Task;
 
-public interface TaskRepository extends JpaRepository<Task, Long>{
+public interface TaskRepository extends CrudRepository<Task, Long>{
 	//List<Task> findByProjectId(Long id);
 
 }

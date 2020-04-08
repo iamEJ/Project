@@ -15,12 +15,13 @@ import com.project.my.repository.TaskRepository;
 
 @Service
 public class TaskService {
-
-	private TaskRepository taskRepo;
-	private ProjectRepository projectRepo;
-
-
+	
 	@Autowired
+	private TaskRepository taskRepo;
+	
+
+
+	
 	public TaskService(TaskRepository taskRepo) {
 
 		this.taskRepo = taskRepo;
@@ -32,28 +33,28 @@ public class TaskService {
 	}
 	
 	public List<Task> getTasks() {
-        return taskRepo.findAll();
+        return (List<Task>)taskRepo.findAll();
     }
 	
-	public Task createTask(Task task) {
+	public void createTask(Task task) {
 		Task newTask = new Task(task.getTaskName(),task.getDescription(), task.getPriority(),
-				task.getStatus());
+				task.getStatus(),task.getProject());
 		
-		return taskRepo.save(newTask);
+		 taskRepo.save(newTask);
 	}
 	
-	public Task updateTask(Long id, Task task) {
+	public void updateTask(Long id, Task task) {
 		if(taskRepo.findById(id).isPresent()) {
 			Task newtask = taskRepo.findById(id).get();
 			newtask.setTaskName(task.getTaskName());
 			newtask.setDescription(task.getDescription());
 			newtask.setPriority(task.getPriority());
 			newtask.setStatus(task.getStatus());
+			newtask.setProject(task.getProject());	
+					
 		
 			
-			return taskRepo.save(newtask);
-		}else {
-			return null;
+			 taskRepo.save(newtask);
 		}
 	}
 	
@@ -61,9 +62,9 @@ public class TaskService {
 		taskRepo.deleteById(id);
 	}
 
-//	public Set<Task> getTasksByProjectID(Long id) {
+//	public List<Task> getTasksByProjectID(Long id) {
 //		// TODO Auto-generated method stub
-//		return taskRepo.findByProjetcId(id);
+//		return taskRepo.findByProjectId(id);
 //	}
 
 }

@@ -4,29 +4,38 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"taskName"})})
 public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
+	@Column(unique=true)
 	private String taskName;
 	@NotNull
 	private String description; // user story format????
 	@NotNull
+	@Enumerated(EnumType.STRING)
 	private Priority priority;
 	@NotNull
+	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	@Column(updatable = false)
@@ -35,8 +44,8 @@ public class Task {
 	@UpdateTimestamp
 	private Date finishDate;
 	
-	@ManyToOne
-    @JoinColumn(name="project_id", nullable=true)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "project_id", nullable = false)
 	private Project project;
 
 	public Task() {

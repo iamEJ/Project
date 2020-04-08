@@ -12,13 +12,9 @@ import com.project.my.repository.ProjectRepository;
 
 @Service
 public class ProjectService {
-	
+	@Autowired
 	private ProjectRepository projectRepo;
 
-	@Autowired
-	public ProjectService(ProjectRepository projectRepo) {
-		this.projectRepo = projectRepo;
-	}
 	
 	public Optional<Project> getProjetc(Long id) {
 	
@@ -26,33 +22,33 @@ public class ProjectService {
 	}
 	
 	public List<Project> getProjects() {
-        return projectRepo.findAll();
+        return (List<Project>)projectRepo.findAll();
     }
 	
-	public Project createProject(Project projectData) {
+	public void createProject(Project projectData) {
 		Project project = new Project(projectData.getProjectTitle(),
 									  projectData.getDescription(),
 									  projectData.getStatus());
 		
-		return projectRepo.save(project);
+		 projectRepo.save(project);
 	}
 	
 	
-	public Project updateProject(Long id, Project newProject) {
+	public void updateProject(Long id, Project newProject) {
 		if(projectRepo.findById(id).isPresent()) {
 			Project project = projectRepo.findById(id).get();
 			project.setProjectTitle(newProject.getProjectTitle());
 			project.setDescription(newProject.getDescription());
 			project.setStatus(newProject.getStatus());
 			
-			return projectRepo.save(project);
-		}else {
-			return null;
+			projectRepo.save(project);
 		}
+	
 	}
 	
 	public void deleteProjectById(Long id) {
 		projectRepo.deleteById(id);
 	}
+	
 
 }
