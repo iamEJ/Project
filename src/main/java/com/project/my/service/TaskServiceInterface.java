@@ -3,6 +3,8 @@ package com.project.my.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import com.project.my.model.Task;
 
 public interface TaskServiceInterface {
@@ -16,5 +18,11 @@ public interface TaskServiceInterface {
 	void updateTask(Long id, Task task);
 
 	void deleteTaskById(Long id);
+	
+	List<Task> findByProjectId(Long id);
+
+	Task findByTaskName( String taskName);
+
+	
 
 }

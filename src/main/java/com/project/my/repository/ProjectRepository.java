@@ -5,6 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.project.my.model.Project;
 
-public interface ProjectRepository extends CrudRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project, Long> {
+	
+	Project findByProjectTitleIgnoreCase(String projectTitle);
 
 }

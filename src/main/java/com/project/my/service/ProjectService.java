@@ -54,5 +54,11 @@ public class ProjectService implements ProjectServiceInterface {
 		projectRepo.deleteById(id);
 	}
 	
+	
+	// find by project title
+	
+	public Project findByProjectTitle(String title) {
+		return projectRepo.findByProjectTitleIgnoreCase(title);
+	}
 
 }

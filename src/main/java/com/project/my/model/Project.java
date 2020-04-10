@@ -1,7 +1,5 @@
 package com.project.my.model;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -93,8 +90,13 @@ public class Project {
 	}
 
 
-	public Set<Task> getAllTasks() {
-		return allTasks;
+//	public Set<Task> getAllTasks() {
+//		return allTasks;
+//	}
+	
+	// Returns number of all tasks
+	public int getAllTasks() {
+		return allTasks.size();
 	}
 
 

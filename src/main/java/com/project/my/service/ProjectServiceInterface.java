@@ -16,5 +16,7 @@ public interface ProjectServiceInterface {
 	void updateProject(Long id, Project newProject);
 
 	void deleteProjectById(Long id);
+	
+	Project findByProjectTitle(String projectTitle);
 
 }

@@ -3,6 +3,8 @@ package com.project.my.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,36 +21,42 @@ import com.project.my.model.Task;
 import com.project.my.service.TaskServiceInterface;
 
 @RestController
-@RequestMapping(path = "api/tasks")
+@RequestMapping(path = "api")
 public class TaskConroller {
 	
 	@Autowired
 	private TaskServiceInterface taskService;
 	
 
-	@GetMapping
+	@GetMapping("/tasks")
 	public List<Task> getTasks() {
 		return taskService.getTasks();
-	}
-
-	//@GetMapping("project/{projectTitle}/tasks/{id}")
-	@GetMapping("/{id}")
-	public Optional<Task> getProject(@PathVariable Long id) {
+	}		
+	
+	@GetMapping("/tasks/{id}")
+	public Optional<Task> getProject(@Valid @PathVariable Long id) {
 		return taskService.getTask(id);
 	}
+	
+	 @GetMapping("/tasks/taskName/{taskName}")
+	 public Task findByTaskName(@Valid @PathVariable String taskName) {
+		return taskService.findByTaskName(taskName);
+	 }
+	
 
-	@PostMapping
-	public void createProject(@RequestBody Task task) {
+
+	@PostMapping("/tasks")
+	public void createProject(@Valid @RequestBody Task task) {
 		 taskService.createTask(task);
 	}
 
-	@PutMapping("/{id}")
-	public void updateProject(@RequestBody Task newTask, @PathVariable Long id) {
+	@PutMapping("/tasks/{id}")
+	public void updateProject(@Valid @RequestBody Task newTask, @PathVariable Long id) {
 		taskService.updateTask(id, newTask);
 	}
 
-	@DeleteMapping("/{id}")
-	public void deleteTask(@PathVariable Long id) {
+	@DeleteMapping("/tasks/{id}")
+	public void deleteTask(@Valid @PathVariable Long id) {
 		taskService.deleteTaskById(id);
 	}
 

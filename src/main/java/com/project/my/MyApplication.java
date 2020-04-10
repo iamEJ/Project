@@ -31,7 +31,7 @@ public class MyApplication implements CommandLineRunner
 	public void run(String... args) throws Exception {
 		Project project1 = new Project("Pink","This projetc is important. i guess. But i really wish i coul do it with you",Status.done);
 		Project project2 = new Project("Green","This projetc is less important. i guess.",Status.todo);
-		Project project3 = new Project("Red","This project is about computers.",Status.in_progress);
+		Project project3 = new Project("Red Dragon","This project is about computers.",Status.in_progress);
 		
 		ps.save(project1);
 		ps.save(project2);

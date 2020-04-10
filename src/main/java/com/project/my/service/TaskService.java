@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,9 +68,21 @@ public class TaskService implements TaskServiceInterface {
 		taskRepo.deleteById(id);
 	}
 
-//	public List<Task> getTasksByProjectID(Long id) {
-//		// TODO Auto-generated method stub
-//		return taskRepo.findByProjectId(id);
-//	}
+	@Override
+	public List<Task> findByProjectId(Long id) {
+		
+		return taskRepo.findByProjectId(id);
+	}
+
+	@Override
+	public Task findByTaskName(String taskName) {
+		// TODO Auto-generated method stub
+		return taskRepo.findByTaskNameIgnoreCase(taskName);
+	}
+
+
+
+	
+
 
 }
