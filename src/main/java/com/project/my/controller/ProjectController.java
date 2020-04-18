@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import com.project.my.service.TaskServiceInterface;
 
 @RestController
 @RequestMapping(path = "api/projects")
+@CrossOrigin(origins ="http://localhost:3000")
 public class ProjectController {
 	@Autowired
 	private ProjectServiceInterface projectService;
@@ -37,16 +39,19 @@ public class ProjectController {
 	
 	
 	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
 	public List<Project> getProjects(){
 		return projectService.getProjects();
 	}
 	
 	 @GetMapping("/{id}")
+	 @ResponseStatus(HttpStatus.OK)
 	 	public Optional<Project> getProject(@Valid @PathVariable Long id) {
 		return projectService.getProjetc(id);
 	}
 	 
 	 @GetMapping("/projectTitle/{projectTitle}")
+	 @ResponseStatus(HttpStatus.OK)
 	 public Project findByProjectName(@Valid @PathVariable String projectTitle) {
 		return projectService.findByProjectTitle(projectTitle);
 	 }
@@ -56,21 +61,25 @@ public class ProjectController {
 	 
 	/// Find all tasks by project id 
 	@GetMapping("/{id}/tasks")
+	@ResponseStatus(HttpStatus.OK)
 	public List<Task> getProjectsTask(@Valid @PathVariable Long id){
 			return taskService.findByProjectId(id);
 	}
 	
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	public void createProject(@Valid @RequestBody Project projectData) {
 		projectService.createProject(projectData);
 	}
 	
 	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public void updateProject(@Valid @RequestBody Project newProject, @PathVariable Long id) {
 		projectService.updateProject(id, newProject);
 	}
 	
 	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteProject(@Valid @PathVariable Long id) {
 		projectService.deleteProjectById(id);
 	}

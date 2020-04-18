@@ -90,14 +90,14 @@ public class Project {
 	}
 
 
-//	public Set<Task> getAllTasks() {
-//		return allTasks;
-//	}
+	public Set<Task> getAllTasks() {
+		return allTasks;
+	}
 	
 	// Returns number of all tasks
-	public int getAllTasks() {
-		return allTasks.size();
-	}
+//	public int getAllTasks() {
+//		return allTasks.size();
+//	}
 
 
 	public void setAllTasks(Set<Task> allTasks) {

@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.project.my.model.Project;
 import com.project.my.model.Task;
 
-public interface TaskRepository extends CrudRepository<Task, Long>{
+public interface TaskRepository extends JpaRepository<Task, Long>{
 	List<Task> findByProjectId(Long id);
 	Task findByTaskNameIgnoreCase(String taskName);
 

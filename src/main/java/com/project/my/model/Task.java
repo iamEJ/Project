@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
@@ -40,10 +42,14 @@ public class Task {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@Column(updatable = false)
+	
 	@CreationTimestamp
+	@Temporal(TemporalType.DATE)
+	@Column(updatable = false)
 	private Date startDate;
 	@UpdateTimestamp
+	@Temporal(TemporalType.DATE)
+	@Column(updatable = false)
 	private Date finishDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
