@@ -12,8 +12,18 @@ class ProjectItem extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:8080/api/projects/1")
-      .then((res) => console.log(res.data));
+      .get("http://localhost:8080/api/projects/" + this.props.match.params.id)
+      .then((res) => {
+        this.setState({
+          projectTitle: res.data.projectTitle,
+          description: res.data.description,
+          status: res.data.status,
+          allTasks: res.data.allTasks.length,
+        });
+      })
+      .catch((error) => {
+        console.log("Error - " + error);
+      });
   }
 
   render() {
@@ -22,11 +32,11 @@ class ProjectItem extends Component {
         <Card>
           <Card.Body>
             <Card.Title>{this.state.projectTitle}</Card.Title>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Button variant="primary">Go somewhere</Button>
+            <Card.Text>{this.state.status}</Card.Text>
+            <Card.Text>{this.state.description}</Card.Text>
+            <div>Number of tasks:{this.state.allTasks}</div>
+
+            <Button variant="primary">Add Task</Button>
           </Card.Body>
         </Card>
       </div>
