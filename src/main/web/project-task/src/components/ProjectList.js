@@ -70,13 +70,19 @@ class ProjectList extends Component {
             <h1>There are no projects</h1>
           ) : (
             this.state.projects.map((project) => (
-              <Col sm={12} md={6} lg={4}>
+              <Col sm={12} md={6} lg={4} key={project.id}>
                 <Card
                   className={"mt-3 text-center bg-light"}
                   style={{ height: "300px" }}
                 >
                   <Card.Header as="h3" className={"bg-dark text-white"}>
-                    {project.projectTitle}{" "}
+                    <Link
+                      style={{ color: "#fff" }}
+                      to={"projects/" + project.id}
+                    >
+                      {project.projectTitle}{" "}
+                    </Link>
+
                     <div
                       className={cx("text-uppercase", {
                         "text-secondary ": project.status === "todo",
@@ -87,7 +93,13 @@ class ProjectList extends Component {
                       <h6>{project.status}</h6>
                     </div>
                   </Card.Header>
-
+                  <span
+                    style={{
+                      fontSize: "14px",
+                    }}
+                  >
+                    Tasks: {project.allTasks.length}
+                  </span>
                   <Card.Body>
                     <Card.Text>{project.description}</Card.Text>
                   </Card.Body>
