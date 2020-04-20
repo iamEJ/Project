@@ -14,6 +14,10 @@ class Navigation extends Component {
           </Link>
 
           <Nav className="mr-auto">
+            <Link to={"/projectForm"} className="btn btn-primary ">
+              <FontAwesomeIcon icon={faPlusCircle} /> Create Project
+            </Link>
+
             <Link to={"/projects"} className="nav-link">
               Project List
             </Link>
@@ -26,11 +30,6 @@ class Navigation extends Component {
             <Button variant="outline-primary">Search</Button>
           </Form>
         </Navbar>
-        <div className="container">
-          <Link to={"/projectForm"} className="btn btn-primary mt-3">
-            <FontAwesomeIcon icon={faPlusCircle} /> Create Project
-          </Link>
-        </div>
       </div>
     );
   }

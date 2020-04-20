@@ -66,6 +66,15 @@ public class ProjectController {
 			return taskService.findByProjectId(id);
 	}
 	
+	
+	//Creating task in projects found by id
+	@PostMapping("/{id}/tasks")
+	@ResponseStatus(HttpStatus.CREATED)	
+	public void createTaskByProjectId(@Valid @PathVariable Long id, @RequestBody Task task ) {
+		projectService.createTaskByProjectId(id, task);
+	}
+	
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createProject(@Valid @RequestBody Project projectData) {

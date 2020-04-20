@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Card, Button, Table } from "react-bootstrap";
+import { Card, Table, Button } from "react-bootstrap";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 class ProjectItem extends Component {
   constructor(props) {
@@ -53,7 +56,9 @@ class ProjectItem extends Component {
             <Card.Text>{this.state.description}</Card.Text>
             <div>Number of tasks: {this.state.allTasks}</div>
             <p></p>
-            <Button variant="primary">Add Task</Button>
+            <Link to={"/task-form"} className="btn btn-primary mr-2">
+              <FontAwesomeIcon icon={faPlus} /> Add Task
+            </Link>
           </Card.Body>
           <div>
             <Table striped bordered hover>
@@ -66,12 +71,13 @@ class ProjectItem extends Component {
                   <th>Status</th>
                   <th>Start Date</th>
                   <th>Finish Date</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {this.state.tasks.length === 0 ? (
                   <tr>
-                    <td colSpan="8" className="text-center">
+                    <td colSpan="7" className="text-center">
                       <h1>There are no tasks</h1>
                     </td>
                   </tr>
@@ -85,6 +91,14 @@ class ProjectItem extends Component {
                       <td>{task.status}</td>
                       <td>{task.startDate}</td>
                       <td>{task.finishDate}</td>
+                      <td className="p-1 text-center">
+                        <Button>
+                          <FontAwesomeIcon icon={faEdit} />
+                        </Button>{" "}
+                        <Button className="btn-danger">
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      </td>
                     </tr>
                   ))
                 )}

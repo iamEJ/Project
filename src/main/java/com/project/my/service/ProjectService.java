@@ -7,12 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.my.model.Project;
+import com.project.my.model.Task;
 import com.project.my.repository.ProjectRepository;
+import com.project.my.repository.TaskRepository;
+
+import javassist.NotFoundException;
 
 @Service
 public class ProjectService implements ProjectServiceInterface {
 	@Autowired
 	private ProjectRepository projectRepo;
+	
+	@Autowired
+	private TaskRepository taskRepo;
 
 	
 	@Override
@@ -59,6 +66,23 @@ public class ProjectService implements ProjectServiceInterface {
 	
 	public Project findByProjectTitle(String title) {
 		return projectRepo.findByProjectTitleIgnoreCase(title);
+	}
+	
+	//find project by id and create task
+	public void createTaskByProjectId(Long id, Task task) {
+		
+		Optional<Project> opproject = projectRepo.findById(id);
+		
+		if(opproject.isPresent()) {
+			Project project = opproject.get();
+			
+			task.setProject(project);
+			taskRepo.save(task);
+		}
+		
+	
+		
+		
 	}
 
 }

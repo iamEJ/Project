@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.project.my.model.Project;
+import com.project.my.model.Task;
 
 public interface ProjectServiceInterface {
 
@@ -18,5 +19,7 @@ public interface ProjectServiceInterface {
 	void deleteProjectById(Long id);
 	
 	Project findByProjectTitle(String projectTitle);
+	
+	public void createTaskByProjectId(Long id, Task task);
 
 }

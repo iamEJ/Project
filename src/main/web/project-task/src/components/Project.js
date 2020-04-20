@@ -124,7 +124,7 @@ class Project extends Component {
             }
           />
         </div>
-        <Card style={{ width: "60%", margin: "0 auto", marginTop: "20px" }}>
+        <Card style={{ width: "60%", margin: "0 auto", marginTop: "10px" }}>
           <Card.Header>
             <h1 className={"text-center"}>
               {" "}

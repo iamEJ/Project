@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Project from "./components/Project";
 import ProjectList from "./components/ProjectList";
 import ProjectItem from "./components/ProjectItem";
+import Task from "./components/Task";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/edit/:id" exact component={Project} />
         <Route path="/projects" exact component={ProjectList} />
         <Route path="/projects/:id" exact component={ProjectItem} />
+        <Route path="/task-form" exact component={Task} />
       </Switch>
     </Router>
   );
