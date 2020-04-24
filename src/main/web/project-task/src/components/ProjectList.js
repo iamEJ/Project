@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faEdit,
+  faEnvelopeSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import MyToast from "./MyToast";
 import cx from "classnames";
@@ -50,12 +54,15 @@ class ProjectList extends Component {
   render() {
     return (
       <div className="container">
-        <div className="mt-2">
-          The number of projects:{" "}
-          <span className="text-white bg-success pr-1 pl-1 rounded">
-            {this.state.projects.length}
-          </span>
+        <div className="mt-1 d-flex justify-content-center ">
+          <h2>
+            The number of projects:{" "}
+            <span className="badge badge-dark">
+              {this.state.projects.length}
+            </span>
+          </h2>
         </div>
+
         <div
           className={{ position: "sticky-top" }}
           style={{ display: this.state.show ? "block" : "none" }}
@@ -98,25 +105,33 @@ class ProjectList extends Component {
                       fontSize: "14px",
                     }}
                   >
-                    Tasks: {project.allTasks.length}
+                    Tasks:{" "}
+                    <span className="badge badge-dark">
+                      {project.allTasks.length}
+                    </span>
                   </span>
                   <Card.Body>
                     <Card.Text>{project.description}</Card.Text>
                   </Card.Body>
-                  <Card.Footer className={"bg-dark text-white"}>
+                  <Card.Footer className={"bg-dark text-white text-right "}>
                     <Link
                       to={"edit/" + project.id}
-                      className="btn btn-primary mr-2"
+                      className="btn btn-primary mr-1"
                     >
-                      <FontAwesomeIcon icon={faEdit} /> Edit
+                      <FontAwesomeIcon icon={faEdit} />
                     </Link>
-
                     <Button
                       variant="danger"
                       onClick={this.deleteProject.bind(this, project.id)}
                     >
-                      <FontAwesomeIcon icon={faTrash} /> Delete
-                    </Button>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>{" "}
+                    <Link
+                      to={"projects/" + project.id}
+                      className="btn btn-primary mr-2"
+                    >
+                      <FontAwesomeIcon icon={faEnvelopeSquare} />
+                    </Link>
                   </Card.Footer>
                 </Card>
               </Col>

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTasks, faSave, faUndo } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+
 class Task extends Component {
   constructor(props) {
     super(props);
@@ -11,23 +13,22 @@ class Task extends Component {
   }
 
   initialState = {
+    id: "",
     taskName: "",
     description: "",
-    priority: "",
-    status: "",
+    priority: "low",
+    status: "todo",
   };
 
   submitTask = (e) => {
-    alert(
-      this.state.taskName +
-        " " +
-        this.state.description +
-        " " +
-        this.state.priority +
-        " " +
-        this.state.status
-    );
     e.preventDefault();
+
+    const task = {
+      taskName: this.state.taskName,
+      description: this.state.description,
+      priority: this.state.priority,
+      status: this.state.status,
+    };
   };
 
   taskChange = (e) => {

@@ -57,6 +57,20 @@ public class Task {
 	@JsonIgnore
 	private Project project;
 
+	 private String projectName;
+	
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public void setFinishDate(Date finishDate) {
+		this.finishDate = finishDate;
+	}
+
 	public Task() {
 	}
 

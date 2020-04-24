@@ -1,48 +1,26 @@
 import React, { Component } from "react";
 import { Card, Table } from "react-bootstrap";
-import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 
-class ProjectItem extends Component {
+import axios from "axios";
+
+class TaskList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      projects: [],
       tasks: [],
     };
   }
 
   componentDidMount() {
-    axios
-      .get("http://localhost:8080/api/projects/" + this.props.match.params.id)
-      .then((res) => {
-        this.setState({
-          projectTitle: res.data.projectTitle,
-          description: res.data.description,
-          status: res.data.status,
-          allTasks: res.data.allTasks.length,
-        });
-      })
-      .catch((error) => {
-        console.log("Error - " + error);
-      });
-
-    this.getTasksByProjectId();
+    this.findAllProjects();
   }
 
-  getTasksByProjectId = () => {
+  findAllProjects = () => {
     axios
-      .get(
-        `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks`
-      )
+      .get("http://localhost:8080/api/tasks")
       .then((res) => res.data)
       .then((data) => {
         this.setState({ tasks: data });
-      })
-      .catch((error) => {
-        console.log("Error - " + error);
       });
   };
 
@@ -54,14 +32,7 @@ class ProjectItem extends Component {
             <Card.Title>{this.state.projectTitle}</Card.Title>
             <Card.Text>{this.state.status}</Card.Text>
             <Card.Text>{this.state.description}</Card.Text>
-            <div>Number of tasks: {this.state.allTasks}</div>
-            <p></p>
-            <Link
-              to={"/projects/add/" + this.props.match.params.id}
-              className="btn btn-primary mr-2"
-            >
-              <FontAwesomeIcon icon={faPlus} /> Add Task
-            </Link>
+            <div>Number of tasks: {this.state.tasks.length}</div>
           </Card.Body>
           <div>
             <Table striped bordered hover>
@@ -74,6 +45,7 @@ class ProjectItem extends Component {
                   <th>Status</th>
                   <th>Start Date</th>
                   <th>Finish Date</th>
+                  <th>Project name</th>
                 </tr>
               </thead>
               <tbody>
@@ -93,15 +65,7 @@ class ProjectItem extends Component {
                       <td>{task.status}</td>
                       <td>{task.startDate}</td>
                       <td>{task.finishDate}</td>
-
-                      {/* <td className="p-1 text-center">
-                        <Button>
-                          <FontAwesomeIcon icon={faEdit} />
-                        </Button>{" "}
-                        <Button className="btn-danger">
-                          <FontAwesomeIcon icon={faTrash} />
-                        </Button>
-                      </td> */}
+                      <td>{task.projectName}</td>
                     </tr>
                   ))
                 )}
@@ -114,4 +78,4 @@ class ProjectItem extends Component {
   }
 }
 
-export default ProjectItem;
+export default TaskList;

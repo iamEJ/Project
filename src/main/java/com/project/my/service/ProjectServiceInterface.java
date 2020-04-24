@@ -22,4 +22,6 @@ public interface ProjectServiceInterface {
 	
 	public void createTaskByProjectId(Long id, Task task);
 
+	void createTaskAndAssignToProject(Task task, Long id);
+
 }

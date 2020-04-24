@@ -1,5 +1,8 @@
 package com.project.my.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+
+
 
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"projectTitle"})})
@@ -36,7 +41,8 @@ public class Project {
 	 @OneToMany(cascade = CascadeType.ALL,
 	            fetch = FetchType.LAZY,
 	            mappedBy = "project")
-	private Set<Task> allTasks;
+	private List<Task> allTasks = new ArrayList<>() ;
+	
 	//private Set<Task> incompleteTasks = new HashSet<>();
 	
 	
@@ -90,21 +96,21 @@ public class Project {
 	}
 
 
-	public Set<Task> getAllTasks() {
+	public List<Task> getAllTasks() {
 		return allTasks;
 	}
 	
-	// Returns number of all tasks
-//	public int getAllTasks() {
-//		return allTasks.size();
-//	}
 
 
-	public void setAllTasks(Set<Task> allTasks) {
+	public void setAllTasks(List<Task> allTasks) {
 		this.allTasks = allTasks;
 	}
 	
-	
+	 public void addTask(Task task){
+	        task.setProjectName(this.getProjectTitle());
+	        allTasks.add(task);
+	        task.setProject(this);
+	    }
 	
 	
 	

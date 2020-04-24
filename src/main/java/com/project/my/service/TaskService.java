@@ -42,7 +42,7 @@ public class TaskService implements TaskServiceInterface {
 	@Override
 	public void createTask(Task task) {
 		Task newTask = new Task(task.getTaskName(),task.getDescription(), task.getPriority(),
-				task.getStatus(),task.getProject());
+				task.getStatus());
 		
 		 taskRepo.save(newTask);
 	}
@@ -55,7 +55,7 @@ public class TaskService implements TaskServiceInterface {
 			newtask.setDescription(task.getDescription());
 			newtask.setPriority(task.getPriority());
 			newtask.setStatus(task.getStatus());
-			newtask.setProject(task.getProject());	
+//			newtask.setProject(task.getProject());	
 					
 		
 			

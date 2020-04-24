@@ -35,11 +35,8 @@ public class ProjectService implements ProjectServiceInterface {
 	
 	@Override
 	public void createProject(Project projectData) {
-		Project project = new Project(projectData.getProjectTitle(),
-									  projectData.getDescription(),
-									  projectData.getStatus());
 		
-		 projectRepo.save(project);
+		 projectRepo.save(projectData);
 	}
 	
 	
@@ -79,10 +76,15 @@ public class ProjectService implements ProjectServiceInterface {
 			task.setProject(project);
 			taskRepo.save(task);
 		}
-		
+				
+	}
 	
-		
-		
+	@Override
+	public void createTaskAndAssignToProject(Task task, Long id)  {
+	    Optional<Project> p =projectRepo.findById(id);
+	    Project project = p.get();
+	    project.addTask(task);
+	    projectRepo.save(project);
 	}
 
 }

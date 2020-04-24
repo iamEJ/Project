@@ -27,6 +27,8 @@ import com.project.my.service.TaskServiceInterface;
 
 
 
+
+
 @RestController
 @RequestMapping(path = "api/projects")
 @CrossOrigin(origins ="http://localhost:3000")
@@ -56,8 +58,10 @@ public class ProjectController {
 		return projectService.findByProjectTitle(projectTitle);
 	 }
 	 
-	//@GetMapping("projects/{id}/tasks/{id}")	
-
+//	@GetMapping("/{projectId}/tasks/{taskId}")	
+//	public Task findTaskByProjectId(@PathVariable Long pid, @PathVariable Long tid) {
+//		return null;
+//	}
 	 
 	/// Find all tasks by project id 
 	@GetMapping("/{id}/tasks")
@@ -92,5 +96,10 @@ public class ProjectController {
 	public void deleteProject(@Valid @PathVariable Long id) {
 		projectService.deleteProjectById(id);
 	}
+	
+    @PutMapping("/api/assign/{id}")
+    public void addTaskToProject(@PathVariable Long id ,@RequestBody  @Valid Task task){
+    	projectService.createTaskAndAssignToProject(task, id);
+    }
 
 }
