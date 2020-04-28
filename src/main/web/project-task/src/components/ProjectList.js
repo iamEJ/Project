@@ -94,7 +94,7 @@ class ProjectList extends Component {
                       className={cx("text-uppercase", {
                         "text-secondary ": project.status === "todo",
                         "text-success ": project.status === "done",
-                        "text-primary ": project.status === "in_progress",
+                        "text-info ": project.status === "in_progress",
                       })}
                     >
                       <h6>{project.status}</h6>
@@ -116,7 +116,7 @@ class ProjectList extends Component {
                   <Card.Footer className={"bg-dark text-white text-right "}>
                     <Link
                       to={"edit/" + project.id}
-                      className="btn btn-primary mr-1"
+                      className="btn btn-info mr-1"
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </Link>
@@ -128,7 +128,7 @@ class ProjectList extends Component {
                     </Button>{" "}
                     <Link
                       to={"projects/" + project.id}
-                      className="btn btn-primary mr-2"
+                      className="btn btn-info mr-2"
                     >
                       <FontAwesomeIcon icon={faEnvelopeSquare} />
                     </Link>

@@ -20,17 +20,17 @@ class HomeJumbo extends Component {
           <div className="d-flex justify-content-center">
             <Link
               to={"/projectForm"}
-              className={"nav-link btn btn-primary mr-1"}
+              className={"nav-link btn btn-info mr-1"}
               style={{ width: "140px" }}
             >
               Create Project
             </Link>
             <Link
-              to={"/task-form"}
+              to={"/projects"}
               className={"nav-link btn btn-secondary"}
               style={{ width: "140px" }}
             >
-              Create Task
+              List of Projects
             </Link>
           </div>
         </Jumbotron>

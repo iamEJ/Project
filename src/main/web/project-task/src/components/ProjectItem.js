@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Table } from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 class ProjectItem extends Component {
@@ -58,15 +58,24 @@ class ProjectItem extends Component {
             <p></p>
             <Link
               to={"/projects/add/" + this.props.match.params.id}
-              className="btn btn-primary mr-2"
+              className="btn btn-info mr-2"
             >
               <FontAwesomeIcon icon={faPlus} /> Add Task
             </Link>
+            <Link to={"/projects"} className="btn btn-info mr-2">
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Link>
           </Card.Body>
           <div>
-            <Table striped bordered hover>
+            <Table striped hover>
               <thead>
-                <tr>
+                <tr
+                  className={
+                    this.state.tasks.status === "done"
+                      ? "bg-success"
+                      : "bg-light"
+                  }
+                >
                   <th>#</th>
                   <th>Task Name</th>
                   <th>Description</th>

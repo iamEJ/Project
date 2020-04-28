@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Project from "./components/Project";
 import ProjectList from "./components/ProjectList";
 import ProjectItem from "./components/ProjectItem";
-import Task from "./components/Task";
+import Task from "./components/TaskWrapper";
 import TaskList from "./components/TaskList";
 import HomeJumbo from "./components/HomeJumbo";
 

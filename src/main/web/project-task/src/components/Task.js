@@ -29,6 +29,13 @@ class Task extends Component {
       priority: this.state.priority,
       status: this.state.status,
     };
+
+    axios
+      .put(`http://localhost:8080/api/projects/assign/${this.props.id}`, task)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+      });
   };
 
   taskChange = (e) => {

@@ -11,6 +11,8 @@ import axios from "axios";
 import MyToast from "./MyToast";
 
 class Project extends Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -27,10 +29,14 @@ class Project extends Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
     const projectId = this.props.match.params.id;
-    if (projectId) {
+    if (this._isMounted && projectId) {
       this.findAProjectById(projectId);
     }
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   findAProjectById = (projectId) => {
@@ -71,7 +77,7 @@ class Project extends Component {
     this.setState(this.initialState);
   };
 
-  updateProject = (e, id) => {
+  updateProject = (e) => {
     e.preventDefault();
 
     const project = {
@@ -124,13 +130,18 @@ class Project extends Component {
             }
           />
         </div>
-        <Card style={{ width: "60%", margin: "0 auto", marginTop: "10px" }}>
-          <Card.Header>
-            <h1 className={"text-center"}>
-              {" "}
-              <FontAwesomeIcon icon={faProjectDiagram} />{" "}
+        <Card
+          style={{
+            width: "40%",
+            margin: "0 auto",
+            marginTop: "10px",
+            boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",
+          }}
+        >
+          <Card.Header className={"text-center text-white bg-info "}>
+            <p className="font-weight-light" style={{ fontSize: "40px" }}>
               {this.state.id ? "Update Project" : " Add Project"}
-            </h1>
+            </p>
           </Card.Header>
           <Form
             onReset={this.resetProject}
@@ -139,7 +150,9 @@ class Project extends Component {
           >
             <Card.Body>
               <Form.Group controlId="formProjectTitle">
-                <Form.Label>Project Name</Form.Label>
+                <Form.Label className="font-weight-bold text-dark">
+                  Project Name
+                </Form.Label>
                 <Form.Control
                   required
                   autoComplete="off"
@@ -151,7 +164,9 @@ class Project extends Component {
                 />
               </Form.Group>
               <Form.Group controlId="formDescription">
-                <Form.Label>Description</Form.Label>
+                <Form.Label className="font-weight-bold text-dark">
+                  Description
+                </Form.Label>
                 <Form.Control
                   required
                   as="textarea"
@@ -164,7 +179,9 @@ class Project extends Component {
                 />
               </Form.Group>
               <Form.Group controlId="formStatus" name="status">
-                <Form.Label>Select Status</Form.Label>
+                <Form.Label className="font-weight-bold text-dark">
+                  Select Status
+                </Form.Label>
                 <Form.Control
                   required
                   as="select"
@@ -180,16 +197,16 @@ class Project extends Component {
               </Form.Group>
             </Card.Body>
 
-            <Card.Footer style={{ textAlign: "right" }}>
-              <Button variant="success" type="submit">
+            <Card.Footer style={{ textAlign: "right", background: "#17a2b8" }}>
+              <Button variant="light" type="submit">
                 <FontAwesomeIcon icon={faSave} />{" "}
                 {this.state.id ? "Update" : "Save"}
               </Button>{" "}
-              <Button variant="primary" type="reset">
+              <Button variant="dark" type="reset">
                 <FontAwesomeIcon icon={faUndo} /> Reset
               </Button>{" "}
               <Button
-                variant="primary"
+                variant="dark"
                 type="button"
                 onClick={this.projectList.bind()}
               >

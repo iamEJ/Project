@@ -97,7 +97,8 @@ public class ProjectController {
 		projectService.deleteProjectById(id);
 	}
 	
-    @PutMapping("/api/assign/{id}")
+    @PutMapping("/assign/{id}")
+    @CrossOrigin(origins ="http://localhost:3000")
     public void addTaskToProject(@PathVariable Long id ,@RequestBody  @Valid Task task){
     	projectService.createTaskAndAssignToProject(task, id);
     }
