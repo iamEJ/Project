@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Button  } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
-  faEdit,
+  faPencilAlt,
   faEnvelopeSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import MyToast from "./MyToast";
 import cx from "classnames";
 import { Link } from "react-router-dom";
+import "../App.css";
 
 class ProjectList extends Component {
   constructor(props) {
@@ -24,12 +25,9 @@ class ProjectList extends Component {
   }
 
   findAllProjects = () => {
-    axios
-      .get("http://localhost:8080/api/projects")
-      .then((res) => res.data)
-      .then((data) => {
-        this.setState({ projects: data });
-      });
+    axios.get('http://localhost:8080/api/projects')
+    .then(res => 
+      { this.setState({ projects: res.data }); })
   };
 
   deleteProject = (projectId) => {
@@ -54,15 +52,21 @@ class ProjectList extends Component {
   render() {
     return (
       <div className="container">
-        <div className="mt-1 d-flex justify-content-center ">
-          <h2>
+        <div className="mt-4  mb-2 d-flex justify-content-center " style={{fontFamily:"Lucida Sans Unicode, Lucida Grande, sans-serif"}}>
+          <h2 >
             The number of projects:{" "}
             <span className="badge badge-dark">
               {this.state.projects.length}
             </span>
           </h2>
         </div>
-
+        <div style={{width:"160px", margin: "0 auto", marginBottom:"20px"}}>
+            <Link to={"/projectForm"} className={"nav-link text-white btn btn-dark"}>
+               Create Project
+            </Link>
+        
+            
+          </div>
         <div
           className={{ position: "sticky-top" }}
           style={{ display: this.state.show ? "block" : "none" }}
@@ -72,74 +76,79 @@ class ProjectList extends Component {
             message={"The project was deleted successfully."}
           />
         </div>
-        <Row>
+      
           {this.state.projects.length === 0 ? (
             <h1>There are no projects</h1>
           ) : (
             this.state.projects.map((project) => (
-              <Col sm={12} md={6} lg={4} key={project.id}>
-                <Card
-                  className={"mt-3 text-center bg-light"}
-                  style={{ height: "300px" }}
+            
+                <Card key={project.id}
+                
+                  style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}
                 >
-                  <Card.Header as="h3" className={"bg-dark text-white"}>
-                    <Link
-                      style={{ color: "#fff" }}
-                      to={"projects/" + project.id}
-                    >
-                      {project.projectTitle}{" "}
-                    </Link>
+            
+                    <div >
+                          <Link
+                          style={{ color: "#000", fontSize:"20px", marginLeft:"10px"}}
+                          to={"projects/" + project.id}
+                          className="titleHover"
+                        >
+                          {project.projectTitle}{" "}
 
-                    <div
-                      className={cx("text-uppercase", {
-                        "text-secondary ": project.status === "todo",
+                        </Link>
+                        <div style={{float:"right",width:"140px"}}> 
+                                <Link
+                                to={"edit/" + project.id}
+                                className="btn btn-secondary mr-1 mt-2 "
+                                title="Edit"
+                                style={{fontSize:"12px", width:"36px"}}
+                              >
+                                <FontAwesomeIcon icon={faPencilAlt} />
+                              </Link>
+                              <Button
+                                variant="danger"
+                                className="btn btn-info mt-2"
+                                style={{fontSize:"12px"}}
+                                title="Delete"
+                                onClick={this.deleteProject.bind(this, project.id)}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </Button>{" "}
+                              <Link
+                                to={"projects/" + project.id}
+                                className="btn btn-info mr-1 mt-2"
+                                title="View"
+                                style={{fontSize:"12px"}}
+                              >
+                                <FontAwesomeIcon icon={faEnvelopeSquare} />
+                              </Link>
+                         </div>
+                   
+                      <p style={{fontSize:"12px",marginLeft:"10px"}} className={cx("text-lowercase", "font-weight-bold", {
+                        
                         "text-success ": project.status === "done",
                         "text-info ": project.status === "in_progress",
-                      })}
-                    >
-                      <h6>{project.status}</h6>
+                      })}> {project.completeTasks === project.allTasks.length ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}{" "}
+                      
+                      <span className="badge badge-dark">
+                      {project.completeTasks}/{project.allTasks.length}
+                      </span>
+                   </p>
                     </div>
-                  </Card.Header>
-                  <span
-                    style={{
-                      fontSize: "14px",
-                    }}
-                  >
-                    Tasks:{" "}
-                    <span className="badge badge-dark">
-                      {project.allTasks.length}
-                    </span>
-                  </span>
-                  <Card.Body>
-                    <Card.Text>{project.description}</Card.Text>
-                  </Card.Body>
-                  <Card.Footer className={"bg-dark text-white text-right "}>
-                    <Link
-                      to={"edit/" + project.id}
-                      className="btn btn-info mr-1"
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </Link>
-                    <Button
-                      variant="danger"
-                      onClick={this.deleteProject.bind(this, project.id)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </Button>{" "}
-                    <Link
-                      to={"projects/" + project.id}
-                      className="btn btn-info mr-2"
-                    >
-                      <FontAwesomeIcon icon={faEnvelopeSquare} />
-                    </Link>
-                  </Card.Footer>
+                    
+                    <p style={{color:"#878787",marginLeft:"10px"}}>{project.description}</p>
+                  
+                
+                 
+        
                 </Card>
-              </Col>
+           
             ))
           )}
-        </Row>
+        
       </div>
     );
   }
+
 }
 export default ProjectList;

@@ -58,16 +58,16 @@ public class TaskConroller {
 		 taskService.createTask(task);
 	}
 
-	@PutMapping("/tasks/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public void updateProject(@Valid @RequestBody Task newTask, @PathVariable Long id) {
-		taskService.updateTask(id, newTask);
-	}
+//	@PutMapping("/tasks/{id}")
+//	@ResponseStatus(HttpStatus.OK)
+//	public void updateProject(@Valid @RequestBody Task newTask, @PathVariable Long id) {
+//		taskService.updateTask(id, newTask);
+//	}
 
-	@DeleteMapping("/tasks/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteTask(@Valid @PathVariable Long id) {
-		taskService.deleteTaskById(id);
-	}
+//	@DeleteMapping("/tasks/{id}")
+//	@ResponseStatus(HttpStatus.NO_CONTENT)
+//	public void deleteTask(@Valid @PathVariable Long id) {
+//		taskService.deleteTaskById(id);
+//	}
 
 }

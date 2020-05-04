@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +11,7 @@ class Navigation extends Component {
       <div className="text-white">
         <Navbar bg="dark text-white" variant="light">
           <Link to={"/"} className="navbar-brand text-white">
-            Project Management System
+            PATMSA
           </Link>
 
           <Nav className="mr-auto">
@@ -26,10 +26,7 @@ class Navigation extends Component {
               Task List
             </Link>
           </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-info">Search</Button>
-          </Form>
+
         </Navbar>
       </div>
     );

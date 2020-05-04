@@ -25,10 +25,6 @@ import com.project.my.model.Task;
 import com.project.my.service.ProjectServiceInterface;
 import com.project.my.service.TaskServiceInterface;
 
-
-
-
-
 @RestController
 @RequestMapping(path = "api/projects")
 @CrossOrigin(origins ="http://localhost:3000")
@@ -58,10 +54,26 @@ public class ProjectController {
 		return projectService.findByProjectTitle(projectTitle);
 	 }
 	 
-//	@GetMapping("/{projectId}/tasks/{taskId}")	
-//	public Task findTaskByProjectId(@PathVariable Long pid, @PathVariable Long tid) {
-//		return null;
-//	}
+	@DeleteMapping("/{projectId}/tasks/{id}")	
+	public void findTaskByProjectId(@PathVariable Long id, @PathVariable Long projectId) {
+		
+		
+		taskService.deleteTaskById(id);
+	}
+	
+	
+	@GetMapping("/{projectId}/tasks/{tid}")
+	@ResponseStatus(HttpStatus.OK)
+	public Task getTaskByProjectId(@Valid @PathVariable Long tid) {
+		return taskService.findTaskById(tid);
+	}
+	
+	/// Update task
+	@PutMapping("/{projectId}/tasks/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void updateProject(@Valid @RequestBody Task newTask, @PathVariable Long id) {
+		taskService.updateTask(id, newTask);
+	}
 	 
 	/// Find all tasks by project id 
 	@GetMapping("/{id}/tasks")
@@ -72,10 +84,11 @@ public class ProjectController {
 	
 	
 	//Creating task in projects found by id
-	@PostMapping("/{id}/tasks")
+	@PostMapping("/{id}")
 	@ResponseStatus(HttpStatus.CREATED)	
 	public void createTaskByProjectId(@Valid @PathVariable Long id, @RequestBody Task task ) {
-		projectService.createTaskByProjectId(id, task);
+		//projectService.createTaskByProjectId(id, task);
+		projectService.createTaskAndAssignToProject(task, id);
 	}
 	
 	
@@ -97,10 +110,9 @@ public class ProjectController {
 		projectService.deleteProjectById(id);
 	}
 	
-    @PutMapping("/assign/{id}")
-    @CrossOrigin(origins ="http://localhost:3000")
-    public void addTaskToProject(@PathVariable Long id ,@RequestBody  @Valid Task task){
-    	projectService.createTaskAndAssignToProject(task, id);
-    }
+//    @PostMapping("/assign/{id}")
+//    public void addTaskToProject(@PathVariable Long id ,@RequestBody  @Valid Task task){
+//    	projectService.createTaskAndAssignToProject(task, id);
+//    }
 
 }

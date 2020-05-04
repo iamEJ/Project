@@ -3,22 +3,83 @@ import { Card, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTasks, faSave, faUndo } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import MyToast from "./MyToast";
 
 class Task extends Component {
+
+
   constructor(props) {
     super(props);
     this.state = this.initialState;
     this.taskChange = this.taskChange.bind(this);
     this.submitTask = this.submitTask.bind(this);
+  
   }
 
   initialState = {
     id: "",
     taskName: "",
     description: "",
-    priority: "low",
-    status: "todo",
+    priority: "",
+    status: "",
+ 
   };
+
+    // componentDidMount(){
+    //   const taskId = this.props.match.params.id;
+
+    //   if(taskId){
+    //   this.findATaskById(taskId);
+    //   }
+    // }
+
+    
+
+    // findATaskById = (taskId) =>{
+     
+    //   axios.get(`http://localhost:8080/api/projects/${this.props.id}/tasks/${taskId}`)
+    //   .then(res =>{
+    //       if(res.data != null){
+            
+    //         this.setState({
+    //           id: res.data.id,
+    //           taskName: res.data.taskName,
+    //           description: res.data.description,
+    //           priority: res.data.priority,
+    //           status: res.data.status,
+
+    //         })
+    //       }
+    //   }).catch((error) => {
+    //     console.error("The error - " + error);
+    //   })
+    // }
+
+    // updateTask = (e) => {
+    //   e.preventDefault();
+  
+    //   const task = {
+    //     id: this.state.id,
+    //           taskName: this.state.taskName,
+    //           description: this.state.description,
+    //           priority: this.state.priority,
+    //           status: this.state.status,
+       
+    //   };
+  
+    //   axios
+    //     .put(`http://localhost:8080/api/projects/${this.props.id}/tasks/${this.state.id}`, task)
+    //     .then((res) => {
+    //       if (res.data != null) {
+    //         this.setState({ show: true, method: "put" });
+    //         setTimeout(() => this.setState({ show: false }), 3000);
+            
+    //       } else {
+    //         this.setState({ show: false });
+    //       }
+    //     });
+    //   this.setState(this.initialState);
+    // };
 
   submitTask = (e) => {
     e.preventDefault();
@@ -29,14 +90,23 @@ class Task extends Component {
       priority: this.state.priority,
       status: this.state.status,
     };
-
+  
     axios
-      .put(`http://localhost:8080/api/projects/assign/${this.props.id}`, task)
+      .post(`http://localhost:8080/api/projects/${this.props.id}`, task)
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
+        
+        if (res.data != null) {
+          console.log(this.props, "test");
+          this.setState({ show: true, method: "post" });
+          setTimeout(() => this.setState({ show: false }), 3000);
+        } else {
+          this.setState({ show: false });
+        }
       });
+      this.setState(this.initialState);
+      
   };
+  
 
   taskChange = (e) => {
     this.setState({
@@ -48,21 +118,33 @@ class Task extends Component {
     this.setState(() => this.initialState);
   };
 
+
+
   render() {
     const { taskName, description, priority, status } = this.state;
     return (
       <div>
+        <div style={{ display: this.state.show ? "block" : "none" }}>
+          <MyToast
+            show={this.state.show}
+            message={
+              this.state.method === "put"
+                ? "The task was updated successfully."
+                : "The task was added successfully."
+            }
+          />
+        </div>
         <Card style={{ width: "60%", margin: "0 auto", marginTop: "10px" }}>
           <Form
             onReset={this.resetTask}
-            onSubmit={this.submitTask}
+            onSubmit={this.state.id ? this.updateTask : this.submitTask}
             id="taskFormId"
           >
             <div>
               <Card.Header>
                 <h1 className={"text-center m-0"}>
                   {" "}
-                  <FontAwesomeIcon icon={faTasks} /> Add Task
+                  <FontAwesomeIcon icon={faTasks} />{this.state.id ? "Update Task" : " Add Task"}
                 </h1>
               </Card.Header>
             </div>
@@ -103,6 +185,7 @@ class Task extends Component {
                   value={priority}
                   onChange={this.taskChange}
                 >
+                  <option></option>
                   <option>low</option>
                   <option>medium</option>
                   <option>hight</option>
@@ -118,6 +201,7 @@ class Task extends Component {
                   value={status}
                   onChange={this.taskChange}
                 >
+                  <option></option>
                   <option>todo</option>
                   <option>in_progress</option>
                   <option>done</option>
@@ -127,12 +211,16 @@ class Task extends Component {
             <Card.Footer style={{ textAlign: "right" }}>
               <Button variant="success" type="submit">
                 <FontAwesomeIcon icon={faSave} />
-                Sub{" "}
+                {this.state.id ? "Update" : "Save"}
               </Button>{" "}
               <Button variant="primary" type="reset">
                 <FontAwesomeIcon icon={faUndo} />
                 Res
               </Button>{" "}
+              {/* <Button variant="primary" type="reset" onClick={this.projectItem.bind()}>
+                <FontAwesomeIcon icon={faUndo} />
+               Back
+              </Button>{" "} */}
             </Card.Footer>
           </Form>
         </Card>

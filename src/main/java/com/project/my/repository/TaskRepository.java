@@ -13,4 +13,5 @@ import com.project.my.model.Task;
 public interface TaskRepository extends JpaRepository<Task, Long>{
 	List<Task> findByProjectId(Long id);
 	Task findByTaskNameIgnoreCase(String taskName);
+	
 }

@@ -1,0 +1,8 @@
+body{
+    background-color:  #EEEEEE;
+}
+
+.titleHover:hover{
+    color: #17a2b8 !important;
+    text-decoration: none;
+}

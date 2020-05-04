@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faProjectDiagram,
+import { 
   faSave,
   faUndo,
   faList,
@@ -25,7 +24,7 @@ class Project extends Component {
     id: "",
     projectTitle: "",
     description: "",
-    status: "todo",
+   
   };
 
   componentDidMount() {
@@ -48,7 +47,7 @@ class Project extends Component {
             id: res.data.id,
             projectTitle: res.data.projectTitle,
             description: res.data.description,
-            status: res.data.status,
+            
           });
         }
       })
@@ -63,7 +62,7 @@ class Project extends Component {
     const project = {
       projectTitle: this.state.projectTitle,
       description: this.state.description,
-      status: this.state.status,
+      
     };
 
     axios.post("http://localhost:8080/api/projects", project).then((res) => {
@@ -84,7 +83,7 @@ class Project extends Component {
       id: this.state.id,
       projectTitle: this.state.projectTitle,
       description: this.state.description,
-      status: this.state.status,
+     
     };
 
     axios
@@ -116,7 +115,7 @@ class Project extends Component {
   };
 
   render() {
-    const { projectTitle, description, status } = this.state;
+    const { projectTitle, description} = this.state;
 
     return (
       <div>
@@ -132,9 +131,9 @@ class Project extends Component {
         </div>
         <Card
           style={{
-            width: "40%",
+            width: "30%",
             margin: "0 auto",
-            marginTop: "10px",
+            marginTop: "50px",
             boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",
           }}
         >
@@ -178,23 +177,7 @@ class Project extends Component {
                   onChange={this.projectChange}
                 />
               </Form.Group>
-              <Form.Group controlId="formStatus" name="status">
-                <Form.Label className="font-weight-bold text-dark">
-                  Select Status
-                </Form.Label>
-                <Form.Control
-                  required
-                  as="select"
-                  custom
-                  name="status"
-                  value={status}
-                  onChange={this.projectChange}
-                >
-                  <option>todo</option>
-                  <option>in_progress</option>
-                  <option>done</option>
-                </Form.Control>
-              </Form.Group>
+
             </Card.Body>
 
             <Card.Footer style={{ textAlign: "right", background: "#17a2b8" }}>

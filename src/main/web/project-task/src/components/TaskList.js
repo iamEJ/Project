@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { Card, Table, Button } from "react-bootstrap";
+import { Card, Table } from "react-bootstrap";
 import MyToast from "./MyToast";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-
 import axios from "axios";
 
 class TaskList extends Component {
@@ -27,25 +24,6 @@ class TaskList extends Component {
       });
   };
 
-  deleteTask = (taskId) => {
-    axios.delete("http://localhost:8080/api/tasks/" + taskId).then((res) => {
-      if (res.data != null) {
-        this.setState({ show: true });
-        setTimeout(() => this.setState({ show: false }), 3000);
-
-        this.setState({
-          tasks: this.state.tasks.filter((task) => task.id !== taskId),
-        });
-      } else {
-        this.setState({ show: false });
-      }
-    });
-  };
-
-  // toggleChange = () => {
-  //   this.state.tasks.status === !"done";
-  // };
-
   render() {
     return (
       <div className="container mt-2">
@@ -58,7 +36,7 @@ class TaskList extends Component {
             message={"The task was deleted successfully."}
           />
         </div>
-        <Card>
+        <Card style={{boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
           <Card.Body>
             <Card.Title>{this.state.projectTitle}</Card.Title>
             <Card.Text>{this.state.status}</Card.Text>
@@ -66,7 +44,7 @@ class TaskList extends Component {
             <div>Number of tasks: {this.state.tasks.length}</div>
           </Card.Body>
           <div>
-            <Table striped bordered hover>
+            <Table striped  hover>
               <thead>
                 <tr>
                   <th>#</th>
@@ -77,7 +55,7 @@ class TaskList extends Component {
                   <th>Start Date</th>
                   <th>Finish Date</th>
                   <th>Project name</th>
-                  <th>Actions</th>
+                 
                 </tr>
               </thead>
               <tbody>
@@ -90,17 +68,11 @@ class TaskList extends Component {
                 ) : (
                   this.state.tasks.map((task) => (
                     <tr
-                      key={task.id}
-                      className={
-                        task.status === "done" ? "bg-success" : "bg-light"
-                      }
+                      key={task.id}                    
+                      style={{background: task.status === "done" ? "#5cb85c " : "#fff"}}
                     >
                       <td>
-                        {/* <input
-                          type="checkbox"
-                          checked={task.status === "done" ? true : false}
-                          onChange={this.toggleChange}
-                        /> */}
+                     
                         {task.id}
                       </td>
                       <td>{task.taskName}</td>
@@ -110,14 +82,7 @@ class TaskList extends Component {
                       <td>{task.startDate}</td>
                       <td>{task.finishDate}</td>
                       <td>{task.projectName}</td>
-                      <td>
-                        <Button
-                          variant="danger"
-                          onClick={this.deleteTask.bind(this, task.id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </Button>
-                      </td>
+
                     </tr>
                   ))
                 )}

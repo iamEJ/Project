@@ -53,7 +53,7 @@ public class Task {
 	private Date finishDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "project_id", nullable = false)
+	@JoinColumn(name = "project_id")
 	@JsonIgnore
 	private Project project;
 
@@ -159,7 +159,6 @@ public class Task {
 	}
 	
 	
-	
-	
+
 
 }

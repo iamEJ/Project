@@ -23,6 +23,8 @@ public interface TaskServiceInterface {
 
 	Task findByTaskName( String taskName);
 
+	Task findTaskById(Long id);
+
 	
 
 }

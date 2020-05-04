@@ -33,9 +33,9 @@ public class MyApplication implements CommandLineRunner
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Project project1 = new Project("Pink","This project is important. i guess. But i really wish i could do it with you",Status.done);
-		Project project2 = new Project("Green","This project is less important. i guess.",Status.todo);
-		Project project3 = new Project("Red Dragon","This project is about computers.",Status.in_progress);
+		Project project1 = new Project("Turn to naming guides","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed sagittis dui.");
+		Project project2 = new Project("Look at past project names","Nullam consectetur tortor at lorem sagittis cursus. Sed ac purus leo. Integer convallis laoreet lectus, vitae blandit metus. ");
+		Project project3 = new Project("Get inspiration from other places","Ut at suscipit odio, non pretium nisl. Mauris dictum lorem ante, at tincidunt erat pellentesque non. ");
 		
 		
 		
@@ -45,17 +45,11 @@ public class MyApplication implements CommandLineRunner
 		project2.addTask(new Task("Delete mind", "deletes mind", Priority.medium,Status.in_progress));
 		project3.addTask(new Task("Set a list", "this to add to a set", Priority.low,Status.done));
 		
-//		ps.save(project1);
-//		ps.save(project2);
-//		ps.save(project3);
+
 		psi.createProject(project1);
 		psi.createProject(project2);
 		psi.createProject(project3);
-//		ts.save(task1);
-//		ts.save(task2);
-//		ts.save(task3);
-//		ts.save(task4);
-//		ts.save(task5);
+
 		
 	}
 

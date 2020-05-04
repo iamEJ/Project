@@ -22,6 +22,9 @@ public class TaskService implements TaskServiceInterface {
 	@Autowired
 	private TaskRepository taskRepo;
 	
+	@Autowired
+	private ProjectRepository projectRepo;
+	
 	
 	public TaskService(TaskRepository taskRepo) {
 
@@ -65,7 +68,14 @@ public class TaskService implements TaskServiceInterface {
 	
 	@Override
 	public void deleteTaskById(Long id) {
+		
 		taskRepo.deleteById(id);
+		
+		
+	}
+	@Override
+	public Task findTaskById(Long id) {
+		return taskRepo.findById(id).orElse(null);
 	}
 
 	@Override
@@ -79,6 +89,9 @@ public class TaskService implements TaskServiceInterface {
 		// TODO Auto-generated method stub
 		return taskRepo.findByTaskNameIgnoreCase(taskName);
 	}
+
+
+
 
 
 

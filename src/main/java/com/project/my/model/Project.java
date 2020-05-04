@@ -34,25 +34,45 @@ public class Project {
 	private String projectTitle;
 	@NotNull
 	private String description;
-	@NotNull
+	
 	@Enumerated(EnumType.STRING)
-	private Status status; // can i make here an enum?
+	private Status status; 
 	
 	 @OneToMany(cascade = CascadeType.ALL,
 	            fetch = FetchType.LAZY,
 	            mappedBy = "project")
 	private List<Task> allTasks = new ArrayList<>() ;
-	
-	//private Set<Task> incompleteTasks = new HashSet<>();
+	 
+	 @OneToMany(targetEntity=Task.class, mappedBy="project", fetch=FetchType.EAGER)
+	private List<Task> completeTasks;
 	
 	
 	public Project() {}
+	
+	public Project(String projectTitle, String description) {
+		this.projectTitle = projectTitle;
+		this.description = description;
+	
+	}
 	
 	
 	public Project(String projectTitle, String description, Status status) {
 		this.projectTitle = projectTitle;
 		this.description = description;
 		this.status = status;
+	}
+	
+	
+
+
+	public Project(@NotNull String projectTitle, @NotNull String description, @NotNull Status status,
+			List<Task> allTasks, List<Task> completeTasks) {
+		super();
+		this.projectTitle = projectTitle;
+		this.description = description;
+		this.status = status;
+		this.allTasks = allTasks;
+		this.completeTasks = completeTasks;
 	}
 
 
@@ -92,11 +112,12 @@ public class Project {
 
 
 	public void setStatus(Status status) {
+		
 		this.status = status;
 	}
 
 
-	public List<Task> getAllTasks() {
+	public List<Task>  getAllTasks() {
 		return allTasks;
 	}
 	
@@ -111,6 +132,25 @@ public class Project {
 	        allTasks.add(task);
 	        task.setProject(this);
 	    }
+
+
+	public int getCompleteTasks() {
+		
+		List<Task> ta = new ArrayList<>();
+		
+		for(Task t : allTasks) {
+			if(t.getStatus() == Status.done) {
+				ta.add(t);
+			}
+		}
+		
+		return ta.size();
+	}
+
+
+	public void setCompleteTasks(List<Task> completeTasks) {
+		this.completeTasks = completeTasks;
+	}
 	
 	
 	

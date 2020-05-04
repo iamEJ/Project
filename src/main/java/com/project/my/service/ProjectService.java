@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.my.model.Project;
+import com.project.my.model.Status;
 import com.project.my.model.Task;
 import com.project.my.repository.ProjectRepository;
 import com.project.my.repository.TaskRepository;
@@ -35,7 +36,7 @@ public class ProjectService implements ProjectServiceInterface {
 	
 	@Override
 	public void createProject(Project projectData) {
-		
+			
 		 projectRepo.save(projectData);
 	}
 	
