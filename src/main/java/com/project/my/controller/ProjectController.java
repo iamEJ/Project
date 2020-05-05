@@ -84,12 +84,12 @@ public class ProjectController {
 	
 	
 	//Creating task in projects found by id
-	@PostMapping("/{id}")
-	@ResponseStatus(HttpStatus.CREATED)	
-	public void createTaskByProjectId(@Valid @PathVariable Long id, @RequestBody Task task ) {
-		//projectService.createTaskByProjectId(id, task);
-		projectService.createTaskAndAssignToProject(task, id);
-	}
+//	@PostMapping("/{id}")
+//	@ResponseStatus(HttpStatus.CREATED)	
+//	public void createTaskByProjectId(@Valid @PathVariable Long id, @RequestBody Task task ) {
+//		//projectService.createTaskByProjectId(id, task);
+//		projectService.createTaskAndAssignToProject(task, id);
+//	}
 	
 	
 	@PostMapping
@@ -110,9 +110,9 @@ public class ProjectController {
 		projectService.deleteProjectById(id);
 	}
 	
-//    @PostMapping("/assign/{id}")
-//    public void addTaskToProject(@PathVariable Long id ,@RequestBody  @Valid Task task){
-//    	projectService.createTaskAndAssignToProject(task, id);
-//    }
+    @PostMapping("/assign/{id}")
+    public void addTaskToProject(@PathVariable Long id ,@RequestBody  @Valid Task task){
+    	projectService.createTaskAndAssignToProject(task, id);
+    }
 
 }

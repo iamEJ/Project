@@ -6,8 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Project from "./components/Project";
 import ProjectList from "./components/ProjectList";
 import ProjectItem from "./components/ProjectItem";
-import Taske from "./components/TaskWrapper";
-import Task from "./components/Task";
+
 import TaskList from "./components/TaskList";
 import HomeJumbo from "./components/HomeJumbo";
 
@@ -22,9 +21,7 @@ function App() {
         <Route path="/edit/:id" exact component={Project} />
         <Route exact key="home" path="/" component={ProjectList} />
         <Route exact key="projects" path="/projects" component={ProjectList} />
-        <Route path="/projects/:id/editTask/:id"  exact component={Task} />
-        <Route path="/projects/:id" exact component={ProjectItem} />
-        <Route path="/projects/add/:id"  exact component={Taske} />
+        <Route path="/projects/:id" exact component={ProjectItem} />        
         <Route path="/tasks" exact component={TaskList} />
       </Switch>
     </Router>

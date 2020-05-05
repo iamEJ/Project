@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Card, Table,Button } from "react-bootstrap";
+import { Card, Table,Button,Modal , Form} from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faArrowLeft, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MyToast from "./MyToast";
 
@@ -12,14 +12,28 @@ class ProjectItem extends Component {
     this.state = {
       projects: [],
       tasks: [],
+      newTaskData:{
+        taskName: "",
+        description: "",
+        priority: "",
+        status: "",
+      },
+      editTaskData:{
+        id: "",
+        taskName: "",
+        description: "",
+        priority: "",
+        status: "",
+      },
+      newTaskModal:false,
+      editTaskModal:false,
     };
     
   }
 
   componentDidMount() {
     this.getprojectInfo(); 
-
-    this.getTasksByProjectId();
+    this._refreshTask();
   }
 
   getprojectInfo = () =>{
@@ -39,20 +53,6 @@ class ProjectItem extends Component {
     });
   }
 
-  getTasksByProjectId = () => {
-    axios
-      .get(
-        `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks`
-      )
-      .then((res) => res.data)
-      .then((data) => {
-        this.setState({ tasks: data });
-      })
-      .catch((error) => {
-        console.log("Error - " + error);
-      });
-  };
-
 
   deleteTask = (taskId) => {
     axios.delete( `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/`+ taskId).then((res) => {
@@ -68,7 +68,80 @@ class ProjectItem extends Component {
       }
     });
   };
-  
+
+  editTask = (id, taskName, description, priority, status) =>{
+    this.setState({
+      editTaskData: {id, taskName, description, priority, status}, editTaskModal: !this.state.newTaskModal
+    });
+  }
+
+
+  toggleNewTaskModal = () =>{
+
+    this.setState({
+      newTaskModal: !this.state.newTaskModal
+    })
+
+  }
+
+  toggleEditTaskModal = () =>{
+
+    this.setState({
+      editTaskModal: !this.state.editTaskModal
+    })
+
+  }
+
+  updateTask(){
+
+    let {taskName, description, priority, status} = this.state.editTaskData;
+
+    axios
+    .put(`http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/${this.state.editTaskData.id}`,{
+      taskName, description, priority, status
+    }).then((res) => {
+      this._refreshTask();
+
+      this.setState({
+        editTaskModal: false, editTaskData: {  
+        id: "",
+        taskName: "",
+        description: "",
+        priority: "",
+        status: ""
+      }})
+    });
+  }
+
+  _refreshTask(){
+    axios
+      .get(
+        `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks`
+      )
+      .then((res) => res.data)
+      .then((data) => {
+        this.setState({ tasks: data });
+      })
+      .catch((error) => {
+        console.log("Error - " + error);
+      });
+  }
+
+  addTask(){
+    axios
+        .post(`http://localhost:8080/api/projects/assign/${this.props.match.params.id}`, this.state.newTaskData)
+        .then((res) =>{
+          let {tasks} = this.state;
+          tasks.push(res.data);
+          this.setState({tasks, newTaskModal:false, newTaskData:{
+            taskName: "",
+            description: "",
+            priority: "",
+            status: "",
+          }});
+         window.location.reload(false);
+        });
+  }
 
   render() {
     return (
@@ -88,16 +161,220 @@ class ProjectItem extends Component {
             <Card.Text>{this.state.completeTasks === this.state.allTasks ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}</Card.Text>
             <Card.Text>{this.state.description}</Card.Text>
               <div>Number of tasks: {this.state.completeTasks}/{this.state.allTasks}</div>
-            <p></p>
-            <Link
-              to={"/projects/add/" + this.props.match.params.id}
-              className="btn btn-info mr-2"
-            >
-              <FontAwesomeIcon icon={faPlus} /> Add Task
-            </Link>
+          
+          
             <Link to={"/projects"} className="btn btn-info mr-2">
               <FontAwesomeIcon icon={faArrowLeft} /> Back
             </Link>
+            <Button variant="primary" onClick={this.toggleNewTaskModal.bind(this)}>
+                Add Task
+              </Button>
+            <>
+             
+
+              <Modal show={this.state.newTaskModal} onHide={this.toggleNewTaskModal.bind(this)}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Add new Task</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <Form>
+              
+                <Form.Group >
+                  <Form.Label>Task Name</Form.Label>
+                  <Form.Control
+                    autoComplete="off"
+                    required
+                    type="text"
+                    placeholder="Enter task name"
+                    name="taskName"
+              
+                    value={this.state.newTaskData.taskName}
+                    onChange={(e) =>{
+                      let {newTaskData} = this.state;
+                      newTaskData.taskName = e.target.value;
+                      this.setState({newTaskData});
+                    }}
+                  />
+                </Form.Group>
+  
+                <Form.Group controlId="formDescription">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    required
+                    as="textarea"
+                    type="text"
+                    rows="3"
+                    name="description"
+                   
+                   value={this.state.newTaskData.description}
+                   onChange={(e) =>{
+                     let {newTaskData} = this.state;
+                     newTaskData.description =e.target.value;
+                     this.setState({newTaskData});
+                   }}
+                    placeholder="Enter a description for the task"
+                  />
+                </Form.Group>
+                <Form.Group controlId="formPriority">
+                  <Form.Label>Select Priority</Form.Label>
+                  <Form.Control
+                    required
+                    as="select"
+                    custom
+                    name="priority"
+                  
+                   value={this.state.newTaskData.priority}
+                   onChange={(e) =>{
+                     let {newTaskData} = this.state;
+                     newTaskData.priority =e.target.value;
+                     this.setState({newTaskData});
+                   }}
+                  >
+                    <option></option>
+                    <option>low</option>
+                    <option>medium</option>
+                    <option>hight</option>
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group controlId="formStatus">
+                  <Form.Label>Select Status</Form.Label>
+                  <Form.Control
+                    required
+                    as="select"
+                    custom
+                    name="status"
+                   
+                   value={this.state.newTaskData.status}
+                   onChange={(e) =>{
+                     let {newTaskData} = this.state;
+                     newTaskData.status =e.target.value;
+                     this.setState({newTaskData});
+                   }}
+                  >
+                    <option></option>
+                    <option>todo</option>
+                    <option>in_progress</option>
+                    <option>done</option>
+                  </Form.Control>
+                </Form.Group>
+            
+
+            </Form>
+
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.toggleNewTaskModal.bind(this)}>
+                    Close
+                  </Button>
+                  <Button variant="primary" onClick={this.addTask.bind(this)}>
+                    Add Task
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </>
+
+            
+            <>  
+            <Modal show={this.state.editTaskModal} onHide={this.toggleEditTaskModal.bind(this)}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit new Task</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <Form>
+
+                <Form.Group controlId="formTaskName">
+                  <Form.Label>Task Name</Form.Label>
+                  <Form.Control
+                    autoComplete="off"
+                    required
+                    type="text"
+                    placeholder="Enter task name"
+                    name="taskName"
+                    value={this.state.editTaskData.taskName}
+                    onChange={(e) =>{
+                      let {editTaskData} = this.state;
+                      editTaskData.taskName =e.target.value;
+                      this.setState({editTaskData});
+                    }}
+                  />
+                </Form.Group>
+  
+                <Form.Group controlId="formDescription">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    required
+                    as="textarea"
+                    type="text"
+                    rows="3"
+                    name="description"
+                   
+                   value={this.state.editTaskData.description}
+                   onChange={(e) =>{
+                     let {editTaskData} = this.state;
+                     editTaskData.description =e.target.value;
+                     this.setState({editTaskData});
+                   }}
+                    placeholder="Enter a description for the task"
+                  />
+                </Form.Group>
+                <Form.Group controlId="formPriority">
+                  <Form.Label>Select Priority</Form.Label>
+                  <Form.Control
+                    required
+                    as="select"
+                    custom
+                    name="priority"
+                  
+                   value={this.state.editTaskData.priority}
+                   onChange={(e) =>{
+                     let {editTaskData} = this.state;
+                     editTaskData.priority =e.target.value;
+                     this.setState({editTaskData});
+                   }}
+                  >
+                    <option></option>
+                    <option>low</option>
+                    <option>medium</option>
+                    <option>hight</option>
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group controlId="formStatus">
+                  <Form.Label>Select Status</Form.Label>
+                  <Form.Control
+                    required
+                    as="select"
+                    custom
+                    name="status"
+                   
+                   value={this.state.editTaskData.status}
+                   onChange={(e) =>{
+                     let {editTaskData} = this.state;
+                     editTaskData.status =e.target.value;
+                     this.setState({editTaskData});
+                   }}
+                  >
+                    <option></option>
+                    <option>todo</option>
+                    <option>in_progress</option>
+                    <option>done</option>
+                  </Form.Control>
+                </Form.Group>
+            
+
+            </Form>
+
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.toggleEditTaskModal.bind(this)}>
+                    Close
+                  </Button>
+                  <Button variant="primary" onClick={this.updateTask.bind(this)}>
+                    Update Task
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </>      
+
           </Card.Body>
           <div>
             <Table striped hover>
@@ -139,9 +416,11 @@ class ProjectItem extends Component {
 
                       <td className="p-1 text-center ">
                       
-                        <Link className="btn btn-info" to={"/projects/"+this.props.match.params.id+"/editTask/" + task.id}>
+                        <Button variant="info"
+                          onClick={this.editTask.bind(this,task.id, task.taskName, task.description, task.priority, task.status)}
+                        >
                           <FontAwesomeIcon icon={faEdit} />
-                        </Link>{" "}
+                        </Button>
                         <Button variant="danger"
                           onClick={this.deleteTask.bind(this, task.id)}
                         >
@@ -157,6 +436,8 @@ class ProjectItem extends Component {
         </Card>
       </div>
     );
+
+    
   }
 }
 

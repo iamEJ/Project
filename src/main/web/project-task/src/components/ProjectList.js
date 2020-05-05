@@ -12,6 +12,7 @@ import cx from "classnames";
 import { Link } from "react-router-dom";
 import "../App.css";
 
+
 class ProjectList extends Component {
   constructor(props) {
     super(props);
@@ -52,8 +53,8 @@ class ProjectList extends Component {
   render() {
     return (
       <div className="container">
-        <div className="mt-4  mb-2 d-flex justify-content-center " style={{fontFamily:"Lucida Sans Unicode, Lucida Grande, sans-serif"}}>
-          <h2 >
+        <div className="mt-4  mb-2 d-flex justify-content-center text-center " style={{fontFamily:"Lucida Sans Unicode, Lucida Grande, sans-serif"}}>
+          <h2>
             The number of projects:{" "}
             <span className="badge badge-dark">
               {this.state.projects.length}
@@ -64,7 +65,6 @@ class ProjectList extends Component {
             <Link to={"/projectForm"} className={"nav-link text-white btn btn-dark"}>
                Create Project
             </Link>
-        
             
           </div>
         <div
