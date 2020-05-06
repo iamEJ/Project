@@ -131,7 +131,7 @@ class Project extends Component {
         </div>
         <Card
           style={{
-            width: "30%",
+            width: "600px",
             margin: "0 auto",
             marginTop: "50px",
             boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",

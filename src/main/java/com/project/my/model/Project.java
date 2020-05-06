@@ -113,6 +113,7 @@ public class Project {
 
 	public void setStatus(Status status) {
 		
+
 		this.status = status;
 	}
 

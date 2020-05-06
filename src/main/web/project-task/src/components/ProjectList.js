@@ -18,11 +18,19 @@ class ProjectList extends Component {
     super(props);
     this.state = {
       projects: [],
+      search:null
     };
   }
 
+
+
   componentDidMount() {
     this.findAllProjects();
+  }
+
+  searchSpace=(event)=>{
+    let keyword = event.target.value;
+    this.setState({search:keyword})
   }
 
   findAllProjects = () => {
@@ -50,7 +58,9 @@ class ProjectList extends Component {
       });
   };
 
+
   render() {
+
     return (
       <div className="container">
         <div className="mt-4  mb-2 d-flex justify-content-center text-center " style={{fontFamily:"Lucida Sans Unicode, Lucida Grande, sans-serif"}}>
@@ -65,8 +75,18 @@ class ProjectList extends Component {
             <Link to={"/projectForm"} className={"nav-link text-white btn btn-dark"}>
                Create Project
             </Link>
-            
-          </div>
+          
+        </div>
+  
+              <div className="container-fluid d-flex justify-content-center mb-4">            
+                    <input type="text" 
+                    className="form-control border border-dark mainLoginInput" 
+                    placeholder="&#61442; Search"  
+                    style={{width:"260px"}} 
+                    onChange={(e)=>this.searchSpace(e)} 
+                    />
+              </div>
+         
         <div
           className={{ position: "sticky-top" }}
           style={{ display: this.state.show ? "block" : "none" }}
@@ -80,7 +100,13 @@ class ProjectList extends Component {
           {this.state.projects.length === 0 ? (
             <h1>There are no projects</h1>
           ) : (
-            this.state.projects.map((project) => (
+            this.state.projects.filter((data)=>{
+              if(this.state.search == null)
+                  return data
+              else if(data.projectTitle.toLowerCase().includes(this.state.search.toLowerCase())){
+                  return data
+              }
+            }).map((project) => (
             
                 <Card key={project.id}
                 
@@ -128,7 +154,8 @@ class ProjectList extends Component {
                         
                         "text-success ": project.status === "done",
                         "text-info ": project.status === "in_progress",
-                      })}> {project.completeTasks === project.allTasks.length ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}{" "}
+                      })}>
+                         {project.completeTasks === project.allTasks.length ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}{" "}
                       
                       <span className="badge badge-dark">
                       {project.completeTasks}/{project.allTasks.length}

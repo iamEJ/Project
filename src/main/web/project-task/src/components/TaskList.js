@@ -8,6 +8,7 @@ class TaskList extends Component {
     super(props);
     this.state = {
       tasks: [],
+      search:null
     };
   }
 
@@ -22,6 +23,12 @@ class TaskList extends Component {
       .then((data) => {
         this.setState({ tasks: data });
       });
+  };
+
+  
+  searchSpace=(event)=>{
+    let keyword = event.target.value;
+    this.setState({search:keyword})
   };
 
   render() {
@@ -41,7 +48,18 @@ class TaskList extends Component {
             <Card.Title>{this.state.projectTitle}</Card.Title>
             <Card.Text>{this.state.status}</Card.Text>
             <Card.Text>{this.state.description}</Card.Text>
-            <div>Number of tasks: {this.state.tasks.length}</div>
+         
+
+            <h2 className="text-center">Number of tasks: <span className="badge badge-dark">{this.state.tasks.length}</span></h2>  
+            <div className="container-fluid d-flex justify-content-center mb-4">                      
+                    <input type="text" 
+                    className="form-control border border-dark mainLoginInput" 
+                    placeholder="&#61442; Search"  
+                    style={{width:"260px"}} 
+                    onChange={(e)=>this.searchSpace(e)} 
+                    />
+              </div>
+
           </Card.Body>
           <div>
             <Table striped  hover>
@@ -66,7 +84,13 @@ class TaskList extends Component {
                     </td>
                   </tr>
                 ) : (
-                  this.state.tasks.map((task) => (
+                  this.state.tasks.filter((data)=>{
+                    if(this.state.search == null)
+                        return data
+                    else if(data.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || data.status.toLowerCase().includes(this.state.search.toLowerCase())){
+                        return data
+                    }
+                  }).map((task) => (
                     <tr
                       key={task.id}                    
                       style={{background: task.status === "done" ? "#5cb85c " : "#fff"}}

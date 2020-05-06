@@ -6,3 +6,14 @@ body{
     color: #17a2b8 !important;
     text-decoration: none;
 }
+
+.mainLoginInput::-webkit-input-placeholder { 
+    font-family: FontAwesome;
+    font-weight: normal;
+    overflow: visible;
+    vertical-align: top;
+    display: inline-block !important;
+    padding-left: 5px;
+    padding-top: 2px;
+    color:rgb(41, 43, 44,.8)
+    }
