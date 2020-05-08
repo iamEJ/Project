@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Jumbotron } from "react-bootstrap";
-import ProjectList from "./ProjectList";
 import { Link } from "react-router-dom";
 
 class HomeJumbo extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Card, Table } from "react-bootstrap";
-import MyToast from "./MyToast";
+import { Card } from "react-bootstrap";
 import axios from "axios";
+import DataTable from 'react-data-table-component';
 
 class TaskList extends Component {
   constructor(props) {
@@ -11,26 +11,6 @@ class TaskList extends Component {
       search:null,
 
     };
-
-    this.compareBy.bind(this);
-    this.sortBy.bind(this);
-    
-
-  }
-
-  compareBy(key) {
-    return function (a, b) {
-      if (a[key] < b[key]) return -1;
-      if (a[key] > b[key]) return 1;
-      return 0;
-    };
-  }
- 
-  sortBy(key) {
-    
-    let arrayCopy = [...this.state.tasks];
-    arrayCopy.sort(this.compareBy(key));
-    this.setState({tasks: arrayCopy});
   }
 
   componentDidMount() {
@@ -40,10 +20,8 @@ class TaskList extends Component {
   findAllProjects = () => {
     axios
       .get("http://localhost:8080/api/tasks")
-      .then((res) => res.data)
-      .then((data) => {
-        this.setState({ tasks: data });
-      });
+      .then(res => 
+        { this.setState({ tasks: res.data }); })
   };
 
   
@@ -53,16 +31,81 @@ class TaskList extends Component {
   };
 
   render() {
+
+    const data = this.state.tasks;
+    const columns = [
+      {
+        name: '#',
+        width:"50px",
+        selector:'id',
+        sortable: true,
+        cell: row => <div>{row.id}</div>,
+      },
+      {
+        name: 'TaskName',
+        width:"140px",
+        selector:'taskName',
+        sortable: true,
+        cell: row => <div>{row.taskName}</div>,
+      },
+      {
+        name: 'Description',
+        selector: 'description',
+        sortable: true,
+        cell: row =><div>{row.description}</div>,
+      },
+      {
+        name: 'Priority',
+        width:"120px",
+        selector:'priority',
+        sortable: true,
+        cell: row => <div>{row.priority}</div>,
+      },
+      {
+        name: 'Status',
+        width:"120px",
+        selector: 'status',
+        sortable: true,
+        cell: row =><div>{row.status}</div>,
+      },
+      {
+        name: 'Start Date',
+        selector:'startDate',
+        width:"130px",
+        sortable: true,
+        cell: row => <div>{row.startDate}</div>,
+      },
+      {
+        name: 'Finish Date',
+        selector: 'finishDate',
+        width:"130px",
+        sortable: true,
+        cell: row =><div>{row.finishDate}</div>,
+      },
+      {
+        name: 'Project Name',
+        selector: 'projectName',
+        sortable: true,
+        cell: row =><div>{row.projectName}</div>,
+      },
+    ];
+
+    const conditionalRowStyles = [
+      {
+        when: row => row.status === 'done',
+        style: {
+          backgroundColor: '	rgb(38, 153, 0,0.2)',
+          color: '#004d00',
+        },
+      },
+    ];
+
     return (
       <div className="container mt-2">
         <div
           className={{ position: "sticky-top" }}
           style={{ display: this.state.show ? "block" : "none" }}
         >
-          <MyToast
-            show={this.state.show}
-            message={"The task was deleted successfully."}
-          />
         </div>
         <Card style={{boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
           <Card.Body>
@@ -71,68 +114,37 @@ class TaskList extends Component {
             <Card.Text>{this.state.description}</Card.Text>
          
 
-            <h2 className="text-center">Number of tasks: <span className="badge badge-dark">{this.state.tasks.length}</span></h2>  
-            <div className="container-fluid d-flex justify-content-center mb-4">                      
+            
+            <div className="container-fluid d-flex justify-content-left "> 
+                         
                     <input type="text" 
                     className="form-control border border-dark mainLoginInput" 
                     placeholder="&#61442; Search"  
-                    style={{width:"260px"}} 
+                    style={{width:"300px"}} 
                     onChange={(e)=>this.searchSpace(e)} 
                     />
+            <h5 className="container-fluid d-flex justify-content-right mt-2 ">
+               <span className="badge badge-dark m-0 ">Number of tasks: {this.state.tasks.length}</span>
+            </h5>      
               </div>
 
           </Card.Body>
-          <div>
-            <Table striped  hover>
-              <thead>
-                <tr>
-                  <th onClick={() => this.sortBy('id')} style={{cursor:"pointer"}}>#</th>
-                  <th onClick={() => this.sortBy('taskName')} style={{cursor:"pointer"}}>Task Name</th>
-                  <th onClick={() => this.sortBy('description')} style={{cursor:"pointer"}}>Description</th>
-                  <th onClick={() => this.sortBy('priority')} style={{cursor:"pointer"}}>Priority</th>
-                  <th onClick={() => this.sortBy('status')} style={{cursor:"pointer"}}>Status</th>
-                  <th onClick={() => this.sortBy('startDate')} style={{cursor:"pointer"}}>Start Date</th>
-                  <th onClick={() => this.sortBy('finishDate')} style={{cursor:"pointer"}}>Finish Date</th>
-                  <th onClick={() => this.sortBy('projectName')} style={{cursor:"pointer"}}>Project name</th>
-                 
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.tasks.length === 0 ? (
-                  <tr>
-                    <td colSpan="9" className="text-center">
-                      <h1>There are no tasks</h1>
-                    </td>
-                  </tr>
-                ) : (
-                  this.state.tasks.filter((data)=>{
-                    if(this.state.search == null)
-                        return data
-                    else if(data.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || data.status.toLowerCase().includes(this.state.search.toLowerCase())){
-                        return data
-                    }
-                  }).map((task) => (
-                    <tr
-                      key={task.id}                    
-                      style={{background: task.status === "done" ? "#5cb85c " : "#fff"}}
-                    >
-                      <td>
-                     
-                        {task.id}
-                      </td>
-                      <td>{task.taskName}</td>
-                      <td>{task.description}</td>
-                      <td>{task.priority}</td>
-                      <td>{task.status}</td>
-                      <td>{task.startDate}</td>
-                      <td>{task.finishDate}</td>
-                      <td>{task.projectName}</td>
 
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </Table>
+          <div>                          
+              <DataTable
+                title="The list of Tasks"
+                columns={columns}
+                data={data.filter((e)=>{
+                  if(this.state.search == null)
+                      return e
+                  else if((e.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || (e.status.toLowerCase().includes(this.state.search.toLowerCase())))){
+                      return e
+                  }
+                })}
+                highlightOnHover
+                pagination
+                conditionalRowStyles={conditionalRowStyles}
+             />
           </div>
         </Card>
       </div>
