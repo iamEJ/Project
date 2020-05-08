@@ -8,8 +8,29 @@ class TaskList extends Component {
     super(props);
     this.state = {
       tasks: [],
-      search:null
+      search:null,
+
     };
+
+    this.compareBy.bind(this);
+    this.sortBy.bind(this);
+    
+
+  }
+
+  compareBy(key) {
+    return function (a, b) {
+      if (a[key] < b[key]) return -1;
+      if (a[key] > b[key]) return 1;
+      return 0;
+    };
+  }
+ 
+  sortBy(key) {
+    
+    let arrayCopy = [...this.state.tasks];
+    arrayCopy.sort(this.compareBy(key));
+    this.setState({tasks: arrayCopy});
   }
 
   componentDidMount() {
@@ -65,14 +86,14 @@ class TaskList extends Component {
             <Table striped  hover>
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Task Name</th>
-                  <th>Description</th>
-                  <th>Priority</th>
-                  <th>Status</th>
-                  <th>Start Date</th>
-                  <th>Finish Date</th>
-                  <th>Project name</th>
+                  <th onClick={() => this.sortBy('id')} style={{cursor:"pointer"}}>#</th>
+                  <th onClick={() => this.sortBy('taskName')} style={{cursor:"pointer"}}>Task Name</th>
+                  <th onClick={() => this.sortBy('description')} style={{cursor:"pointer"}}>Description</th>
+                  <th onClick={() => this.sortBy('priority')} style={{cursor:"pointer"}}>Priority</th>
+                  <th onClick={() => this.sortBy('status')} style={{cursor:"pointer"}}>Status</th>
+                  <th onClick={() => this.sortBy('startDate')} style={{cursor:"pointer"}}>Start Date</th>
+                  <th onClick={() => this.sortBy('finishDate')} style={{cursor:"pointer"}}>Finish Date</th>
+                  <th onClick={() => this.sortBy('projectName')} style={{cursor:"pointer"}}>Project name</th>
                  
                 </tr>
               </thead>

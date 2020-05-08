@@ -7,8 +7,8 @@ class HomeJumbo extends Component {
   render() {
     return (
       <div>
-        <Jumbotron className="text-center font-weight-light">
-          <p style={{ fontSize: "50px" }}>Welcome</p>
+        <Jumbotron className="text-center font-weight-light" style={{height:"450px" }}>
+          <p style={{ fontSize: "50px"}}>Welcome</p>
           <p
             className="text-secondary pb-4 w-50 font-weight-light"
             style={{ margin: "0 auto", fontSize: "20px" }}
@@ -27,15 +27,22 @@ class HomeJumbo extends Component {
             </Link>
             <Link
               to={"/projects"}
-              className={"nav-link btn btn-secondary"}
+              className={"nav-link btn btn-secondary mr-1"}
               style={{ width: "140px" }}
             >
               List of Projects
             </Link>
+            <Link
+              to={"/tasks"}
+              className={"nav-link btn btn-success"}
+              style={{ width: "140px" }}
+            >
+              List of Tasks
+            </Link>
           </div>
         </Jumbotron>
         <div>
-          <ProjectList />
+         
         </div>
         <div style={{ height: "100px" }}></div>
       </div>

@@ -120,6 +120,7 @@ class ProjectItem extends Component {
       )
       .then((res) => res.data)
       .then((data) => {
+        console.log(data);
         this.setState({ tasks: data });
       })
       .catch((error) => {
@@ -128,6 +129,7 @@ class ProjectItem extends Component {
   }
 
   addTask(){
+   
     axios
         .post(`http://localhost:8080/api/projects/assign/${this.props.match.params.id}`, this.state.newTaskData)
         .then((res) =>{
@@ -139,7 +141,7 @@ class ProjectItem extends Component {
             priority: "",
             status: "",
           }});
-         window.location.reload(false);
+       //  window.location.reload(false);
         });
   }
 
