@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MyToast from "./MyToast";
+import DataTable from 'react-data-table-component';
 
 class ProjectItem extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class ProjectItem extends Component {
       },
       newTaskModal:false,
       editTaskModal:false,
+      search:null,
     };
     
   }
@@ -145,9 +147,94 @@ class ProjectItem extends Component {
         });
   }
 
+  searchSpace=(event)=>{
+    let keyword = event.target.value;
+    this.setState({search:keyword})
+  };
+
+
   render() {
+
+    const data = this.state.tasks;
+    const columns = [
+      {
+        name: '#',
+        width:"50px",
+        selector:'id',
+        sortable: true,
+        cell: row => <div>{row.id}</div>,
+      },
+      {
+        name: 'TaskName',
+        width:"140px",
+        selector:'taskName',
+        sortable: true,
+        cell: row => <div>{row.taskName}</div>,
+      },
+      {
+        name: 'Description',
+        selector: 'description',
+        sortable: true,
+        cell: row =><div>{row.description}</div>,
+      },
+      {
+        name: 'Priority',
+        width:"120px",
+        selector:'priority',
+        sortable: true,
+        cell: row => <div>{row.priority}</div>,
+      },
+      {
+        name: 'Status',
+        width:"120px",
+        selector: 'status',
+        sortable: true,
+        cell: row =><div>{row.status}</div>,
+      },
+      {
+        name: 'Start Date',
+        selector:'startDate',
+        width:"130px",
+        sortable: true,
+        cell: row => <div>{row.startDate}</div>,
+      },
+      {
+        name: 'Finish Date',
+        selector: 'finishDate',
+        width:"130px",
+        sortable: true,
+        cell: row =><div>{row.finishDate}</div>,
+      },
+      {
+        name: 'Action',
+        width:"120px",
+        cell: row =><div>
+        <Button variant="info"
+          onClick={this.editTask.bind(this,row.id, row.taskName, row.description, row.priority, row.status)}
+        >
+        <FontAwesomeIcon icon={faEdit} />
+      </Button>{" "}
+      <Button variant="danger"
+          onClick={this.deleteTask.bind(this, row.id)}
+      >
+        <FontAwesomeIcon icon={faTrash} />
+      </Button>
+      </div>,
+      },
+    ];
+
+    const conditionalRowStyles = [
+      {
+        when: row => row.status === 'done',
+        style: {
+          backgroundColor: '	rgb(38, 153, 0,0.2)',
+          color: '#004d00',
+        },
+      },
+    ];
+
     return (
-      <div className="container mt-2">
+      <div className="container-fluid mt-2" style={{width:"75%"}}>
          <div
           className={{ position: "sticky-top" }}
           style={{ display: this.state.show ? "block" : "none" }}
@@ -162,7 +249,19 @@ class ProjectItem extends Component {
             <Card.Title>{this.state.projectTitle}</Card.Title>
             <Card.Text>{this.state.completeTasks === this.state.allTasks ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}</Card.Text>
             <Card.Text>{this.state.description}</Card.Text>
-              <div>Number of tasks: {this.state.completeTasks}/{this.state.allTasks}</div>
+             
+              <div className="container-fluid d-flex justify-content-left p-0 mb-2"> 
+                         
+                         <input type="text" 
+                         className="form-control border border-dark mainLoginInput" 
+                         placeholder="&#61442; Search"  
+                         style={{width:"300px"}} 
+                         onChange={(e)=>this.searchSpace(e)} 
+                         />
+                 <h5 className="container-fluid d-flex justify-content-right mt-2 ">
+                    <span className="badge badge-dark m-0 ">Number of tasks: {this.state.completeTasks}/{this.state.allTasks}</span>
+                 </h5>      
+                   </div>
           
           
             <Link to={"/projects"} className="btn btn-info mr-2">
@@ -379,61 +478,22 @@ class ProjectItem extends Component {
 
           </Card.Body>
           <div>
-            <Table striped hover>
-              <thead>
-                <tr
-                  className={
-                    this.state.tasks.status === "done"
-                      ? "bg-success"
-                      : "bg-light"
+            <DataTable
+                title="The list of Tasks"
+                columns={columns}
+                data={data.filter((e)=>{
+                  if(this.state.search == null)
+                      return e
+                  else if((e.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || (e.status.toLowerCase().includes(this.state.search.toLowerCase())))){
+                      return e
                   }
-                >
-                  <th>#</th>
-                  <th>Task Name</th>
-                  <th>Description</th>
-                  <th>Priority</th>
-                  <th>Status</th>
-                  <th>Start Date</th>
-                  <th>Finish Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.tasks.length === 0 ? (
-                  <tr>
-                    <td colSpan="8" className="text-center">
-                      <h1>There are no tasks</h1>
-                    </td>
-                  </tr>
-                ) : (
-                  this.state.tasks.map((task) => (
-                    <tr key={task.id}>
-                      <td>{task.id}</td>
-                      <td>{task.taskName}</td>
-                      <td>{task.description}</td>
-                      <td>{task.priority}</td>
-                      <td>{task.status}</td>
-                      <td>{task.startDate}</td>
-                      <td>{task.finishDate}</td>
-
-                      <td className="p-1 text-center ">
-                      
-                        <Button variant="info"
-                          onClick={this.editTask.bind(this,task.id, task.taskName, task.description, task.priority, task.status)}
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </Button>
-                        <Button variant="danger"
-                          onClick={this.deleteTask.bind(this, task.id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </Table>
+                })}
+                highlightOnHover
+                pagination
+                paginationPerPage={5}
+                paginationRowsPerPageOptions={[5,10, 15, 20, 25, 30]}
+                conditionalRowStyles={conditionalRowStyles}
+             />
           </div>
         </Card>
       </div>
