@@ -37,7 +37,7 @@ public class ProjectService implements ProjectServiceInterface {
 	@Override
 	public void createProject(Project projectData) {
 			
-		projectData.setStatus(projectData.getAllTasks().size() ==projectData.getCompleteTasks() ? Status.done : Status.in_progress);
+		projectData.setStatus(projectData.getAllTasks() ==projectData.getCompleteTasks() ? Status.done : Status.in_progress);
 		 projectRepo.save(projectData);
 	}
 	

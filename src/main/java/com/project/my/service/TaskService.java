@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.my.model.Project;
+import com.project.my.model.Status;
 import com.project.my.model.Task;
 
 import com.project.my.repository.ProjectRepository;
@@ -57,6 +58,7 @@ public class TaskService implements TaskServiceInterface {
 			newtask.setTaskName(task.getTaskName());
 			newtask.setDescription(task.getDescription());
 			newtask.setPriority(task.getPriority());
+			
 			newtask.setStatus(task.getStatus());
 //			newtask.setProject(task.getProject());	
 					

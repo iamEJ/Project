@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import axios from "axios";
 import DataTable from 'react-data-table-component';
+import { CSVLink } from "react-csv";
 
 class TaskList extends Component {
   constructor(props) {
@@ -32,11 +33,13 @@ class TaskList extends Component {
 
   render() {
 
+    const csvData = this.state.tasks;
+    
     const data = this.state.tasks;
     const columns = [
       {
         name: '#',
-        width:"50px",
+        width:"60px",
         selector:'id',
         sortable: true,
         cell: row => <div>{row.id}</div>,
@@ -125,9 +128,18 @@ class TaskList extends Component {
                     />
             <h5 className="container-fluid d-flex justify-content-right mt-2 ">
                <span className="badge badge-dark m-0 ">Number of tasks: {this.state.tasks.length}</span>
-            </h5>      
+            </h5>    
+            <CSVLink 
+                data={csvData} 
+                style={{width:"120px"}} 
+                className="btn btn-warning" 
+                filename={"tasksList.csv"}
+                title={"Download Tasks CSV"}
+                >Task CSV
+            </CSVLink>
               </div>
-
+           
+             
           </Card.Body>
 
           <div>                          

@@ -28,9 +28,9 @@ class ProjectItem extends Component {
       },
       newTaskModal:false,
       editTaskModal:false,
-      search:null,
+      search:"",
     };
-    
+  
   }
 
   componentDidMount() {
@@ -135,14 +135,17 @@ class ProjectItem extends Component {
     axios
         .post(`http://localhost:8080/api/projects/assign/${this.props.match.params.id}`, this.state.newTaskData)
         .then((res) =>{
+         
           let {tasks} = this.state;
           tasks.push(res.data);
+          
           this.setState({tasks, newTaskModal:false, newTaskData:{
             taskName: "",
             description: "",
             priority: "",
             status: "",
           }});
+          this._refreshTask();
        //  window.location.reload(false);
         });
   }
@@ -150,16 +153,27 @@ class ProjectItem extends Component {
   searchSpace=(event)=>{
     let keyword = event.target.value;
     this.setState({search:keyword})
+
   };
 
 
   render() {
 
-    const data = this.state.tasks;
+    const data = this.state.tasks.filter((e)=>{
+      try {      
+      if(this.state.search == "")
+          return e
+      else if((e.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || (e.status.toLowerCase().includes(this.state.search.toLowerCase())))){
+          return e
+      }}catch (error) {
+        console.log("Error - " + error);
+      }
+
+    });
     const columns = [
       {
         name: '#',
-        width:"50px",
+        width:"60px",
         selector:'id',
         sortable: true,
         cell: row => <div>{row.id}</div>,
@@ -247,7 +261,7 @@ class ProjectItem extends Component {
         <Card>
           <Card.Body>
             <Card.Title>{this.state.projectTitle}</Card.Title>
-            <Card.Text>{this.state.completeTasks === this.state.allTasks ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}</Card.Text>
+            <Card.Text>{this.state.completeTasks === this.state.tasks.length ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}</Card.Text>
             <Card.Text>{this.state.description}</Card.Text>
              
               <div className="container-fluid d-flex justify-content-left p-0 mb-2"> 
@@ -259,7 +273,7 @@ class ProjectItem extends Component {
                          onChange={(e)=>this.searchSpace(e)} 
                          />
                  <h5 className="container-fluid d-flex justify-content-right mt-2 ">
-                    <span className="badge badge-dark m-0 ">Number of tasks: {this.state.completeTasks}/{this.state.allTasks}</span>
+                    <span className="badge badge-dark m-0 ">Number of tasks: {this.state.completeTasks}/{this.state.tasks.length}</span>
                  </h5>      
                    </div>
           
@@ -355,7 +369,7 @@ class ProjectItem extends Component {
                     <option></option>
                     <option>todo</option>
                     <option>in_progress</option>
-                    <option>done</option>
+                  
                   </Form.Control>
                 </Form.Group>
             
@@ -481,13 +495,7 @@ class ProjectItem extends Component {
             <DataTable
                 title="The list of Tasks"
                 columns={columns}
-                data={data.filter((e)=>{
-                  if(this.state.search == null)
-                      return e
-                  else if((e.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || (e.status.toLowerCase().includes(this.state.search.toLowerCase())))){
-                      return e
-                  }
-                })}
+                data={data}
                 highlightOnHover
                 pagination
                 paginationPerPage={5}

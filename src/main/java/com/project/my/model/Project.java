@@ -118,8 +118,8 @@ public class Project {
 	}
 
 
-	public List<Task>  getAllTasks() {
-		return allTasks;
+	public int  getAllTasks() {
+		return allTasks.size();
 	}
 	
 
