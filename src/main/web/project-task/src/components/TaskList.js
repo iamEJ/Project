@@ -15,10 +15,10 @@ class TaskList extends Component {
   }
 
   componentDidMount() {
-    this.findAllProjects();
+    this.findAllTasks();
   }
 
-  findAllProjects = () => {
+  findAllTasks = () => {
     axios
       .get("http://localhost:8080/api/tasks")
       .then(res => 

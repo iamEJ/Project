@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Card, Table,Button,Modal , Form} from "react-bootstrap";
+import { Card, Table,Button,Modal , Form, Accordion} from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTrash, faEdit,faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MyToast from "./MyToast";
 import DataTable from 'react-data-table-component';
@@ -161,7 +161,7 @@ class ProjectItem extends Component {
 
     const data = this.state.tasks.filter((e)=>{
       try {      
-      if(this.state.search == "")
+      if(this.state.search === "")
           return e
       else if((e.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || (e.status.toLowerCase().includes(this.state.search.toLowerCase())))){
           return e
@@ -247,6 +247,7 @@ class ProjectItem extends Component {
       },
     ];
 
+
     return (
       <div className="container-fluid mt-2" style={{width:"75%"}}>
          <div
@@ -281,9 +282,10 @@ class ProjectItem extends Component {
             <Link to={"/projects"} className="btn btn-info mr-2">
               <FontAwesomeIcon icon={faArrowLeft} /> Back
             </Link>
-            <Button variant="primary" onClick={this.toggleNewTaskModal.bind(this)}>
+            <Button variant="primary" className="mr-2" onClick={this.toggleNewTaskModal.bind(this)}>
                 Add Task
               </Button>
+
             <>
              
 
@@ -503,6 +505,89 @@ class ProjectItem extends Component {
                 conditionalRowStyles={conditionalRowStyles}
              />
           </div>
+            <>
+            <Accordion defaultActiveKey="1">
+                <Card>
+                  <Card.Header className="text-center">
+                    <Accordion.Toggle  variant="link" eventKey="0" className="btn bg-dark text-white">
+                      Tasks Board     <FontAwesomeIcon icon={faSortDown} />         
+                    </Accordion.Toggle>
+                    
+                  </Card.Header>
+                 
+                  <Accordion.Collapse eventKey="0">
+                    <Card.Body>
+                    <div className="container">
+                
+                <br />
+                <hr />
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="card text-center mb-2">
+                        <div className="btn bg-secondary text-white" style={{cursor:"default"}}>
+                          <h4 className=" font-weight-light">To Do</h4>
+                        </div>
+                      </div>                 
+                            {this.state.tasks.map((task) => {
+                              if(task.status === "todo"){
+                                return(
+                                  <Card key={task.id}
+                                style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
+                                  
+                                <p style={{color:"#878787", fontSize:"20px"}} className="text-left pt-2 pl-2 text-capitalize">{task.id}.{" "}{task.taskName}</p>
+                                </Card>
+                                )                        
+                              }
+                            })}
+                             
+                    </div>
+                    <div className="col-md-4">
+                      <div className="card text-center mb-2">
+                        <div className="btn bg-info text-white" style={{cursor:"default"}} >
+                          <h4 className=" font-weight-light">In Progress</h4>
+                        </div>
+                      </div>                 
+                           {this.state.tasks.map((task) => {
+                                if(task.status === "in_progress"){
+                                  return(
+                                    <Card key={task.id}
+                                  style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
+                                    
+                                  <p style={{fontSize:"20px"}} className="text-left pt-2 pl-2 text-info text-capitalize">{task.id}.{" "}{task.taskName}</p>
+                                  </Card>
+                                  )                        
+                                }
+                            })}
+                    </div>
+                    <div className="col-md-4">
+                      <div className="card text-center mb-2">
+                        <div className="btn bg-success text-white font-weight-light" style={{cursor:"default"}}>
+                          <h4 className=" font-weight-light">Done</h4>
+                        </div>
+                      </div>
+                            {this.state.tasks.map((task) => {
+                                    if(task.status === "done"){
+                                      return(
+                                        <Card key={task.id}
+                                      style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
+                                        
+                                      <p style={{fontSize:"20px"}} className="text-left pt-2 pl-2 text-capitalize text-success">{task.id}.{" "}{task.taskName}</p>
+                                      </Card>
+                                      )                        
+                                    }
+                            })}
+                    </div>
+                  </div>
+                </div>
+                    </div>
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+
+              </Accordion>
+            </>
+      
         </Card>
       </div>
     );
