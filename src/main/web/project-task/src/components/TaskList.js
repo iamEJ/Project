@@ -45,7 +45,7 @@ class TaskList extends Component {
         cell: row => <div>{row.id}</div>,
       },
       {
-        name: 'TaskName',
+        name: 'Task Name',
         width:"140px",
         selector:'taskName',
         sortable: true,

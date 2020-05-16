@@ -148,7 +148,7 @@ class ProjectList extends Component {
                                 className="btn btn-info mt-2"
                                 style={{fontSize:"12px"}}
                                 title="Delete"
-                                onClick={this.deleteProject.bind(this, project.id)}
+                                onClick={() => { if (window.confirm('Are you sure you wish to delete this project?')) {this.deleteProject.bind(this, project.id)}}}
                               >
                                 <FontAwesomeIcon icon={faTrash} />
                               </Button>{" "}

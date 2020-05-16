@@ -6,6 +6,8 @@ import { faArrowLeft, faTrash, faEdit,faSortDown } from "@fortawesome/free-solid
 import { Link } from "react-router-dom";
 import MyToast from "./MyToast";
 import DataTable from 'react-data-table-component';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 class ProjectItem extends Component {
   constructor(props) {
@@ -155,6 +157,7 @@ class ProjectItem extends Component {
     this.setState({search:keyword})
 
   };
+  
 
 
   render() {
@@ -223,13 +226,14 @@ class ProjectItem extends Component {
         name: 'Action',
         width:"120px",
         cell: row =><div>
-        <Button variant="info"
+        <Button variant="info" title="Edit"
           onClick={this.editTask.bind(this,row.id, row.taskName, row.description, row.priority, row.status)}
         >
         <FontAwesomeIcon icon={faEdit} />
       </Button>{" "}
-      <Button variant="danger"
-          onClick={this.deleteTask.bind(this, row.id)}
+      <Button variant="danger" title="Delete"
+         // onClick={this.deleteTask.bind(this, row.id)}
+         onClick={() => { if (window.confirm('Are you sure you wish to delete this task?')) {this.deleteTask( row.id)} } }
       >
         <FontAwesomeIcon icon={faTrash} />
       </Button>
@@ -246,6 +250,9 @@ class ProjectItem extends Component {
         },
       },
     ];
+
+    
+
 
 
     return (
@@ -285,6 +292,9 @@ class ProjectItem extends Component {
             <Button variant="primary" className="mr-2" onClick={this.toggleNewTaskModal.bind(this)}>
                 Add Task
               </Button>
+              <Link to={`/projects/${this.props.match.params.id}/taskbord`} className="btn btn-warning mr-2">
+               Task Board
+            </Link>
 
             <>
              
@@ -504,96 +514,13 @@ class ProjectItem extends Component {
                 paginationRowsPerPageOptions={[5,10, 15, 20, 25, 30]}
                 conditionalRowStyles={conditionalRowStyles}
              />
-          </div>
-            <>
-            <Accordion defaultActiveKey="1">
-                <Card>
-                  <Card.Header className="text-center">
-                    <Accordion.Toggle  variant="link" eventKey="0" className="btn bg-dark text-white">
-                      Tasks Board     <FontAwesomeIcon icon={faSortDown} />         
-                    </Accordion.Toggle>
-                    
-                  </Card.Header>
-                 
-                  <Accordion.Collapse eventKey="0">
-                    <Card.Body>
-                    <div className="container">
-                
-                <br />
-                <hr />
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="card text-center mb-2">
-                        <div className="btn bg-secondary text-white" style={{cursor:"default"}}>
-                          <h4 className=" font-weight-light">To Do</h4>
-                        </div>
-                      </div>                 
-                            {this.state.tasks.map((task) => {
-                              if(task.status === "todo"){
-                                return(
-                                  <Card key={task.id}
-                                style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
-                                  
-                                <p style={{color:"#878787", fontSize:"20px"}} className="text-left pt-2 pl-2 text-capitalize">{task.id}.{" "}{task.taskName}</p>
-                                </Card>
-                                )                        
-                              }
-                            })}
-                             
-                    </div>
-                    <div className="col-md-4">
-                      <div className="card text-center mb-2">
-                        <div className="btn bg-info text-white" style={{cursor:"default"}} >
-                          <h4 className=" font-weight-light">In Progress</h4>
-                        </div>
-                      </div>                 
-                           {this.state.tasks.map((task) => {
-                                if(task.status === "in_progress"){
-                                  return(
-                                    <Card key={task.id}
-                                  style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
-                                    
-                                  <p style={{fontSize:"20px"}} className="text-left pt-2 pl-2 text-info text-capitalize">{task.id}.{" "}{task.taskName}</p>
-                                  </Card>
-                                  )                        
-                                }
-                            })}
-                    </div>
-                    <div className="col-md-4">
-                      <div className="card text-center mb-2">
-                        <div className="btn bg-success text-white font-weight-light" style={{cursor:"default"}}>
-                          <h4 className=" font-weight-light">Done</h4>
-                        </div>
-                      </div>
-                            {this.state.tasks.map((task) => {
-                                    if(task.status === "done"){
-                                      return(
-                                        <Card key={task.id}
-                                      style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
-                                        
-                                      <p style={{fontSize:"20px"}} className="text-left pt-2 pl-2 text-capitalize text-success">{task.id}.{" "}{task.taskName}</p>
-                                      </Card>
-                                      )                        
-                                    }
-                            })}
-                    </div>
-                  </div>
-                </div>
-                    </div>
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
-
-              </Accordion>
-            </>
-      
+          </div>      
         </Card>
       </div>
-    );
-
-    
+    );  
   }
+
+  
 }
 
 export default ProjectItem;

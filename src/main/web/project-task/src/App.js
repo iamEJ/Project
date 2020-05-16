@@ -9,6 +9,7 @@ import ProjectItem from "./components/ProjectItem";
 
 import TaskList from "./components/TaskList";
 import HomeJumbo from "./components/HomeJumbo";
+import TaskBord from "./components/TaskBord";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact key="projects" path="/projects" component={ProjectList} />
         <Route path="/projects/:id" exact component={ProjectItem} />        
         <Route path="/tasks" exact component={TaskList} />
+        <Route path="/projects/:id/taskbord" exact component={TaskBord} />
       </Switch>
     </Router>
   );
