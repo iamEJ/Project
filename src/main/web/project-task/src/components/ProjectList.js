@@ -137,7 +137,7 @@ class ProjectList extends Component {
                         <div style={{float:"right",width:"140px"}}> 
                                 <Link
                                 to={"edit/" + project.id}
-                                className="btn btn-secondary mr-1 mt-2 "
+                                className="btn btn-info mr-1 mt-2 "
                                 title="Edit"
                                 style={{fontSize:"12px", width:"36px"}}
                               >
@@ -148,13 +148,15 @@ class ProjectList extends Component {
                                 className="btn btn-info mt-2"
                                 style={{fontSize:"12px"}}
                                 title="Delete"
-                                onClick={() => { if (window.confirm('Are you sure you wish to delete this project?')) {this.deleteProject.bind(this, project.id)}}}
+                                //onClick= {this.deleteProject.bind(this, project.id)}
+                                onClick={() => { if (window.confirm('Are you sure you wish to delete this project?')) {this.deleteProject( project.id)}} }
+                               
                               >
                                 <FontAwesomeIcon icon={faTrash} />
                               </Button>{" "}
                               <Link
                                 to={"projects/" + project.id}
-                                className="btn btn-info mr-1 mt-2"
+                                className="btn btn-secondary mr-1 mt-2"
                                 title="View"
                                 style={{fontSize:"12px"}}
                               >

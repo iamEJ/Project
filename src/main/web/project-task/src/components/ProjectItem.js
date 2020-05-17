@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { Card, Table,Button,Modal , Form, Accordion} from "react-bootstrap";
+import { Card, Button,Modal , Form} from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faTrash, faEdit,faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MyToast from "./MyToast";
 import DataTable from 'react-data-table-component';
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 
 class ProjectItem extends Component {
   constructor(props) {
@@ -30,6 +29,7 @@ class ProjectItem extends Component {
       },
       newTaskModal:false,
       editTaskModal:false,
+      deleteTaskModal:false,
       search:"",
     };
   
@@ -58,43 +58,27 @@ class ProjectItem extends Component {
   }
 
 
-  deleteTask = (taskId) => {
-    axios.delete( `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/`+ taskId).then((res) => {
-      if (res.data != null) {
-        this.setState({ show: true });
-        setTimeout(() => this.setState({ show: false }), 3000);
-
-        this.setState({
-          tasks: this.state.tasks.filter((task) => task.id !== taskId),
-        });
-      } else {
-        this.setState({ show: false });
-      }
-    });
-  };
-
-  editTask = (id, taskName, description, priority, status) =>{
-    this.setState({
-      editTaskData: {id, taskName, description, priority, status}, editTaskModal: !this.state.newTaskModal
-    });
-  }
-
+  ////////////////Toggle New/Edi/Delete Task//////////////////////
 
   toggleNewTaskModal = () =>{
-
     this.setState({
       newTaskModal: !this.state.newTaskModal
     })
-
-  }
+  };
 
   toggleEditTaskModal = () =>{
-
     this.setState({
       editTaskModal: !this.state.editTaskModal
     })
+  };
 
-  }
+  toggleDeleteTaskModal = () =>{
+    this.setState({
+      deleteTaskModal: !this.state.deleteTaskModal
+    })
+  };
+
+  ////////////////UPDATE TASK//////////////////////
 
   updateTask(){
 
@@ -132,6 +116,9 @@ class ProjectItem extends Component {
       });
   }
 
+
+  ////////////////ADD TASK//////////////////////
+
   addTask(){
    
     axios
@@ -152,13 +139,46 @@ class ProjectItem extends Component {
         });
   }
 
+    ////////////////DELETE TASK//////////////////////
+
+
+    deleteTask = (taskId) => {
+
+      
+        axios.delete( `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/`+ taskId).then((res) => {
+  
+   
+          if (res.data != null) {
+            this.setState({ show: true });
+            setTimeout(() => this.setState({ show: false }), 3000);
+    
+            this.setState({
+              tasks: this.state.tasks.filter((task) => task.id !== taskId),
+            });
+          } else {
+            this.setState({ show: false });
+          }
+        });
+
+      
+     
+
+    };
+  
+    editTask = (id, taskName, description, priority, status) =>{
+      this.setState({
+        editTaskData: {id, taskName, description, priority, status}, editTaskModal: !this.state.newTaskModal
+      });
+    }
+  
+
+  ////////////////SEARCH TASK//////////////////////
+
   searchSpace=(event)=>{
     let keyword = event.target.value;
     this.setState({search:keyword})
 
   };
-  
-
 
   render() {
 
@@ -179,18 +199,21 @@ class ProjectItem extends Component {
         width:"60px",
         selector:'id',
         sortable: true,
+        
         cell: row => <div>{row.id}</div>,
       },
       {
         name: 'TaskName',
-        width:"140px",
+        width:"160px",
         selector:'taskName',
         sortable: true,
+        
         cell: row => <div>{row.taskName}</div>,
       },
       {
         name: 'Description',
         selector: 'description',
+        width:"385px",
         sortable: true,
         cell: row =><div>{row.description}</div>,
       },
@@ -229,12 +252,15 @@ class ProjectItem extends Component {
         <Button variant="info" title="Edit"
           onClick={this.editTask.bind(this,row.id, row.taskName, row.description, row.priority, row.status)}
         >
-        <FontAwesomeIcon icon={faEdit} />
+        <FontAwesomeIcon icon={faPencilAlt} />
       </Button>{" "}
       <Button variant="danger" title="Delete"
-         // onClick={this.deleteTask.bind(this, row.id)}
+          //onClick={this.deleteTask.bind(this, row.id)}
          onClick={() => { if (window.confirm('Are you sure you wish to delete this task?')) {this.deleteTask( row.id)} } }
+       //onClick={this.toggleDeleteTaskModal.bind(this)}
+     
       >
+   
         <FontAwesomeIcon icon={faTrash} />
       </Button>
       </div>,
@@ -412,8 +438,8 @@ class ProjectItem extends Component {
                 <Form.Group controlId="formTaskName">
                   <Form.Label>Task Name</Form.Label>
                   <Form.Control
-                    autoComplete="off"
                     required
+                    autoComplete="off"                
                     type="text"
                     placeholder="Enter task name"
                     name="taskName"
@@ -509,12 +535,33 @@ class ProjectItem extends Component {
                 columns={columns}
                 data={data}
                 highlightOnHover
+                // defaultSortField="id"
+                // defaultSortAsc={false}
+                
                 pagination
+                allowOverflow
                 paginationPerPage={5}
                 paginationRowsPerPageOptions={[5,10, 15, 20, 25, 30]}
                 conditionalRowStyles={conditionalRowStyles}
              />
-          </div>      
+          </div> 
+
+          {/* ///////////////DELETE MODAL /////////////// */}
+
+          <Modal show={this.state.deleteTaskModal} onHide={this.toggleDeleteTaskModal.bind(this)}>
+              <Modal.Header closeButton>
+                <Modal.Title>Deleting Task</Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+                <p>Do you want to delete task?</p>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button variant="secondary" onClick={this.toggleDeleteTaskModal.bind(this)}>Close</Button>
+                <Button variant="danger" onClick={this.deleteTask.bind(this)}>Delete</Button>
+              </Modal.Footer>
+          </Modal>     
         </Card>
       </div>
     );  

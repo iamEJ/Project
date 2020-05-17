@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import axios from "axios";
 import DataTable from 'react-data-table-component';
 import { CSVLink } from "react-csv";
@@ -149,7 +149,7 @@ class TaskList extends Component {
                 data={data.filter((e)=>{
                   if(this.state.search == null)
                       return e
-                  else if((e.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || (e.status.toLowerCase().includes(this.state.search.toLowerCase())))){
+                  else if((e.taskName.toLowerCase().includes(this.state.search.toLowerCase()) || (e.projectName.toLowerCase().includes(this.state.search.toLowerCase())))){
                       return e
                   }
                 })}
