@@ -72,9 +72,10 @@ class ProjectItem extends Component {
     })
   };
 
-  toggleDeleteTaskModal = () =>{
+  toggleDeleteTaskModal = (rowId) =>{
     this.setState({
-      deleteTaskModal: !this.state.deleteTaskModal
+      deleteTaskModal: !this.state.deleteTaskModal,
+      tmpId: rowId,
     })
   };
 
@@ -145,22 +146,25 @@ class ProjectItem extends Component {
     deleteTask = (taskId) => {
 
       
-        axios.delete( `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/`+ taskId).then((res) => {
-  
+        axios.delete( `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/${this.state.tmpId}`).then( res => {
+  console.log(res)
    
           if (res.data != null) {
             this.setState({ show: true });
             setTimeout(() => this.setState({ show: false }), 3000);
     
             this.setState({
+              deleteTaskModal:false,
               tasks: this.state.tasks.filter((task) => task.id !== taskId),
             });
           } else {
             this.setState({ show: false });
           }
-        });
 
-      
+          this._refreshTask();
+        })
+
+        
      
 
     };
@@ -193,6 +197,7 @@ class ProjectItem extends Component {
       }
 
     });
+    let number = 1;
     const columns = [
       {
         name: '#',
@@ -200,7 +205,7 @@ class ProjectItem extends Component {
         selector:'id',
         sortable: true,
         
-        cell: row => <div>{row.id}</div>,
+        cell: row => <div>{number++}</div>,
       },
       {
         name: 'TaskName',
@@ -256,8 +261,8 @@ class ProjectItem extends Component {
       </Button>{" "}
       <Button variant="danger" title="Delete"
           //onClick={this.deleteTask.bind(this, row.id)}
-         onClick={() => { if (window.confirm('Are you sure you wish to delete this task?')) {this.deleteTask( row.id)} } }
-       //onClick={this.toggleDeleteTaskModal.bind(this)}
+        //  onClick={() => { if (window.confirm('Are you sure you wish to delete this task?')) {this.deleteTask( row.id)} } }
+       onClick={this.toggleDeleteTaskModal.bind(this, row.id)}
      
       >
    
@@ -302,7 +307,7 @@ class ProjectItem extends Component {
                          
                          <input type="text" 
                          className="form-control border border-dark mainLoginInput" 
-                         placeholder="&#61442; Search"  
+                         placeholder="&#61442; Search for Task"  
                          style={{width:"300px"}} 
                          onChange={(e)=>this.searchSpace(e)} 
                          />
@@ -535,8 +540,8 @@ class ProjectItem extends Component {
                 columns={columns}
                 data={data}
                 highlightOnHover
-                // defaultSortField="id"
-                // defaultSortAsc={false}
+                 defaultSortField="id"
+                defaultSortAsc={false}
                 
                 pagination
                 allowOverflow

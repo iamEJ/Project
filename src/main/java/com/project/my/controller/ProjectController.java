@@ -27,92 +27,89 @@ import com.project.my.service.TaskServiceInterface;
 
 @RestController
 @RequestMapping(path = "api/projects")
-@CrossOrigin(origins ="http://localhost:3000")
-public class ProjectController {
+@CrossOrigin(origins = "http://localhost:3000")
+public class ProjectController 
+{
 	@Autowired
 	private ProjectServiceInterface projectService;
 
 	@Autowired
 	private TaskServiceInterface taskService;
-	
-	
+
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<Project> getProjects(){
+	public List<Project> getProjects() 
+	{
 		return projectService.getProjects();
 	}
-	
-	 @GetMapping("/{id}")
-	 @ResponseStatus(HttpStatus.OK)
-	 	public Optional<Project> getProject(@Valid @PathVariable Long id) {
+
+	@GetMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public Optional<Project> getProject(@Valid @PathVariable Long id) {
 		return projectService.getProjetc(id);
 	}
-	 
-	 @GetMapping("/projectTitle/{projectTitle}")
-	 @ResponseStatus(HttpStatus.OK)
-	 public Project findByProjectName(@Valid @PathVariable String projectTitle) {
+
+	@GetMapping("/projectTitle/{projectTitle}")
+	@ResponseStatus(HttpStatus.OK)
+	public Project findByProjectName(@Valid @PathVariable String projectTitle) {
 		return projectService.findByProjectTitle(projectTitle);
-	 }
-	 
-	@DeleteMapping("/{projectId}/tasks/{id}")	
+	}
+
+	@DeleteMapping("/{projectId}/tasks/{id}")
 	public void findTaskByProjectId(@PathVariable Long id, @PathVariable Long projectId) {
-		
-		
+
+	
 		taskService.deleteTaskById(id);
 	}
-	
-	
+
 	@GetMapping("/{projectId}/tasks/{tid}")
 	@ResponseStatus(HttpStatus.OK)
 	public Task getTaskByProjectId(@Valid @PathVariable Long tid) {
 		return taskService.findTaskById(tid);
 	}
-	
+
 	/// Update task
 	@PutMapping("/{projectId}/tasks/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void updateProject(@Valid @RequestBody Task newTask, @PathVariable Long id) {
 		taskService.updateTask(id, newTask);
 	}
-	 
-	/// Find all tasks by project id 
+
+	/// Find all tasks by project id
 	@GetMapping("/{id}/tasks")
 	@ResponseStatus(HttpStatus.OK)
-	public List<Task> getProjectsTask(@Valid @PathVariable Long id){
-			return taskService.findByProjectId(id);
+	public List<Task> getProjectsTask(@Valid @PathVariable Long id) {
+		return taskService.findByProjectId(id);
 	}
-	
-	
-	//Creating task in projects found by id
+
+	// Creating task in projects found by id
 //	@PostMapping("/{id}")
 //	@ResponseStatus(HttpStatus.CREATED)	
 //	public void createTaskByProjectId(@Valid @PathVariable Long id, @RequestBody Task task ) {
 //		//projectService.createTaskByProjectId(id, task);
 //		projectService.createTaskAndAssignToProject(task, id);
 //	}
-	
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createProject(@Valid @RequestBody Project projectData) {
 		projectService.createProject(projectData);
 	}
-	
+
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void updateProject(@Valid @RequestBody Project newProject, @PathVariable Long id) {
 		projectService.updateProject(id, newProject);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteProject(@Valid @PathVariable Long id) {
 		projectService.deleteProjectById(id);
 	}
-	
-    @PostMapping("/assign/{id}")
-    public void addTaskToProject(@PathVariable Long id ,@RequestBody  @Valid Task task){
-    	projectService.createTaskAndAssignToProject(task, id);
-    }
 
+	@PostMapping("/assign/{id}")
+	public void addTaskToProject(@PathVariable Long id, @RequestBody @Valid Task task) {
+		projectService.createTaskAndAssignToProject(task, id);
+	}
 }

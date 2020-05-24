@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.my.model.Project;
@@ -31,7 +32,7 @@ public class ProjectService implements ProjectServiceInterface {
 	
 	@Override
 	public List<Project> getProjects() {
-        return (List<Project>)projectRepo.findAll();
+        return (List<Project>)projectRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 	
 	@Override

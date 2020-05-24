@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Button  } from "react-bootstrap";
+import { Card, Button, Modal  } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
@@ -19,9 +19,18 @@ class ProjectList extends Component {
     super(props);
     this.state = {
       projects: [],
-      search:null
+      search:null,
+      deleteProjectModal:false,
     };
   }
+
+
+  toggleDeleteProjectModal = (rowId) =>{
+    this.setState({
+      deleteProjectModal: !this.state.deleteProjectModal,
+      tmpId: rowId,
+    })
+  };
 
 
 
@@ -42,13 +51,14 @@ class ProjectList extends Component {
 
   deleteProject = (projectId) => {
     axios
-      .delete("http://localhost:8080/api/projects/" + projectId)
+      .delete(`http://localhost:8080/api/projects/${this.state.tmpId}`)
       .then((res) => {
         if (res.data != null) {
           this.setState({ show: true });
           setTimeout(() => this.setState({ show: false }), 3000);
 
           this.setState({
+            deleteProjectModal:false,
             projects: this.state.projects.filter(
               (project) => project.id !== projectId
             ),
@@ -56,6 +66,7 @@ class ProjectList extends Component {
         } else {
           this.setState({ show: false });
         }
+        this.findAllProjects();
       });
   };
 
@@ -66,6 +77,22 @@ class ProjectList extends Component {
 
     return (
       <div className="container">
+                {/* ///////////////DELETE MODAL /////////////// */}
+
+                    <Modal show={this.state.deleteProjectModal} onHide={this.toggleDeleteProjectModal.bind(this)} styles={{ overlay: { background: "#FFFF00" } }}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Deleting Project</Modal.Title>
+                      </Modal.Header>
+
+                      <Modal.Body>
+                        <p>Do you want to delete project?</p>
+                      </Modal.Body>
+
+                      <Modal.Footer>
+                        <Button variant="secondary" onClick={this.toggleDeleteProjectModal.bind(this)}>Close</Button>
+                        <Button variant="danger" onClick={this.deleteProject.bind(this)}>Delete</Button>
+                      </Modal.Footer>
+                  </Modal>   
         <div className="mt-4  mb-2 d-flex justify-content-center text-center " style={{fontFamily:"Lucida Sans Unicode, Lucida Grande, sans-serif"}}>
           <h2>
             The number of projects:{" "}
@@ -93,7 +120,7 @@ class ProjectList extends Component {
               <div className="container-fluid d-flex justify-content-center mb-4">            
                     <input type="text" 
                     className="form-control border border-dark mainLoginInput" 
-                    placeholder="&#61442; Search"  
+                    placeholder="&#61442; Search for Project"  
                     style={{width:"260px"}} 
                     onChange={(e)=>this.searchSpace(e)} 
                     />
@@ -148,9 +175,9 @@ class ProjectList extends Component {
                                 className="btn btn-info mt-2"
                                 style={{fontSize:"12px"}}
                                 title="Delete"
-                                //onClick= {this.deleteProject.bind(this, project.id)}
-                                onClick={() => { if (window.confirm('Are you sure you wish to delete this project?')) {this.deleteProject( project.id)}} }
-                               
+                               // onClick= {this.deleteProject.bind(this, project.id)}
+                                //onClick={() => { if (window.confirm('Are you sure you wish to delete this project?')) {this.deleteProject( project.id)}} }
+                                onClick={this.toggleDeleteProjectModal.bind(this, project.id)}
                               >
                                 <FontAwesomeIcon icon={faTrash} />
                               </Button>{" "}
@@ -180,7 +207,7 @@ class ProjectList extends Component {
                     <p style={{color:"#878787",marginLeft:"10px"}}>{project.description}</p>
                   
                 
-                 
+  
         
                 </Card>
            
@@ -190,6 +217,8 @@ class ProjectList extends Component {
       </div>
     );
   }
+
+  
 
 }
 export default ProjectList;

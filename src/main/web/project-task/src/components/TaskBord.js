@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button,Modal , Form, Accordion} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faPencilAlt,faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faPencilAlt,faSortDown,faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import cx from "classnames";
@@ -21,6 +21,7 @@ export default class TaskBord extends Component {
         status: "",
       },
       editTaskModal:false,
+      deleteTaskModal:false,
       
     };
   
@@ -38,7 +39,14 @@ export default class TaskBord extends Component {
       editTaskModal: !this.state.editTaskModal
     })
 
-  }
+  };
+
+  toggleDeleteTaskModal = (rowId) =>{
+    this.setState({
+      deleteTaskModal: !this.state.deleteTaskModal,
+      tmpId: rowId,
+    })
+  };
 
   updateTask(){
 
@@ -60,6 +68,32 @@ export default class TaskBord extends Component {
       }})
     });
   }
+
+  deleteTask = (taskId) => {
+
+      
+    axios.delete( `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/${this.state.tmpId}`).then( res => {
+console.log(res)
+
+      if (res.data != null) {
+        this.setState({ show: true });
+        setTimeout(() => this.setState({ show: false }), 3000);
+
+        this.setState({
+          deleteTaskModal:false,
+          tasks: this.state.tasks.filter((task) => task.id !== taskId),
+        });
+      } else {
+        this.setState({ show: false });
+      }
+
+      this._refreshTask();
+    })
+
+    
+ 
+
+};
 
 
   componentDidMount() {
@@ -88,6 +122,23 @@ export default class TaskBord extends Component {
         return (
             <div>
              <>  
+
+             {/* ///////////////DELETE MODAL /////////////// */}
+
+          <Modal show={this.state.deleteTaskModal} onHide={this.toggleDeleteTaskModal.bind(this)}>
+              <Modal.Header closeButton>
+                <Modal.Title>Deleting Task</Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+                <p>Do you want to delete task?</p>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button variant="secondary" onClick={this.toggleDeleteTaskModal.bind(this)}>Close</Button>
+                <Button variant="danger" onClick={this.deleteTask.bind(this)}>Delete</Button>
+              </Modal.Footer>
+          </Modal>     
             <Modal show={this.state.editTaskModal} onHide={this.toggleEditTaskModal.bind(this)}>
                 <Modal.Header closeButton>
                   <Modal.Title>Edit new Task</Modal.Title>
@@ -224,6 +275,7 @@ export default class TaskBord extends Component {
                                           <Accordion.Toggle as={Button} variant="link" eventKey="1" className="text-secondary text-capitalize ">
                                             {task.taskName}{" "} <FontAwesomeIcon icon={faSortDown} />
                                           </Accordion.Toggle>
+                                      
                                           <div className="btn bg-info " style={{width:"50px",borderRadius:"0", height:"50px", color:"#fff"}} title="Edit"
                                              onClick={this.editTask.bind(this,task.id, task.taskName, task.description, task.priority, task.status)}
                                                > 
@@ -249,9 +301,22 @@ export default class TaskBord extends Component {
                                               
                                             </p>
                                              <p><span className="font-weight-bold">Description: </span>{task.description}</p>
-                                            
+
+                                             <br />
+                                             <hr />
+                                          <div className="d-flex justify-content-end">
+                                          <Button variant="danger" size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
+                                              Delete
+                                            </Button>
+                                          </div>
+                                           
+                                          
                                           </Card.Body>
+                                          
+                                         
+                                            
                                         </Accordion.Collapse>
+                                      
                                       </Card>
                                     </Accordion>
                                   
@@ -306,6 +371,14 @@ export default class TaskBord extends Component {
                                               
                                             </p>
                                              <p><span className="font-weight-bold">Description: </span>{task.description}</p>
+                                             <br />
+                                             <hr />
+                                             <div className="d-flex justify-content-end">
+                                               
+                                          <Button variant="danger" size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
+                                              Delete
+                                            </Button>
+                                          </div>
                                           </Card.Body>
                                         </Accordion.Collapse>
                                       </Card>
@@ -360,6 +433,14 @@ export default class TaskBord extends Component {
                                               
                                             </p>
                                              <p><span className="font-weight-bold">Description: </span>{task.description}</p>
+                                             <br />
+                                             <hr />
+                                             <div className="d-flex justify-content-end">
+                                            
+                                          <Button variant="danger" size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
+                                              Delete
+                                            </Button>
+                                          </div>
                                           </Card.Body>
                                         </Accordion.Collapse>
                                       </Card>

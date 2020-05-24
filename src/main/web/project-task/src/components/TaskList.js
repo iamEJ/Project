@@ -122,7 +122,7 @@ class TaskList extends Component {
                          
                     <input type="text" 
                     className="form-control border border-dark mainLoginInput" 
-                    placeholder="&#61442; Search"  
+                    placeholder="&#61442; Search for Task"  
                     style={{width:"300px"}} 
                     onChange={(e)=>this.searchSpace(e)} 
                     />
