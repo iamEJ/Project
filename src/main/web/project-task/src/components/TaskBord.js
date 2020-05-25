@@ -126,7 +126,7 @@ console.log(res)
              {/* ///////////////DELETE MODAL /////////////// */}
 
              <Modal show={this.state.deleteTaskModal} onHide={this.toggleDeleteTaskModal.bind(this)}>
-              <Modal.Header closeButton>
+              <Modal.Header closeButton style={{background:"#fef8f5"}}>
                 <Modal.Title style={{color:"#4e4039"}}>Deleting Task</Modal.Title>
               </Modal.Header>
 
@@ -139,7 +139,7 @@ console.log(res)
                 <Button style={{background:"#4e4039",border:"1px solid #4e4039"}} onClick={this.toggleDeleteTaskModal.bind(this)}>Close</Button>              
               </Modal.Footer>
           </Modal>    
-            <Modal show={this.state.editTaskModal} onHide={this.toggleEditTaskModal.bind(this)}>
+            <Modal show={this.state.editTaskModal} onHide={this.toggleEditTaskModal.bind(this)} style={{borderRadius:"none",color:"#4e4039"}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Edit new Task</Modal.Title>
                 </Modal.Header>
@@ -188,7 +188,7 @@ console.log(res)
                     as="select"
                     custom
                     name="priority"
-                  
+                    className="form-control"
                    value={this.state.editTaskData.priority}
                    onChange={(e) =>{
                      let {editTaskData} = this.state;
@@ -209,7 +209,7 @@ console.log(res)
                     as="select"
                     custom
                     name="status"
-                   
+                    className="form-control"
                    value={this.state.editTaskData.status}
                    onChange={(e) =>{
                      let {editTaskData} = this.state;
@@ -229,19 +229,19 @@ console.log(res)
 
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={this.toggleEditTaskModal.bind(this)}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={this.updateTask.bind(this)}>
+                <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} onClick={this.updateTask.bind(this)}>
                     Update Task
                   </Button>
+                  <Button style={{background:"#4e4039",border:"1px solid #4e4039"}} onClick={this.toggleEditTaskModal.bind(this)}>
+                    Close
+                  </Button>                 
                 </Modal.Footer>
               </Modal>
             </>      
               
                 <Card>
-                  <Card.Header className="text-left ">
-                  <Link to={`/projects/${this.props.match.params.id}`} className="btn btn-info"> 
+                  <Card.Header className="text-left " style={{background:"#fef8f5"}}>
+                  <Link to={`/projects/${this.props.match.params.id}`} className="btn text-white" style={{background:"#4e4039",border:"1px solid #4e4039"}}> 
                       <FontAwesomeIcon icon={faArrowLeft} /> Back
                   </Link>
                     
@@ -250,33 +250,33 @@ console.log(res)
                  
                     <Card.Body>
                     <div className="container">
-                  <h1 className="text-center mb-0 font-weight-light">Task Board</h1>
+                  <h1 className="text-center mb-0" style={{color:"#4e4039"}}>Task Board</h1>
+                
                 <br />
-                <hr />
                 <div className="container">
                   <div className="row">
                     <div className="col-md-4">
-                      <div className="card text-center mb-2">
-                        <div className="btn bg-secondary text-white" style={{cursor:"default"}}>
-                          <h4 className=" font-weight-light">To Do</h4>
+                      <div className="text-center mb-4">
+                        <div className="btn " style={{cursor:"default",borderBottom:"5px solid #eb5d1e",borderRadius:"0",width:"210px"}}>
+                          <h3 style={{color:"#4e4039"}}>To Do</h3>
                         </div>
                       </div>                 
                             {this.state.tasks.map((task) => {
                               if(task.status === "todo"){
                                 return(
                                   <Card key={task.id}
-                                style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
+                                style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",color:"#4e4039"}}>
                                   
                                  <Accordion defaultActiveKey="0">
                                       <Card style={{borderRadius:"0"}}>
                                     
-                                        <Card.Header className="p-0 d-flex justify-content-between " >
+                                        <Card.Header className="p-0 d-flex justify-content-between "  style={{background:"#fff"}}>
                                        
-                                          <Accordion.Toggle as={Button} variant="link" eventKey="1" className="text-secondary text-capitalize ">
-                                            {task.taskName}{" "} <FontAwesomeIcon icon={faSortDown} />
+                                          <Accordion.Toggle as={Card.Header} eventKey="1" className="text-capitalize bg-white" style={{border:"none",cursor:"pointer"}}>
+                                            <h5 style={{color:"#4e4039"}} className="h5Hover">{task.taskName}{" "}<FontAwesomeIcon icon={faSortDown} /></h5> 
                                           </Accordion.Toggle>
                                       
-                                          <div className="btn bg-info " style={{width:"50px",borderRadius:"0", height:"50px", color:"#fff"}} title="Edit"
+                                          <div className="btn iconHover " style={{width:"50px",borderRadius:"0", height:"50px", color:"#fff"}} title="Edit"
                                              onClick={this.editTask.bind(this,task.id, task.taskName, task.description, task.priority, task.status)}
                                                > 
                                             <FontAwesomeIcon icon={faPencilAlt}  style={{marginTop:"10px"}}/>
@@ -286,12 +286,8 @@ console.log(res)
                                         <Accordion.Collapse eventKey="1">
                                           <Card.Body>
                                           <p style={{fontSize:"12px"}} >
-                                          <span className="font-weight-bold">Priority: </span>
-                                          <span className={cx("text-lowercase", "font-weight-bold", {
-                                                      "text-success ": task.priority === "low",
-                                                      "text-warning ": task.priority === "medium",
-                                                      "text-danger ": task.priority === "hight",
-                                          })}>{task.priority}</span>
+                                          <span className="font-weight-bold" >Priority: </span>
+                                          <span style={{color:"#eb5d1e"}} className="text-uppercase font-weight-bold">{task.priority}</span>
                                           </p>
                                             <p style={{fontSize:"12px"}}>
                                               <span className="font-weight-bold">Start: </span>{task.startDate}{" "}
@@ -305,7 +301,7 @@ console.log(res)
                                              <br />
                                              <hr />
                                           <div className="d-flex justify-content-end">
-                                          <Button variant="danger" size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
+                                          <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
                                               Delete
                                             </Button>
                                           </div>
@@ -327,26 +323,26 @@ console.log(res)
                              
                     </div>
                     <div className="col-md-4">
-                      <div className="card text-center mb-2">
-                        <div className="btn bg-info text-white" style={{cursor:"default"}} >
-                          <h4 className=" font-weight-light">In Progress</h4>
+                      <div className=" text-center mb-4">
+                        <div className="btn text-white" style={{cursor:"default",borderBottom:"5px solid #eb5d1e",borderRadius:"0",width:"100%"}} >
+                          <h3 style={{color:"#4e4039"}}>In Progress</h3>
                         </div>
                       </div>                 
                            {this.state.tasks.map((task) => {
                                 if(task.status === "in_progress"){
                                   return(
                                     <Card key={task.id}
-                                  style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
+                                  style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",color:"#4e4039"}}>
                                     
                                     <Accordion defaultActiveKey="0">
                                       <Card style={{borderRadius:"0"}}>
                                     
-                                        <Card.Header className="p-0 d-flex justify-content-between" >
+                                        <Card.Header className="p-0 d-flex justify-content-between bg-white" >
                                    
-                                          <Accordion.Toggle as={Button} variant="link" eventKey="1" className="text-secondary text-capitalize">
-                                            {task.taskName}{" "} <FontAwesomeIcon icon={faSortDown} />
+                                          <Accordion.Toggle as={Card.Header} eventKey="1" className="text-capitalize bg-white" style={{border:"none",cursor:"pointer"}}>
+                                          <h5 style={{color:"#4e4039"}} className="h5Hover">{task.taskName}{" "}<FontAwesomeIcon icon={faSortDown} /></h5> 
                                           </Accordion.Toggle>
-                                          <div className="btn bg-info" style={{width:"50px",borderRadius:"0", height:"50px", color:"#fff"}} title="Edit"
+                                          <div className="btn iconHover" style={{width:"50px",borderRadius:"0", height:"50px", color:"#fff"}} title="Edit"
                                              onClick={this.editTask.bind(this,task.id, task.taskName, task.description, task.priority, task.status)}
                                         > 
                                             <FontAwesomeIcon icon={faPencilAlt}  style={{marginTop:"10px"}}/>
@@ -357,11 +353,7 @@ console.log(res)
                                           <Card.Body>
                                           <p style={{fontSize:"12px"}} >
                                           <span className="font-weight-bold">Priority: </span>
-                                          <span className={cx("text-lowercase", "font-weight-bold", {
-                                                      "text-success ": task.priority === "low",
-                                                      "text-warning ": task.priority === "medium",
-                                                      "text-danger ": task.priority === "hight",
-                                          })}>{task.priority}</span>
+                                          <span style={{color:"#eb5d1e"}} className="text-uppercase font-weight-bold">{task.priority}</span>
                                           </p>
                                             <p style={{fontSize:"12px"}}>
                                               <span className="font-weight-bold">Start: </span>{task.startDate}{" "}
@@ -375,7 +367,7 @@ console.log(res)
                                              <hr />
                                              <div className="d-flex justify-content-end">
                                                
-                                          <Button variant="danger" size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
+                                          <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
                                               Delete
                                             </Button>
                                           </div>
@@ -390,25 +382,25 @@ console.log(res)
                             })}
                     </div>
                     <div className="col-md-4">
-                      <div className="card text-center mb-2">
-                        <div className="btn bg-success text-white font-weight-light" style={{cursor:"default"}}>
-                          <h4 className=" font-weight-light">Done</h4>
+                      <div className=" text-center mb-4">
+                        <div className="btn text-white " style={{cursor:"default",borderBottom:"5px solid #eb5d1e",borderRadius:"0",width:"210px"}}>
+                          <h3 style={{color:"#4e4039"}}>Done</h3>
                         </div>
                       </div>
                             {this.state.tasks.map((task) => {
                                     if(task.status === "done"){
                                       return(
                                         <Card key={task.id}
-                                      style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
+                                      style={{  width:"100%" , marginBottom:"14px",boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",color:"#4e4039"}}>
                               <Accordion defaultActiveKey="0">
                                       <Card style={{borderRadius:"0"}}>
                                     
-                                        <Card.Header className="p-0 d-flex justify-content-between" >
+                                        <Card.Header className="p-0 d-flex justify-content-between bg-white" >
                                        
-                                          <Accordion.Toggle as={Button} variant="link" eventKey="1" className="text-secondary text-capitalize">
-                                            {task.taskName}{" "} <FontAwesomeIcon icon={faSortDown} />
+                                          <Accordion.Toggle as={Card.Header} eventKey="1" className=" text-capitalize bg-white" style={{border:"none",cursor:"pointer"}}>
+                                          <h5 style={{color:"#4e4039"}} className="h5Hover">{task.taskName}{" "}<FontAwesomeIcon icon={faSortDown} /></h5> 
                                           </Accordion.Toggle>
-                                          <div className="btn bg-info" style={{width:"50px",borderRadius:"0", height:"50px", color:"#fff"}} title="Edit"
+                                          <div className="btn iconHover" style={{width:"50px",borderRadius:"0", height:"50px", color:"#fff"}} title="Edit"
                                              onClick={this.editTask.bind(this,task.id, task.taskName, task.description, task.priority, task.status)}
                                         > 
                                             <FontAwesomeIcon icon={faPencilAlt}  style={{marginTop:"10px"}}/>
@@ -419,11 +411,7 @@ console.log(res)
                                           <Card.Body>
                                           <p style={{fontSize:"12px"}} >
                                           <span className="font-weight-bold">Priority: </span>
-                                          <span className={cx("text-lowercase", "font-weight-bold", {
-                                                      "text-success ": task.priority === "low",
-                                                      "text-warning ": task.priority === "medium",
-                                                      "text-danger ": task.priority === "hight",
-                                          })}>{task.priority}</span>
+                                          <span style={{color:"#eb5d1e"}} className="text-uppercase font-weight-bold">{task.priority}</span>
                                           </p>
                                             <p style={{fontSize:"12px"}}>
                                               <span className="font-weight-bold">Start: </span>{task.startDate}{" "}
@@ -437,7 +425,7 @@ console.log(res)
                                              <hr />
                                              <div className="d-flex justify-content-end">
                                             
-                                          <Button variant="danger" size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
+                                          <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} size="sm" onClick={this.toggleDeleteTaskModal.bind(this, task.id)}>
                                               Delete
                                             </Button>
                                           </div>

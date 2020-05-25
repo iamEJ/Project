@@ -89,8 +89,14 @@ class ProjectItem extends Component {
     .put(`http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/${this.state.editTaskData.id}`,{
       taskName, description, priority, status
     }).then((res) => {
+      
+      if (res.data != null) {
+        this.setState({ show: true, method: "put" });
+          setTimeout(() => this.setState({ show: false }), 3000);
+      }else {
+        this.setState({ show: false });
+      }
       this._refreshTask();
-
       this.setState({
         editTaskModal: false, editTaskData: {  
         id: "",
@@ -125,7 +131,12 @@ class ProjectItem extends Component {
     axios
         .post(`http://localhost:8080/api/projects/assign/${this.props.match.params.id}`, this.state.newTaskData)
         .then((res) =>{
-         
+          if (res.data != null) {
+            this.setState({ show: true, method: "post" });
+            setTimeout(() => this.setState({ show: false }), 3000);
+          } else {
+            this.setState({ show: false });
+          }
           let {tasks} = this.state;
           tasks.push(res.data);
           
@@ -138,6 +149,8 @@ class ProjectItem extends Component {
           this._refreshTask();
        //  window.location.reload(false);
         });
+
+
   }
 
     ////////////////DELETE TASK//////////////////////
@@ -148,18 +161,12 @@ class ProjectItem extends Component {
       
         axios.delete( `http://localhost:8080/api/projects/${this.props.match.params.id}/tasks/${this.state.tmpId}`).then( res => {
   console.log(res)
-   
-          if (res.data != null) {
-            this.setState({ show: true });
-            setTimeout(() => this.setState({ show: false }), 3000);
-    
+ 
             this.setState({
               deleteTaskModal:false,
               tasks: this.state.tasks.filter((task) => task.id !== taskId),
             });
-          } else {
-            this.setState({ show: false });
-          }
+          
 
           this._refreshTask();
         })
@@ -311,12 +318,21 @@ class ProjectItem extends Component {
           className={{ position: "sticky-top" }}
           style={{ display: this.state.show ? "block" : "none" }}
         >
+      
+          <div>
+
+
           <MyToast
             show={this.state.show}
-            message={"The task was deleted successfully."}
+            message={
+              this.state.method === "put"
+                ? "The task was updated successfully."
+                : "The task was added successfully."
+            }
           />
         </div>
-        <Card>
+        </div>
+        <Card style={{boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",marginTop:"100px"}}>
           <Card.Body>
             <Container>
               <Row>

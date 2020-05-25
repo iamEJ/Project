@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Card } from "react-bootstrap";
 import axios from "axios";
-import DataTable from 'react-data-table-component';
+import DataTable, { createTheme } from 'react-data-table-component';
 import { CSVLink } from "react-csv";
 
 class TaskList extends Component {
@@ -97,20 +97,39 @@ class TaskList extends Component {
       {
         when: row => row.status === 'done',
         style: {
-          backgroundColor: '	rgb(38, 153, 0,0.2)',
-          color: '#004d00',
+          backgroundColor: '#fef8f5',
+          color: '#eb5d1e',
         },
       },
     ];
+    
+    createTheme('solarized', {
+      text: {
+        primary: '#4e4039',
+        secondary: '#4e4039',
+      },
+      context: {
+        background: '#4e4039',
+        text: '#FFFFFF',
+      },
+      divider: {
+        default: '#4e4039',
+      },
+      action: {
+        button: 'rgba(0,0,0,.54)',
+        hover: 'rgba(0,0,0,.08)',
+        disabled: 'rgba(0,0,0,.12)',
+      },
+    });
 
     return (
-      <div className="container mt-2">
+      <div className="container" >
         <div
           className={{ position: "sticky-top" }}
           style={{ display: this.state.show ? "block" : "none" }}
         >
         </div>
-        <Card style={{boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)"}}>
+        <Card style={{boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",marginTop:"100px"}}>
           <Card.Body>
             <Card.Title>{this.state.projectTitle}</Card.Title>
             <Card.Text>{this.state.status}</Card.Text>
@@ -127,12 +146,12 @@ class TaskList extends Component {
                     onChange={(e)=>this.searchSpace(e)} 
                     />
             <h5 className="container-fluid d-flex justify-content-right mt-2 ">
-               <span className="badge badge-dark m-0 ">Number of tasks: {this.state.tasks.length}</span>
+               <span className="badge m-0 text-white"  style={{background:"#eb5d1e"}} >Number of tasks: {this.state.tasks.length}</span>
             </h5>    
             <CSVLink 
                 data={csvData} 
-                style={{width:"120px"}} 
-                className="btn btn-warning" 
+                style={{width:"120px",background:"#4e4039"}} 
+                className="btn text-white" 
                 filename={"tasksList.csv"}
                 title={"Download Tasks CSV"}
                 >Task CSV
@@ -153,6 +172,7 @@ class TaskList extends Component {
                       return e
                   }
                 })}
+                theme="solarized"
                 highlightOnHover
                 pagination
                 conditionalRowStyles={conditionalRowStyles}
