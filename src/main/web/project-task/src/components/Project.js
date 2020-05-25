@@ -118,8 +118,8 @@ class Project extends Component {
     const { projectTitle, description} = this.state;
 
     return (
-      <div>
-        <div style={{ display: this.state.show ? "block" : "none" }}>
+      <div className="container" style={{height:"81vh"}}>
+        <div style={{ display: this.state.show ? "block" : "none" }}  className=" d-flex align-middle">
           <MyToast
             show={this.state.show}
             message={
@@ -135,10 +135,14 @@ class Project extends Component {
             margin: "0 auto",
             marginTop: "50px",
             boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",
+            borderRadius:"0",
+            borderTop:"4px solid #eb5d1e",
+            borderBottom:"4px solid #eb5d1e"             
           }}
+         
         >
-          <Card.Header className={"text-center text-white bg-info "}>
-            <p className="font-weight-light" style={{ fontSize: "40px" }}>
+          <Card.Header className={"text-center font-weight-bold"} style={{background:"#fef8f5",color:"#4e4039"}}>
+            <p  style={{ fontSize: "40px" }}>
               {this.state.id ? "Update Project" : " Add Project"}
             </p>
           </Card.Header>
@@ -147,9 +151,9 @@ class Project extends Component {
             onSubmit={this.state.id ? this.updateProject : this.submitProject}
             id="projectFormId"
           >
-            <Card.Body>
+            <Card.Body style={{color:"#4e4039"}}>
               <Form.Group controlId="formProjectTitle">
-                <Form.Label className="font-weight-bold text-dark">
+                <Form.Label className="font-weight-bold mt-3">
                   Project Name
                 </Form.Label>
                 <Form.Control
@@ -163,7 +167,7 @@ class Project extends Component {
                 />
               </Form.Group>
               <Form.Group controlId="formDescription">
-                <Form.Label className="font-weight-bold text-dark">
+                <Form.Label className="font-weight-bold mt-3">
                   Description
                 </Form.Label>
                 <Form.Control
@@ -175,23 +179,24 @@ class Project extends Component {
                   name="description"
                   value={description}
                   onChange={this.projectChange}
+                  style={{height:"200px"}}
                 />
               </Form.Group>
 
             </Card.Body>
 
-            <Card.Footer style={{ textAlign: "right", background: "#17a2b8" }}>
-              <Button variant="light" type="submit">
+            <Card.Footer style={{ textAlign: "right", background: "#fef8f5" }}>
+              <Button  type="submit" style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}}> 
                 <FontAwesomeIcon icon={faSave} />{" "}
                 {this.state.id ? "Update" : "Save"}
               </Button>{" "}
-              <Button variant="dark" type="reset">
+              <Button  type="reset" style={{background:"#4e4039",border:"1px solid #4e4039"}}>
                 <FontAwesomeIcon icon={faUndo} /> Reset
               </Button>{" "}
               <Button
-                variant="dark"
                 type="button"
                 onClick={this.projectList.bind()}
+                style={{background:"#4e4039",border:"1px solid #4e4039"}}
               >
                 <FontAwesomeIcon icon={faList} /> Projects
               </Button>

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Card, Button,Modal , Form} from "react-bootstrap";
+import { Card, Button,Modal , Form,Row,Container,Col } from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MyToast from "./MyToast";
-import DataTable from 'react-data-table-component';
+import DataTable,{ createTheme } from 'react-data-table-component';
 
 
 class ProjectItem extends Component {
@@ -251,15 +251,15 @@ class ProjectItem extends Component {
         cell: row =><div>{row.finishDate}</div>,
       },
       {
-        name: 'Action',
+        name: 'Edit / Delete',
         width:"120px",
         cell: row =><div>
-        <Button variant="info" title="Edit"
+        <Button className="iconHover"  title="Edit"
           onClick={this.editTask.bind(this,row.id, row.taskName, row.description, row.priority, row.status)}
         >
         <FontAwesomeIcon icon={faPencilAlt} />
       </Button>{" "}
-      <Button variant="danger" title="Delete"
+      <Button className="iconHover" title="Delete"
           //onClick={this.deleteTask.bind(this, row.id)}
         //  onClick={() => { if (window.confirm('Are you sure you wish to delete this task?')) {this.deleteTask( row.id)} } }
        onClick={this.toggleDeleteTaskModal.bind(this, row.id)}
@@ -276,11 +276,30 @@ class ProjectItem extends Component {
       {
         when: row => row.status === 'done',
         style: {
-          backgroundColor: '	rgb(38, 153, 0,0.2)',
-          color: '#004d00',
+          backgroundColor: '#fef8f5',
+          color: '#eb5d1e',
         },
       },
     ];
+
+    createTheme('solarized', {
+      text: {
+        primary: '#4e4039',
+        secondary: '#4e4039',
+      },
+      context: {
+        background: '#4e4039',
+        text: '#FFFFFF',
+      },
+      divider: {
+        default: '#4e4039',
+      },
+      action: {
+        button: 'rgba(0,0,0,.54)',
+        hover: 'rgba(0,0,0,.08)',
+        disabled: 'rgba(0,0,0,.12)',
+      },
+    });
 
     
 
@@ -299,43 +318,56 @@ class ProjectItem extends Component {
         </div>
         <Card>
           <Card.Body>
-            <Card.Title>{this.state.projectTitle}</Card.Title>
-            <Card.Text>{this.state.completeTasks === this.state.tasks.length ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}</Card.Text>
-            <Card.Text>{this.state.description}</Card.Text>
-             
-              <div className="container-fluid d-flex justify-content-left p-0 mb-2"> 
-                         
-                         <input type="text" 
-                         className="form-control border border-dark mainLoginInput" 
-                         placeholder="&#61442; Search for Task"  
-                         style={{width:"300px"}} 
-                         onChange={(e)=>this.searchSpace(e)} 
-                         />
-                 <h5 className="container-fluid d-flex justify-content-right mt-2 ">
-                    <span className="badge badge-dark m-0 ">Number of tasks: {this.state.completeTasks}/{this.state.tasks.length}</span>
-                 </h5>      
+            <Container>
+              <Row>
+                <Col style={{borderLeft:"2px solid #eb5d1e"}}>
+                  <Card.Title><h1 style={{color:"#4e4039"}}>{this.state.projectTitle}</h1></Card.Title>
+                  <Card.Text className="text-uppercase">{this.state.completeTasks === this.state.tasks.length ? <span style={{color:"#eb5d1e"}}>done</span> : <span style={{color:"#4e4039"}}>in_progress</span>}</Card.Text>
+                   <Card.Text>{this.state.description}</Card.Text>
+                   <Link style={{background:"#4e4039",border:"1px solid #4e4039"}} to={"/projects"} className="btn text-white mr-2">
+                    <FontAwesomeIcon icon={faArrowLeft} /> Back
+                  </Link>
+                  <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} className="mr-2" onClick={this.toggleNewTaskModal.bind(this)}>
+                      Add Task
+                    </Button>
+                    <Link style={{background:"#4e4039",border:"1px solid #4e4039"}} to={`/projects/${this.props.match.params.id}/taskbord`} className="btn mr-2 text-white">
+                    Task Board
+                  </Link>
+                </Col>
+                <Col>
+                <div className="container-fluid d-flex justify-content-end p-0 mb-2"> 
+
+                              <input type="text" 
+                              className="form-control border border-dark mainLoginInput" 
+                              placeholder="&#61442; Search for Task"  
+                              style={{width:"300px"}} 
+                              onChange={(e)=>this.searchSpace(e)} 
+                              />
                    </div>
+                   <div>                                                    
+                            <h5 className="container-fluid d-flex justify-content-end mt-2 ">
+                                <span className="badge m-0 text-white" style={{background:"#eb5d1e"}}>Number of tasks: {this.state.completeTasks}/{this.state.tasks.length}</span>
+                            </h5>    
+                         </div>
+                </Col>
+              </Row>
+            </Container>
+           
+             
+           
           
           
-            <Link to={"/projects"} className="btn btn-info mr-2">
-              <FontAwesomeIcon icon={faArrowLeft} /> Back
-            </Link>
-            <Button variant="primary" className="mr-2" onClick={this.toggleNewTaskModal.bind(this)}>
-                Add Task
-              </Button>
-              <Link to={`/projects/${this.props.match.params.id}/taskbord`} className="btn btn-warning mr-2">
-               Task Board
-            </Link>
+
 
             <>
              
 
-              <Modal show={this.state.newTaskModal} onHide={this.toggleNewTaskModal.bind(this)}>
-                <Modal.Header closeButton>
+              <Modal show={this.state.newTaskModal} onHide={this.toggleNewTaskModal.bind(this)} style={{borderRadius:"none",color:"#4e4039"}}>
+                <Modal.Header closeButton style={{background:"#fef8f5"}}>
                   <Modal.Title>Add new Task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <Form>
+                <Form >
               
                 <Form.Group >
                   <Form.Label>Task Name</Form.Label>
@@ -380,7 +412,7 @@ class ProjectItem extends Component {
                     as="select"
                     custom
                     name="priority"
-                  
+                    className="form-control"
                    value={this.state.newTaskData.priority}
                    onChange={(e) =>{
                      let {newTaskData} = this.state;
@@ -401,7 +433,7 @@ class ProjectItem extends Component {
                     as="select"
                     custom
                     name="status"
-                   
+                    className="form-control"
                    value={this.state.newTaskData.status}
                    onChange={(e) =>{
                      let {newTaskData} = this.state;
@@ -420,21 +452,21 @@ class ProjectItem extends Component {
             </Form>
 
                 </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={this.toggleNewTaskModal.bind(this)}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={this.addTask.bind(this)}>
+                <Modal.Footer style={{background:"#fef8f5"}}>
+                <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} onClick={this.addTask.bind(this)}>
                     Add Task
                   </Button>
+                  <Button style={{background:"#4e4039",border:"1px solid #4e4039"}} onClick={this.toggleNewTaskModal.bind(this)}>
+                    Close
+                  </Button>                  
                 </Modal.Footer>
               </Modal>
             </>
 
             
             <>  
-            <Modal show={this.state.editTaskModal} onHide={this.toggleEditTaskModal.bind(this)}>
-                <Modal.Header closeButton>
+            <Modal show={this.state.editTaskModal} onHide={this.toggleEditTaskModal.bind(this)}  style={{borderRadius:"none",color:"#4e4039"}}>
+                <Modal.Header closeButton style={{background:"#fef8f5"}}>
                   <Modal.Title>Edit new Task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -482,7 +514,7 @@ class ProjectItem extends Component {
                     as="select"
                     custom
                     name="priority"
-                  
+                    className="form-control"
                    value={this.state.editTaskData.priority}
                    onChange={(e) =>{
                      let {editTaskData} = this.state;
@@ -503,7 +535,7 @@ class ProjectItem extends Component {
                     as="select"
                     custom
                     name="status"
-                   
+                    className="form-control"
                    value={this.state.editTaskData.status}
                    onChange={(e) =>{
                      let {editTaskData} = this.state;
@@ -522,12 +554,13 @@ class ProjectItem extends Component {
             </Form>
 
                 </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={this.toggleEditTaskModal.bind(this)}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={this.updateTask.bind(this)}>
+                <Modal.Footer style={{background:"#fef8f5"}}>
+                  
+                  <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} onClick={this.updateTask.bind(this)}>
                     Update Task
+                  </Button>
+                  <Button style={{background:"#4e4039",border:"1px solid #4e4039"}} onClick={this.toggleEditTaskModal.bind(this)}>
+                    Close
                   </Button>
                 </Modal.Footer>
               </Modal>
@@ -542,7 +575,7 @@ class ProjectItem extends Component {
                 highlightOnHover
                  defaultSortField="id"
                 defaultSortAsc={false}
-                
+                theme="solarized"
                 pagination
                 allowOverflow
                 paginationPerPage={5}
@@ -555,16 +588,16 @@ class ProjectItem extends Component {
 
           <Modal show={this.state.deleteTaskModal} onHide={this.toggleDeleteTaskModal.bind(this)}>
               <Modal.Header closeButton>
-                <Modal.Title>Deleting Task</Modal.Title>
+                <Modal.Title style={{color:"#4e4039"}}>Deleting Task</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
-                <p>Do you want to delete task?</p>
+                <p style={{color:"#4e4039"}}>Do you want to delete task?</p>
               </Modal.Body>
 
               <Modal.Footer>
-                <Button variant="secondary" onClick={this.toggleDeleteTaskModal.bind(this)}>Close</Button>
-                <Button variant="danger" onClick={this.deleteTask.bind(this)}>Delete</Button>
+                <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} onClick={this.deleteTask.bind(this)}>Delete</Button>
+                <Button style={{background:"#4e4039",border:"1px solid #4e4039"}} onClick={this.toggleDeleteTaskModal.bind(this)}>Close</Button>              
               </Modal.Footer>
           </Modal>     
         </Card>

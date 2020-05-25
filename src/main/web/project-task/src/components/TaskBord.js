@@ -125,20 +125,20 @@ console.log(res)
 
              {/* ///////////////DELETE MODAL /////////////// */}
 
-          <Modal show={this.state.deleteTaskModal} onHide={this.toggleDeleteTaskModal.bind(this)}>
+             <Modal show={this.state.deleteTaskModal} onHide={this.toggleDeleteTaskModal.bind(this)}>
               <Modal.Header closeButton>
-                <Modal.Title>Deleting Task</Modal.Title>
+                <Modal.Title style={{color:"#4e4039"}}>Deleting Task</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
-                <p>Do you want to delete task?</p>
+                <p style={{color:"#4e4039"}}>Do you want to delete task?</p>
               </Modal.Body>
 
               <Modal.Footer>
-                <Button variant="secondary" onClick={this.toggleDeleteTaskModal.bind(this)}>Close</Button>
-                <Button variant="danger" onClick={this.deleteTask.bind(this)}>Delete</Button>
+                <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} onClick={this.deleteTask.bind(this)}>Delete</Button>
+                <Button style={{background:"#4e4039",border:"1px solid #4e4039"}} onClick={this.toggleDeleteTaskModal.bind(this)}>Close</Button>              
               </Modal.Footer>
-          </Modal>     
+          </Modal>    
             <Modal show={this.state.editTaskModal} onHide={this.toggleEditTaskModal.bind(this)}>
                 <Modal.Header closeButton>
                   <Modal.Title>Edit new Task</Modal.Title>

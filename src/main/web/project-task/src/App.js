@@ -16,7 +16,6 @@ function App() {
   return (
     <Router>
       <Navigation />
-
       <Switch>
         <Route exact key="jumbo" path="/" component={HomeJumbo} />
         <Route path="/projectForm" exact component={Project} />

@@ -7,7 +7,7 @@ class HomeJumbo extends Component {
   render() {
     return (
       <div>
-        <Jumbotron className="text-left" style={{height:"770px",background:"	#fef8f5" }}>
+        <Jumbotron className="text-left" style={{height:"770px",background:"	#fef8f5",marginTop:"-20px" }}>
         <Container fluid>
           <Row>
             <Col style={{marginTop:"50px"}}>

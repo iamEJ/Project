@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Button, Modal  } from "react-bootstrap";
+import { Card, Button, Modal, Row,Container,Col  } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
@@ -12,6 +12,7 @@ import cx from "classnames";
 import { Link } from "react-router-dom";
 import "../App.css";
 import { CSVLink} from "react-csv";
+import Footer from "./Footer";
 
 
 class ProjectList extends Component {
@@ -79,52 +80,62 @@ class ProjectList extends Component {
       <div className="container">
                 {/* ///////////////DELETE MODAL /////////////// */}
 
-                    <Modal show={this.state.deleteProjectModal} onHide={this.toggleDeleteProjectModal.bind(this)} styles={{ overlay: { background: "#FFFF00" } }}>
+                    <Modal show={this.state.deleteProjectModal} onHide={this.toggleDeleteProjectModal.bind(this)} >
                       <Modal.Header closeButton>
-                        <Modal.Title>Deleting Project</Modal.Title>
+                        <Modal.Title style={{color:"#4e4039"}}>Deleting Project</Modal.Title>
                       </Modal.Header>
 
-                      <Modal.Body>
+                      <Modal.Body style={{color:"#4e4039"}}>
                         <p>Do you want to delete project?</p>
                       </Modal.Body>
 
                       <Modal.Footer>
-                        <Button variant="secondary" onClick={this.toggleDeleteProjectModal.bind(this)}>Close</Button>
-                        <Button variant="danger" onClick={this.deleteProject.bind(this)}>Delete</Button>
+                        <Button style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}} onClick={this.deleteProject.bind(this)}>Delete</Button>
+                        <Button style={{background:"#4e4039",border:"1px solid #4e4039"}} onClick={this.toggleDeleteProjectModal.bind(this)}>Close</Button>               
                       </Modal.Footer>
-                  </Modal>   
-        <div className="mt-4  mb-2 d-flex justify-content-center text-center " style={{fontFamily:"Lucida Sans Unicode, Lucida Grande, sans-serif"}}>
-          <h2>
-            The number of projects:{" "}
-            <span className="badge badge-dark">
-              {this.state.projects.length}
-            </span>
-          </h2>
-        </div>
-        <div style={{ marginBottom:"20px"}}  className="container-fluid d-flex justify-content-center ">
-            <Link to={"/projectForm"} className={"nav-link text-white btn btn-dark mr-1"}>
-               Create Project
-            </Link>
-            
-            <CSVLink 
-                data={csvData} 
-                style={{width:"120px"}} 
-                className="nav-link btn btn-warning" 
-                filename={"projectsList.csv"}
-                title={"Download Projects CSV"}
-                >Project CSV
-            </CSVLink>
-          
-        </div>
-  
-              <div className="container-fluid d-flex justify-content-center mb-4">            
-                    <input type="text" 
-                    className="form-control border border-dark mainLoginInput" 
-                    placeholder="&#61442; Search for Project"  
-                    style={{width:"260px"}} 
-                    onChange={(e)=>this.searchSpace(e)} 
-                    />
-              </div>
+                  </Modal>
+                  <Container>
+                    <Row>
+                      <Col>
+                      <div className="mb-2 d-flex justify-content-start " >
+                        <h3 style={{marginTop:"20px", color:"#4e4039"}}>
+                          The number of projects:{" "}
+                          <span className="badge" style={{color:"#fff",background:"#4e4039"}}>
+                            {this.state.projects.length}
+                          </span>
+                        </h3>
+                      </div>
+                      <div className="container-fluid d-flex justify-content-start mb-4">            
+                              <input type="text" 
+                              className="form-control border border-dark mainLoginInput" 
+                              placeholder="&#61442; Search for Project"  
+                              style={{width:"260px"}} 
+                              onChange={(e)=>this.searchSpace(e)} 
+                              />
+                        </div>
+                      </Col>
+                      <Col>
+                        <div style={{ marginTop:"40px"}}  className="container-fluid d-flex justify-content-center ">
+                          <Link to={"/projectForm"} className={"nav-link text-white btn mr-1"} style={{background:"#eb5d1e"}}>
+                            Create Project
+                          </Link>
+                          
+                          <CSVLink 
+                              data={csvData} 
+                              style={{width:"120px"}} 
+                              className="nav-link btn text-white" 
+                              style={{background:"#4e4039"}}
+                              filename={"projectsList.csv"}
+                              title={"Download Projects CSV"}
+                              >Project CSV
+                          </CSVLink>                       
+                      </div>
+                      </Col>
+                    </Row>
+                    </Container>   
+
+
+
          
         <div
           className={{ position: "sticky-top" }}
@@ -137,7 +148,7 @@ class ProjectList extends Component {
         </div>
       
           {this.state.projects.length === 0 ? (
-            <h1>There are no projects</h1>
+            <h1 style={{ color:"#4e4039",textAlign:"center",marginTop:"50px"}}><hr style={{borderBottom:"2px solid #eb5d1e"}}/>There are no projects</h1>
           ) : (
             this.state.projects.filter((data)=>{
               if(this.state.search == null)
@@ -154,9 +165,9 @@ class ProjectList extends Component {
             
                     <div >
                           <Link
-                          style={{ color: "#000", fontSize:"20px", marginLeft:"10px"}}
+                          style={{  fontSize:"20px", marginLeft:"10px"}}
                           to={"projects/" + project.id}
-                          className="titleHover"
+                          className="titleHover text-capitalize"
                         >
                           {project.projectTitle}{" "}
 
@@ -164,41 +175,33 @@ class ProjectList extends Component {
                         <div style={{float:"right",width:"140px"}}> 
                                 <Link
                                 to={"edit/" + project.id}
-                                className="btn btn-info mr-1 mt-2 "
+                                className="btn mr-1 mt-2 iconHover"
                                 title="Edit"
-                                style={{fontSize:"12px", width:"36px"}}
                               >
                                 <FontAwesomeIcon icon={faPencilAlt} />
                               </Link>
-                              <Button
-                                variant="danger"
-                                className="btn btn-info mt-2"
-                                style={{fontSize:"12px"}}
+                              <Link
+                                className="btn mt-2 iconHover"
                                 title="Delete"
                                // onClick= {this.deleteProject.bind(this, project.id)}
                                 //onClick={() => { if (window.confirm('Are you sure you wish to delete this project?')) {this.deleteProject( project.id)}} }
                                 onClick={this.toggleDeleteProjectModal.bind(this, project.id)}
                               >
                                 <FontAwesomeIcon icon={faTrash} />
-                              </Button>{" "}
+                              </Link>{" "}
                               <Link
                                 to={"projects/" + project.id}
-                                className="btn btn-secondary mr-1 mt-2"
+                                className="btn mr-1 mt-2 iconHover"
                                 title="View"
-                                style={{fontSize:"12px"}}
                               >
                                 <FontAwesomeIcon icon={faEnvelopeSquare} />
                               </Link>
                          </div>
                    
-                      <p style={{fontSize:"12px",marginLeft:"10px"}} className={cx("text-lowercase", "font-weight-bold", {
-                        
-                        "text-success ": project.status === "done",
-                        "text-info ": project.status === "in_progress",
-                      })}>
-                         {project.completeTasks === project.allTasks ? <span style={{color:"#5cb85c"}}>done</span> : <span style={{color:"#17a2b8"}}>in_progress</span>}{" "}
+                      <p style={{fontSize:"10px",marginLeft:"10px"}} className="text-uppercase font-weight-bold">
+                         {project.completeTasks === project.allTasks ? <span style={{color:"#eb5d1e"}}>done</span> : <span style={{color:"#4e4039"}}>in_progress</span>}{" "}
                       
-                      <span className="badge badge-dark">
+                      <span className="badge" style={{background:"#4e4039",color:"#fff"}}>
                       {project.completeTasks}/{project.allTasks}
                       </span>
                    </p>
@@ -213,7 +216,7 @@ class ProjectList extends Component {
            
             ))
           )}
-        
+
       </div>
     );
   }
