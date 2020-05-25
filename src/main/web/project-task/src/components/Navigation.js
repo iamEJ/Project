@@ -8,26 +8,33 @@ import "../App.css";
 class Navigation extends Component {
   render() {
     return (
-      <div className="text-white">
-        <Navbar bg="dark text-white" variant="light">
-          <Link to={"/"} className="navbar-brand text-white">
+      <div style={{marginBottom:"70px",color:"#4e4039"}} className="navHover" >
+        <Navbar bg="white fixed-top text-dark d-flex justify-content-between"    style={{boxShadow: "0px 0px 10px  rgba(12,13,0,0.2)"}}>
+          <Link to={"/"} className="navbar-brand navHover " style={{color:"#eb5d1e",fontSize:"26px"}}>
             PATMSA
           </Link>
 
-          <Nav className="mr-auto">
-            <Link to={"/projectForm"} className={"nav-link text-white"}>
-              <FontAwesomeIcon icon={faPlusCircle} /> Create Project
+      <div style={{marginRight:"200px"}}>
+         <Nav className="mr-auto ">
+              <Link to={"/"} className={"nav-link navHover"}>
+               Home
+            </Link>
+            <Link to={"/projectForm"} className={"nav-link navHover"}>
+               Create Project
             </Link>
 
-            <Link to={"/projects"} className="nav-link text-white">
+            <Link to={"/projects"} className="nav-link navHover">
               Project List
             </Link>
-            <Link to={"/tasks"} className="nav-link text-white">
+            <Link to={"/tasks"} className="nav-link navHover">
               Task List
             </Link>
           </Nav>
+      </div>
+          
 
         </Navbar>
+        
       </div>
     );
   }

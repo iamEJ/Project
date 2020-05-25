@@ -10,6 +10,7 @@ import ProjectItem from "./components/ProjectItem";
 import TaskList from "./components/TaskList";
 import HomeJumbo from "./components/HomeJumbo";
 import TaskBord from "./components/TaskBord";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/tasks" exact component={TaskList} />
         <Route path="/projects/:id/taskbord" exact component={TaskBord} />
       </Switch>
+      <Footer />
     </Router>
   );
 }
