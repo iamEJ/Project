@@ -77,7 +77,7 @@ class ProjectList extends Component {
     const csvData = this.state.projects;
 
     return (
-      <div className="container">
+      <div className="container" style={{marginBottom:"120px"}}>
                 {/* ///////////////DELETE MODAL /////////////// */}
 
                     <Modal show={this.state.deleteProjectModal} onHide={this.toggleDeleteProjectModal.bind(this)} >

@@ -219,7 +219,7 @@ class ProjectItem extends Component {
         width:"160px",
         selector:'taskName',
         sortable: true,
-        
+
         cell: row => <div>{row.taskName}</div>,
       },
       {
