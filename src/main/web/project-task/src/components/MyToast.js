@@ -17,7 +17,14 @@ class MyToast extends Component {
         }}
       >
         <Toast.Body className="pr-5 ">
-      <span>  <FontAwesomeIcon icon={faCheckCircle} className="text-success"/>{" "} {this.props.message}</span>
+          <span>
+            {" "}
+            <FontAwesomeIcon
+              icon={faCheckCircle}
+              className="text-success"
+            />{" "}
+            {this.props.message}
+          </span>
         </Toast.Body>
       </Toast>
     );

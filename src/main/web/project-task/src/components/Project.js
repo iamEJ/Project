@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faSave,
-  faUndo,
-  faList,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSave, faUndo, faList } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import MyToast from "./MyToast";
 
@@ -24,7 +20,6 @@ class Project extends Component {
     id: "",
     projectTitle: "",
     description: "",
-   
   };
 
   componentDidMount() {
@@ -47,7 +42,6 @@ class Project extends Component {
             id: res.data.id,
             projectTitle: res.data.projectTitle,
             description: res.data.description,
-            
           });
         }
       })
@@ -62,7 +56,6 @@ class Project extends Component {
     const project = {
       projectTitle: this.state.projectTitle,
       description: this.state.description,
-      
     };
 
     axios.post("http://localhost:8080/api/projects", project).then((res) => {
@@ -83,7 +76,6 @@ class Project extends Component {
       id: this.state.id,
       projectTitle: this.state.projectTitle,
       description: this.state.description,
-     
     };
 
     axios
@@ -115,11 +107,14 @@ class Project extends Component {
   };
 
   render() {
-    const { projectTitle, description} = this.state;
+    const { projectTitle, description } = this.state;
 
     return (
-      <div className="container" style={{height:"81vh"}}>
-        <div style={{ display: this.state.show ? "block" : "none" }}  className=" d-flex align-middle">
+      <div className="container" style={{ height: "81vh" }}>
+        <div
+          style={{ display: this.state.show ? "block" : "none" }}
+          className=" d-flex align-middle"
+        >
           <MyToast
             show={this.state.show}
             message={
@@ -134,15 +129,18 @@ class Project extends Component {
             width: "600px",
             margin: "0 auto",
             marginTop: "50px",
+            marginBottom: "100px",
             boxShadow: "0px 0px 10px  rgba(12,13,0,0.3)",
-            borderRadius:"0",
-            borderTop:"4px solid #eb5d1e",
-            borderBottom:"4px solid #eb5d1e"             
+            borderRadius: "0",
+            borderTop: "4px solid #eb5d1e",
+            borderBottom: "4px solid #eb5d1e",
           }}
-         
         >
-          <Card.Header className={"text-center font-weight-bold"} style={{background:"#fef8f5",color:"#4e4039"}}>
-            <p  style={{ fontSize: "40px" }}>
+          <Card.Header
+            className={"text-center font-weight-bold"}
+            style={{ background: "#fef8f5", color: "#4e4039" }}
+          >
+            <p style={{ fontSize: "40px" }}>
               {this.state.id ? "Update Project" : " Add Project"}
             </p>
           </Card.Header>
@@ -151,7 +149,7 @@ class Project extends Component {
             onSubmit={this.state.id ? this.updateProject : this.submitProject}
             id="projectFormId"
           >
-            <Card.Body style={{color:"#4e4039"}}>
+            <Card.Body style={{ color: "#4e4039" }}>
               <Form.Group controlId="formProjectTitle">
                 <Form.Label className="font-weight-bold mt-3">
                   Project Name
@@ -179,24 +177,29 @@ class Project extends Component {
                   name="description"
                   value={description}
                   onChange={this.projectChange}
-                  style={{height:"200px"}}
+                  style={{ height: "200px" }}
                 />
               </Form.Group>
-
             </Card.Body>
 
             <Card.Footer style={{ textAlign: "right", background: "#fef8f5" }}>
-              <Button  type="submit" style={{background:"#eb5d1e",border:"1px solid #eb5d1e"}}> 
+              <Button
+                type="submit"
+                style={{ background: "#eb5d1e", border: "1px solid #eb5d1e" }}
+              >
                 <FontAwesomeIcon icon={faSave} />{" "}
                 {this.state.id ? "Update" : "Save"}
               </Button>{" "}
-              <Button  type="reset" style={{background:"#4e4039",border:"1px solid #4e4039"}}>
+              <Button
+                type="reset"
+                style={{ background: "#4e4039", border: "1px solid #4e4039" }}
+              >
                 <FontAwesomeIcon icon={faUndo} /> Reset
               </Button>{" "}
               <Button
                 type="button"
                 onClick={this.projectList.bind()}
-                style={{background:"#4e4039",border:"1px solid #4e4039"}}
+                style={{ background: "#4e4039", border: "1px solid #4e4039" }}
               >
                 <FontAwesomeIcon icon={faList} /> Projects
               </Button>
