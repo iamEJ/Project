@@ -6,17 +6,21 @@ import Project from "./components/Project";
 import ProjectList from "./components/ProjectList";
 import ProjectItem from "./components/ProjectItem";
 import TaskList from "./components/TaskList";
-import HomeJumbo from "./components/HomeJumbo";
 import TaskBord from "./components/TaskBord";
 import Footer from "./components/footer/Footer";
 import Navigation from "./components/navigation/Navigation";
+import Jumbotron from "./components/jumbotron/Jumbotron";
+import WhatCanYouDo from "./components/whatcanyoudo/WhatCanYouDo";
 
 function App() {
   return (
     <Router>
       <Navigation />
       <Switch>
-        <Route exact key="jumbo" path="/" component={HomeJumbo} />
+        <Route exact path="/">
+          <Jumbotron />
+          <WhatCanYouDo />
+        </Route>
         <Route path="/projectForm" exact component={Project} />
         <Route path="/edit/:id" exact component={Project} />
         <Route exact key="home" path="/" component={ProjectList} />

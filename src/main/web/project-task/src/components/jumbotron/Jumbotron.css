@@ -1,0 +1,39 @@
+.jumbotron {
+  display: flex;
+  align-items: center;
+  background: #fef8f5;
+}
+
+.jumbotron__text {
+  flex: 0.5;
+  padding: 50px 100px;
+  margin-top: -120px;
+}
+
+.jumbotron__text > h1 {
+  color: #4e4039;
+  font-weight: bold;
+  padding-bottom: 20px;
+}
+
+.jumbotron__text > p {
+  color: gray;
+  padding-bottom: 20px;
+}
+
+.jumbotron__button {
+  background: #eb5d1e;
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.jumbotron__picture {
+  flex: 0.5;
+}
+
+.jumbotron__picture > img {
+  width: 100%;
+  padding: 50px 100px;
+}

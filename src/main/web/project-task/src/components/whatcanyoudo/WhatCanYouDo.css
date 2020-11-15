@@ -1,0 +1,27 @@
+.whatCanYouDo {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 80px;
+  color: #4e4039;
+}
+
+.whatCanYouDo > hr {
+  border-top: 5px solid #eb5d1e;
+  width: 200px;
+}
+
+.whatCanYouDo > h1 {
+  text-align: center;
+}
+
+.whatCanYouDo__list {
+  padding: 20px 0;
+}
+
+.whatCanYouDo__list > h5 .MuiSvgIcon-root {
+  margin-right: 10px;
+  color: #eb5d1e;
+}
