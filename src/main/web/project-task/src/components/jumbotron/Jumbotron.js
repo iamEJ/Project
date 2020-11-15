@@ -1,5 +1,6 @@
 import React from "react";
 import "./Jumbotron.css";
+import { Link } from "react-router-dom";
 
 function Jumbotron() {
   return (
@@ -11,7 +12,9 @@ function Jumbotron() {
           the creator, etc. Make it short and sweet, but not too short so folks
           don't simply skip over it entirely.
         </p>
-        <button className="jumbotron__button">Create Project</button>
+        <Link to="/projectForm" className="jumbotron__button">
+          Create Project
+        </Link>
       </div>
       <div className="jumbotron__picture">
         <img alt="" src="/images/research.png" />

@@ -27,6 +27,14 @@
   color: #fff;
   padding: 10px 15px;
   border-radius: 5px;
+  border: 1px solid transparent;
+}
+
+.jumbotron__button:hover {
+  text-decoration: none;
+  color: #eb5d1e;
+  background-color: #fff;
+  border: 1px solid #eb5d1e;
 }
 
 .jumbotron__picture {
