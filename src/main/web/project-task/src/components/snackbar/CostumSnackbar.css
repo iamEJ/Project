@@ -1,0 +1,12 @@
+.project__snackbar {
+  margin-top: 80px;
+}
+
+.project__snackbarMessage {
+  margin-top: 5px;
+}
+
+.project__snackbar > .MuiSnackbarContent-message {
+  padding: 0 !important;
+  height: 30px;
+}

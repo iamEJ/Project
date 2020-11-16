@@ -11,6 +11,7 @@ import Footer from "./components/footer/Footer";
 import Navigation from "./components/navigation/Navigation";
 import Jumbotron from "./components/jumbotron/Jumbotron";
 import WhatCanYouDo from "./components/whatcanyoudo/WhatCanYouDo";
+import ProjectForm from "./components/projectForm/ProjectForm";
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         <Route exact path="/">
           <Jumbotron />
           <WhatCanYouDo />
+        </Route>
+        <Route exact path="/addproject">
+          <ProjectForm />
         </Route>
         <Route path="/projectForm" exact component={Project} />
         <Route path="/edit/:id" exact component={Project} />

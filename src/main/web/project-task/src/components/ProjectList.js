@@ -207,6 +207,7 @@ class ProjectList extends Component {
                       <FontAwesomeIcon icon={faPencilAlt} />
                     </Link>
                     <Link
+                      to={"/projects"}
                       className="btn mt-2 iconHover"
                       title="Delete"
                       onClick={this.toggleDeleteProjectModal.bind(
