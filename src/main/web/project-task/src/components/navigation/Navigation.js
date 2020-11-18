@@ -10,7 +10,7 @@ function Navigation() {
       </div>
       <div className="navigation__menu">
         <Link to={"/"}>Home</Link>
-        <Link to={"/projectForm"}>Create Project</Link>
+        <Link to={"/addproject"}>Create Project</Link>
         <Link to={"/projects"}>Project List</Link>
         <Link to={"/tasks"}>Task List</Link>
       </div>

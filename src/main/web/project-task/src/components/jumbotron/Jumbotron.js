@@ -12,7 +12,7 @@ function Jumbotron() {
           the creator, etc. Make it short and sweet, but not too short so folks
           don't simply skip over it entirely.
         </p>
-        <Link to="/projectForm" className="jumbotron__button">
+        <Link to="/addproject" className="jumbotron__button">
           Create Project
         </Link>
       </div>

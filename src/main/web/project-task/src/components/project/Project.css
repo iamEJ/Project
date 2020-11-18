@@ -1,0 +1,75 @@
+.project {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(12, 13, 0, 0.3);
+  padding: 10px;
+}
+
+.project__text {
+  flex: 0.9;
+}
+
+.project__icons {
+  flex: 0.1;
+}
+
+.project__icons > a {
+  color: #4e4039;
+  border-bottom: 3px solid #eb5d1e;
+  padding: 5px;
+  margin-left: 3px;
+  margin-top: 10px;
+}
+
+.project__icons > a > .MuiSvgIcon-root {
+}
+
+.project__icons > a > .MuiSvgIcon-root:hover {
+  color: #eb5d1e;
+  transition: all 0.3s ease-out;
+}
+
+.project__text > a {
+  margin-left: 20px;
+  color: #4e4039;
+  font-size: 30px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.project__text > a:hover {
+  text-decoration: none;
+  color: #eb5d1e;
+}
+
+.project__text > h6 {
+  margin-left: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.project__text > h6 > span {
+  margin-left: 5px;
+  background-color: #4e4039;
+  border-radius: 3px;
+  font-size: 10px;
+  color: #fff;
+  padding: 2px;
+}
+
+.project__statusDone {
+  color: #eb5d1e;
+}
+.project__statusInProgress {
+  color: #4e4039;
+}
+
+.project__text > p {
+  color: gray;
+  padding: 10px 0;
+  padding-left: 20px;
+}
