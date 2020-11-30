@@ -13,6 +13,7 @@ import Jumbotron from "./components/jumbotron/Jumbotron";
 import WhatCanYouDo from "./components/whatcanyoudo/WhatCanYouDo";
 import ProjectForm from "./components/projectForm/ProjectForm";
 import ProjectListNew from "./components/projectList/ProjectListNew";
+import ProjectDetails from "./components/projectDetails.js/ProjectDetails";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route exact path="/projectss">
           <ProjectListNew />
         </Route>
+        <Route path="/projectss/:id" children={<ProjectDetails />} />
         <Route path="/edit/:id" exact component={Project} />
         <Route exact key="home" path="/" component={ProjectList} />
         <Route exact key="projects" path="/projects" component={ProjectList} />

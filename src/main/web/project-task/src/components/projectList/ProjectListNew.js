@@ -53,14 +53,7 @@ function ProjectListNew() {
         </div>
       </div>
       {projectResults.map((project) => (
-        <Projectt
-          key={project.id}
-          projectTitle={project.projectTitle}
-          description={project.description}
-          status={project.status}
-          completeTasks={project.completeTasks}
-          allTasks={project.allTasks}
-        />
+        <Projectt key={project.id} {...project} />
       ))}
     </div>
   );
