@@ -1,5 +1,5 @@
 import React from "react";
-import "./Project.css";
+import "./ProjectNew.css";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreIcon from "@material-ui/icons/More";
@@ -35,13 +35,13 @@ function ProjectNew({
         <p>{description}</p>
       </div>
       <div className="project__icons">
-        <Link to="">
+        <Link to="" title="Edit project">
           <EditIcon />
         </Link>
-        <Link to="">
+        <Link to="" title="Delete project">
           <DeleteIcon />
         </Link>
-        <Link to="">
+        <Link to="" title="More">
           <MoreIcon />
         </Link>
       </div>

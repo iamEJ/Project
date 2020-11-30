@@ -1,19 +1,28 @@
-import React, { useState } from "react";
-import "./ProjectList.css";
+import React, { useState, useEffect } from "react";
+import "./ProjectListNew.css";
 import { Link } from "react-router-dom";
 import { CSVLink } from "react-csv";
 import Projectt from "../project/ProjectNew";
-import { useEffect } from "react";
 import axios from "axios";
+import Fuse from "fuse.js";
 
 function ProjectListNew() {
   const [projects, setProjects] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     axios.get("http://localhost:8080/api/projects").then((result) => {
       setProjects(result.data);
     });
   });
+
+  const fuse = new Fuse(projects, {
+    keys: ["description", "projectTitle"],
+  });
+  const results = fuse.search(searchTerm);
+  const projectResults = searchTerm
+    ? results.map((result) => result.item)
+    : projects;
 
   return (
     <div className="projectList">
@@ -25,6 +34,8 @@ function ProjectListNew() {
           <input
             placeholder="&#61442; Search for Project"
             className="mainLoginInput"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
           />
         </div>
         <div>
@@ -41,7 +52,7 @@ function ProjectListNew() {
           </CSVLink>
         </div>
       </div>
-      {projects.map((project) => (
+      {projectResults.map((project) => (
         <Projectt
           key={project.id}
           projectTitle={project.projectTitle}
