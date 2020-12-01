@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ProjectNew.css";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreIcon from "@material-ui/icons/More";
 import { Link } from "react-router-dom";
-import { Modal, Fade, Backdrop } from "@material-ui/core";
 import DeleteModal from "../modal/DeleteModal";
+import CostumSnackbar from "../snackbar/CostumSnackbar";
 
 function ProjectNew({
   projectTitle,
@@ -15,21 +15,27 @@ function ProjectNew({
   allTasks,
   id,
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpenModal = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleCloseModal = () => {
     setOpen(false);
   };
 
   return (
     <>
+      <DeleteModal
+        open={open}
+        handleClose={handleCloseModal}
+        id={id}
+        type={projectTitle}
+      />
       <div className="project">
         <div className="project__text">
-          <Link to="/">{projectTitle}</Link>
+          <Link to={`/projectss/${id}`}>{projectTitle}</Link>
           {status === "done" ? (
             <h6 className="project__statusDone">
               {status}
@@ -51,7 +57,11 @@ function ProjectNew({
           <Link to="" title="Edit project">
             <EditIcon />
           </Link>
-          <button type="button" onClick={handleOpen} title="Delete project">
+          <button
+            type="button"
+            onClick={handleOpenModal}
+            title="Delete project"
+          >
             <DeleteIcon />
           </button>
 
@@ -60,12 +70,6 @@ function ProjectNew({
           </Link>
         </div>
       </div>
-      <DeleteModal
-        open={open}
-        handleClose={handleClose}
-        id={id}
-        type="project"
-      />
     </>
   );
 }

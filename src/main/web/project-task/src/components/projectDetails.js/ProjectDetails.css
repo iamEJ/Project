@@ -1,11 +1,17 @@
 .projectDetails__container {
   background-color: #fff;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 0 10px rgba(12, 13, 0, 0.3);
   width: 80%;
   margin: 0 auto;
   margin-top: 50px;
+}
+
+.projectDetails__header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .projectDetails__headerText {

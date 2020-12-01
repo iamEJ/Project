@@ -34,8 +34,8 @@ public class MyApplication implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception {
 		
-		for (int i = 1; i < 10; i++) {
-			Project p = new Project("Turn to naming guides"+i,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed sagittis dui.");
+		for (int i = 1; i < 20; i++) {
+			Project p = new Project("Turn to naming guides "+i,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed sagittis dui.");
 			for (int j = 1; j < 2; j++) {
 				p.addTask(new Task("Task  "+j+i, 
 						

@@ -12,6 +12,7 @@ function DeleteModal({ open, handleClose, id, type }) {
       history.push("/projectss");
     });
   };
+
   return (
     <div>
       <Modal
@@ -24,7 +25,7 @@ function DeleteModal({ open, handleClose, id, type }) {
       >
         <Fade in={open}>
           <div className="deleteModal">
-            <h2>Do you want to delete this {type}?</h2>
+            <h2>Do you want to delete "{type}"?</h2>
             <button onClick={handleClose}>Cancel</button>
             <button onClick={handleDelete}>Delete</button>
           </div>
