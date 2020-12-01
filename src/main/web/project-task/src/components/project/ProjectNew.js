@@ -4,6 +4,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreIcon from "@material-ui/icons/More";
 import { Link } from "react-router-dom";
+import { Modal, Fade, Backdrop } from "@material-ui/core";
+import DeleteModal from "../modal/DeleteModal";
 
 function ProjectNew({
   projectTitle,
@@ -13,6 +15,16 @@ function ProjectNew({
   allTasks,
   id,
 }) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <div className="project">
@@ -39,14 +51,21 @@ function ProjectNew({
           <Link to="" title="Edit project">
             <EditIcon />
           </Link>
-          <Link to="" title="Delete project">
+          <button type="button" onClick={handleOpen} title="Delete project">
             <DeleteIcon />
-          </Link>
+          </button>
+
           <Link to={`/projectss/${id}`} title="More">
             <MoreIcon />
           </Link>
         </div>
       </div>
+      <DeleteModal
+        open={open}
+        handleClose={handleClose}
+        id={id}
+        type="project"
+      />
     </>
   );
 }

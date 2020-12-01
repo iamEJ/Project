@@ -82,6 +82,7 @@
   height: 36px;
   width: 300px;
   border-radius: 5px;
+  padding: 0 5px;
 }
 
 .projectDetails__search > input:focus {
