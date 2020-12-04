@@ -20,6 +20,7 @@ export const columns = [
   {
     name: "Description",
     selector: "description",
+    width: "260px",
     sortable: true,
     cell: (row) => <div>{row.description}</div>,
   },

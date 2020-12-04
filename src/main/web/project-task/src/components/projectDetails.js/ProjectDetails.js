@@ -9,6 +9,7 @@ import TaskList from "../taskList/TaskList";
 function ProjectDetails() {
   const { id } = useParams();
   const [project, setProject] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     Axios.get(`http://localhost:8080/api/projects/${id}`).then((result) => {
@@ -43,13 +44,14 @@ function ProjectDetails() {
               placeholder="&#61442; Search for task"
               className="mainLoginInput"
               type="text"
+              onChange={(event) => setSearchTerm(event.target.value)}
             />
             <p>
               Number of tasks: {project.completeTasks}/{project.allTasks}
             </p>
           </div>
         </div>
-        <TaskList id={project.id} />
+        <TaskList id={project.id} searchTerm={searchTerm} />
       </div>
     </div>
   );
