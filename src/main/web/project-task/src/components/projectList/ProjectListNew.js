@@ -14,7 +14,7 @@ function ProjectListNew() {
     axios.get("http://localhost:8080/api/projects").then((result) => {
       setProjects(result.data);
     });
-  });
+  }, []);
 
   const fuse = new Fuse(projects, {
     keys: ["description", "projectTitle"],

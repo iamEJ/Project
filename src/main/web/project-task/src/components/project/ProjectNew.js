@@ -5,7 +5,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MoreIcon from "@material-ui/icons/More";
 import { Link } from "react-router-dom";
 import DeleteModal from "../modal/DeleteModal";
-import CostumSnackbar from "../snackbar/CostumSnackbar";
 
 function ProjectNew({
   projectTitle,

@@ -180,7 +180,7 @@ class TaskList extends Component {
                   return e;
                 }
               })}
-              theme="solarized"
+              // theme="solarized"
               highlightOnHover
               pagination
               conditionalRowStyles={conditionalRowStyles}

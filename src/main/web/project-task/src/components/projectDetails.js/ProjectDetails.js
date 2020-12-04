@@ -49,7 +49,7 @@ function ProjectDetails() {
             </p>
           </div>
         </div>
-        <TaskList />
+        <TaskList id={project.id} />
       </div>
     </div>
   );
