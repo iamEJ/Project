@@ -1,4 +1,6 @@
 import React from "react";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 export const columns = [
   {
@@ -23,14 +25,14 @@ export const columns = [
   },
   {
     name: "Priority",
-    width: "120px",
+    width: "100px",
     selector: "priority",
     sortable: true,
     cell: (row) => <div>{row.priority}</div>,
   },
   {
     name: "Status",
-    width: "120px",
+    width: "100px",
     selector: "status",
     sortable: true,
     cell: (row) => <div>{row.status}</div>,
@@ -38,22 +40,34 @@ export const columns = [
   {
     name: "Start Date",
     selector: "startDate",
-    width: "130px",
+    width: "110px",
     sortable: true,
     cell: (row) => <div>{row.startDate}</div>,
   },
   {
     name: "Finish Date",
     selector: "finishDate",
-    width: "130px",
+    width: "110px",
     sortable: true,
     cell: (row) => <div>{row.finishDate}</div>,
   },
   {
-    name: "Project Name",
-    selector: "projectName",
-    sortable: true,
-    cell: (row) => <div>{row.projectName}</div>,
+    name: "Edit/Delete",
+    width: "100px",
+    cell: (row) => (
+      <div>
+        <EditIcon
+          className="iconHover"
+          title="Edit"
+          onClick={() => console.log("Edit")}
+        />
+        <DeleteIcon
+          className="iconHover"
+          title="Delete"
+          onClick={() => console.log("Delete")}
+        />
+      </div>
+    ),
   },
 ];
 
@@ -67,23 +81,23 @@ export const conditionalRowStyles = [
   },
 ];
 
-export const createTheme =
-  ("solarized",
-  {
-    text: {
-      primary: "#4e4039",
-      secondary: "#4e4039",
-    },
-    context: {
-      background: "#4e4039",
-      text: "#FFFFFF",
-    },
-    divider: {
-      default: "#4e4039",
-    },
-    action: {
-      button: "rgba(0,0,0,.54)",
-      hover: "rgba(0,0,0,.08)",
-      disabled: "rgba(0,0,0,.12)",
-    },
-  });
+// export const createTheme =
+//   ("solarized",
+//   {
+//     text: {
+//       primary: "#4e4039",
+//       secondary: "#4e4039",
+//     },
+//     context: {
+//       background: "#4e4039",
+//       text: "#FFFFFF",
+//     },
+//     divider: {
+//       default: "#4e4039",
+//     },
+//     action: {
+//       button: "rgba(0,0,0,.54)",
+//       hover: "rgba(0,0,0,.08)",
+//       disabled: "rgba(0,0,0,.12)",
+//     },
+//   });

@@ -26,7 +26,11 @@ function TaskList({ id }) {
         highlightOnHover
         pagination
         conditionalRowStyles={conditionalRowStyles}
-        theme={createTheme}
+        // theme={createTheme}
+        id={1}
+        allowOverflow
+        paginationPerPage={5}
+        paginationRowsPerPageOptions={[5, 10, 15, 20, 25, 30]}
       />
     </div>
   );

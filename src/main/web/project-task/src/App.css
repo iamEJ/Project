@@ -1,70 +1,70 @@
-body{
-    background-color:  #ffffff;
+body {
+  background-color: #ffffff;
 }
 
-.titleHover{
-    color: #4e4039 !important;
+.titleHover {
+  color: #4e4039 !important;
 }
 
-.titleHover:hover{
-    color: #eb5d1e !important;
-    text-decoration: none;
+.titleHover:hover {
+  color: #eb5d1e !important;
+  text-decoration: none;
 }
 
-.mainLoginInput::-webkit-input-placeholder { 
-    font-family: FontAwesome;
-    font-weight: normal;
-    overflow: visible;
-    vertical-align: top;
-    display: inline-block !important;
-    padding-left: 5px;
-    padding-top: 2px;
-    color:#4e4039;
-   
- }
-
- .navHover{
-    color:#4e4039 !important;
+.mainLoginInput::-webkit-input-placeholder {
+  font-family: FontAwesome;
+  font-weight: normal;
+  overflow: visible;
+  vertical-align: top;
+  display: inline-block !important;
+  padding-left: 5px;
+  padding-top: 2px;
+  color: #4e4039;
 }
 
- .navHover:hover{
-     color:#eb5d1e !important;
- }
-
- .form-control:focus {
-    border-color: #4e4039;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(78, 64, 57, 0.6);
-  }
-
-  .iconHover{
-    color:#4e4039 !important;
-    border-bottom: 2px solid #eb5d1e;
-    border-radius: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    background: none;
-  }
-
-
-  .iconHover:hover{
-    color:#eb5d1e !important;
-    border-bottom: 2px solid #eb5d1e;
-    border-radius: 0;
-    background: none;
-  }
-
-  .modal-content  {
-    border-bottom: 4px solid #eb5d1e;
-    border-top: 4px solid #eb5d1e;
-    border-left: none;
-    border-right: none;
-    -webkit-border-radius: 0px !important;
-    -moz-border-radius: 0px !important;
-    border-radius: 0px !important; 
+.navHover {
+  color: #4e4039 !important;
 }
 
-.h5Hover:hover{
-    color:#eb5d1e !important;
+.navHover:hover {
+  color: #eb5d1e !important;
 }
- 
+
+.form-control:focus {
+  border-color: #4e4039;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 8px rgba(78, 64, 57, 0.6);
+}
+
+.iconHover {
+  color: #4e4039 !important;
+  border-bottom: 2px solid #eb5d1e;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background: none;
+}
+
+.iconHover:hover {
+  color: #eb5d1e !important;
+  border-bottom: 2px solid #eb5d1e;
+  border-radius: 0;
+  background: none;
+}
+
+.modal-content {
+  border-bottom: 4px solid #eb5d1e;
+  border-top: 4px solid #eb5d1e;
+  border-left: none;
+  border-right: none;
+  -webkit-border-radius: 0px !important;
+  -moz-border-radius: 0px !important;
+  border-radius: 0px !important;
+}
+
+.h5Hover:hover {
+  color: #eb5d1e !important;
+}
