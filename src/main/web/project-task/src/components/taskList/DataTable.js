@@ -1,6 +1,5 @@
 import React from "react";
 import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 
 export const columns = [
   {
@@ -61,11 +60,6 @@ export const columns = [
           className="iconHover"
           title="Edit"
           onClick={() => console.log("Edit")}
-        />
-        <DeleteIcon
-          className="iconHover"
-          title="Delete"
-          onClick={() => console.log("Delete")}
         />
       </div>
     ),

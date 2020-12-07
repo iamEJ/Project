@@ -1,20 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import "./ProjectListNew.css";
 import { Link } from "react-router-dom";
 import { CSVLink } from "react-csv";
-import Projectt from "../project/ProjectNew";
-import axios from "axios";
+import ProjectNew from "../project/ProjectNew";
 import Fuse from "fuse.js";
+import { DataContext } from "../../contex/ContextProvider";
 
 function ProjectListNew() {
-  const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    axios.get("http://localhost:8080/api/projects").then((result) => {
-      setProjects(result.data);
-    });
-  }, []);
+  const { projects } = useContext(DataContext);
 
   const fuse = new Fuse(projects, {
     keys: ["description", "projectTitle"],
@@ -53,7 +47,7 @@ function ProjectListNew() {
         </div>
       </div>
       {projectResults.map((project) => (
-        <Projectt key={project.id} {...project} />
+        <ProjectNew key={project.id} {...project} />
       ))}
     </div>
   );
